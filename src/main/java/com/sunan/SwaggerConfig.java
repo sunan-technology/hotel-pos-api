@@ -69,7 +69,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport{
     private ApiInfo metaInfo() {
 
         ApiInfo apiInfo =  new ApiInfoBuilder()
-                .title("Schools REST API")
+                .title("Hotel Pos REST API")
                 .description("\"REST API for School ERP project\"")
                 .version("1.0.0")
                 .license("Apache License Version 2.0")
