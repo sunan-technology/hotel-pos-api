@@ -1,5 +1,7 @@
 package com.sunan.hotel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,44 +26,42 @@ import io.swagger.annotations.Api;
 @Api(value = "Hotel profile", description = "Operations related to Hotel")
 public class HotelController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(HotelController.class);
+	
 	@Autowired
-	private HotelService hotelService;
-	
-	
+	private HotelService hotelService; 
 	
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy) {
-//		logger.info("Getting list of" + className + " details");
-//		UserDetailsImpl principal = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		System.out.println(principal.getAuthorities().toArray()[0]);
+		logger.info("Controller: Fetching list hotel details");
 		return new ResponseEntity<>(hotelService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
 				HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable int id) {
-	//	logger.info("Getting the " + className + " details, id: {}", id);
+		logger.info("Controller: Fetching hotel details with id {}", id);
 		return new ResponseEntity<>(hotelService.getById(id), HttpStatus.OK);
 	}
 	
 	
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody HotelDto hotelDto) {
-	//	logger.info("Add " + className + "  data");
+		logger.info("Controller: Save hotel details ");
 		return new ResponseEntity<>(hotelService.save(hotelDto), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody HotelDto hotelDto, @PathVariable int id) {
-		//logger.info("update " + className + " data by id: {}", categoryDto.getId());
+		logger.info("Controller: Update hotel details by id: {}", id);
 		return new ResponseEntity<>(hotelService.update(hotelDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable int id) {
-		//logger.info("delete " + className + "  data by id: {}", id);
+		logger.info("Controller: Delete hotel details by id: {}", id);
 		return new ResponseEntity<>(hotelService.delete(id), HttpStatus.OK);
 	}
 	
