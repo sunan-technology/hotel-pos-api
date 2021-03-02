@@ -8,11 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
 @Data
 @Builder
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginDto {

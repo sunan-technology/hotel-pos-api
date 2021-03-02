@@ -70,7 +70,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport{
 
         ApiInfo apiInfo =  new ApiInfoBuilder()
                 .title("Hotel Pos REST API")
-                .description("\"REST API for School ERP project\"")
+                .description("\"REST API for Hotel Pos  project\"")
                 .version("1.0.0")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0\"")
