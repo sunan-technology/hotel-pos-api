@@ -20,6 +20,8 @@ public class RequestMappingConstants {
 	
 	public static final String TABLE =RequestMappingConstants.ROOTURL+"/Table";
 	
+	public static final String DISH =RequestMappingConstants.ROOTURL+"/Dish";
+	
 	
 	
 }
