@@ -1,4 +1,4 @@
-package com.sunan.walletType;
+package com.sunan.expenseType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,48 +22,46 @@ import io.swagger.annotations.Api;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(RequestMappingConstants.WALLET_TYPE)
-@Api(value = "WalletType profile", description = "Operations related to Wallet type")
-public class WalletTypeController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(WalletTypeController.class);
-	
+@RequestMapping(RequestMappingConstants.EXPENSE_TYPE)
+@Api(value = "Expense Type profile", description = "Operations related to Expense type")
+public class ExpenseTypeController {
+
+	private static final Logger logger = LoggerFactory.getLogger(ExpenseTypeController.class);
+
 	@Autowired
-	private WalletTypeService walletTypeService;
-	
-	
+	private ExpenseTypeService expenseTypeService;
+
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy) {
-		logger.info("Controller: Fetching list wallet type details");
-		return new ResponseEntity<>(walletTypeService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
+		logger.info("Controller: Fetching list expense details");
+		return new ResponseEntity<>(expenseTypeService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
 				HttpStatus.OK);
 	}
-	
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable int id) {
-		logger.info("Controller: Fetching Wallet type details with id {}", id);
-		return new ResponseEntity<>(walletTypeService.getById(id), HttpStatus.OK);
+		logger.info("Controller: Fetching Expense type details with id {}", id);
+		return new ResponseEntity<>(expenseTypeService.getById(id), HttpStatus.OK);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody WalletTypeDto walletTypeDto) {
-		logger.info("Controller: Save Wallet type details ");
-		return new ResponseEntity<>(walletTypeService.save(walletTypeDto), HttpStatus.OK);
+	public ResponseEntity<?> save(@RequestBody ExpenseTypeDto expenseTypeDto) {
+		logger.info("Controller: Save Expense type details ");
+		return new ResponseEntity<>(expenseTypeService.save(expenseTypeDto), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody WalletTypeDto walletTypeDto, @PathVariable int id) {
-		logger.info("Controller: Update Wallet type details by id: {}", id);
-		return new ResponseEntity<>(walletTypeService.update(walletTypeDto, id), HttpStatus.OK);
+	public ResponseEntity<?> update(@RequestBody ExpenseTypeDto expenseTypeDto, @PathVariable int id) {
+		logger.info("Controller: Update Expense type details by id: {}", id);
+		return new ResponseEntity<>(expenseTypeService.update(expenseTypeDto, id), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable int id) {
-		logger.info("Controller: Delete Wallet type details by id: {}", id);
-		return new ResponseEntity<>(walletTypeService.delete(id), HttpStatus.OK);
+		logger.info("Controller: Delete Expense type details by id: {}", id);
+		return new ResponseEntity<>(expenseTypeService.delete(id), HttpStatus.OK);
 	}
 
 }

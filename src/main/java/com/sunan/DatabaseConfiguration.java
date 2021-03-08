@@ -69,7 +69,6 @@ public class DatabaseConfiguration {
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		vendorAdapter.setGenerateDdl(true);
 		vendorAdapter.setShowSql(true);
-
 		vendorAdapter.setDatabasePlatform(hibernateDialect);
 
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();

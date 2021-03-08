@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,44 +32,43 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "warehouse_type")
-public class WarehouseType implements Serializable {
-	
+@Table(name = "warehouses")
+public class Warehouses implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
-	
-	@Column(name = "name")
-	private String name;
-	
+
+	@Column(name = "warehouse_name")
+	private String warehouseName;
+
+	@Column(name = "address")
+	private String address;
+
+	@Column(name = "city")
+	private String city;
+
+	@JoinColumn(name = "warehousetype_id")
+	@ManyToOne
+	private WarehouseType warehouseType;
+
 	@Column(name = "is_active")
 	private String isActive;
-	
+
 	@JsonIgnore
-	@Column(name="created_at", nullable = false, updatable = false)
+	@Column(name = "created_at", nullable = false, updatable = false)
 	@CreationTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp createdAt;
-	
+
 	@JsonIgnore
 	@Temporal(TemporalType.DATE)
-	@Column(name="updated_at")
+	@Column(name = "updated_at")
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date updatedAt;
-
-	public WarehouseType(int id) {
-		super();
-		this.id = id;
-	}
-	
-	
 
 }

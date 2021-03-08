@@ -22,6 +22,12 @@ public class RequestMappingConstants {
 	
 	public static final String DISH =RequestMappingConstants.ROOTURL+"/Dish";
 	
+	public static final String MEMBER =RequestMappingConstants.ROOTURL+"/Member";
+	
+	public static final String STOCK_STORE =RequestMappingConstants.ROOTURL+"/StockStore";
+	
+	public static final String WAREHOUSES =RequestMappingConstants.ROOTURL+"/Warehouses";
+	
 	
 	
 }

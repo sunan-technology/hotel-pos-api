@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,22 +32,25 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "warehouse_type")
-public class WarehouseType implements Serializable {
-	
+@Table(name = "stock_store")
+public class Stock_Store implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
-	
-	@Column(name = "name")
-	private String name;
+
+	@JoinColumn(name = "dishId")
+	@ManyToOne
+	private Dish dish;
+
+	@Column(name = "quantity")
+	private int quantity;
 	
 	@Column(name = "is_active")
 	private String isActive;
@@ -62,12 +67,5 @@ public class WarehouseType implements Serializable {
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date updatedAt;
-
-	public WarehouseType(int id) {
-		super();
-		this.id = id;
-	}
-	
-	
 
 }

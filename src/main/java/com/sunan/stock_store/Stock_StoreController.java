@@ -1,4 +1,4 @@
-package com.sunan.warehouseType;
+package com.sunan.stock_store;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,53 +17,51 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sunan.constants.RequestMappingConstants;
-import com.sunan.expenseType.ExpenseTypeDto;
-import com.sunan.expenseType.ExpenseTypeService;
 
 import io.swagger.annotations.Api;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(RequestMappingConstants.EXPENSE_TYPE)
-@Api(value = "Expense Type profile", description = "Operations related to Expense type")
-public class ExpenseTypeController {
+@RequestMapping(RequestMappingConstants.STOCK_STORE)
+@Api(value = "Stock_Store profile", description = "Operations related to stock store")
+public class Stock_StoreController {
 
-	private static final Logger logger = LoggerFactory.getLogger(ExpenseTypeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(Stock_StoreController.class);
 
 	@Autowired
-	private ExpenseTypeService expenseTypeService;
+	private Stock_StoreService stockStoreService;
 
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy) {
-		logger.info("Controller: Fetching list kitchen details");
-		return new ResponseEntity<>(expenseTypeService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
+		logger.info("Controller: Fetching list stock store details");
+		return new ResponseEntity<>(stockStoreService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
 				HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable int id) {
-		logger.info("Controller: Fetching Expense type details with id {}", id);
-		return new ResponseEntity<>(expenseTypeService.getById(id), HttpStatus.OK);
+		logger.info("Controller: Fetching stock details with id {}", id);
+		return new ResponseEntity<>(stockStoreService.getById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody ExpenseTypeDto expenseTypeDto) {
-		logger.info("Controller: Save Expense type details ");
-		return new ResponseEntity<>(expenseTypeService.save(expenseTypeDto), HttpStatus.OK);
+	public ResponseEntity<?> save(@RequestBody Stock_StoreDto stockStoreDto) {
+		logger.info("Controller: Save stock details ");
+		return new ResponseEntity<>(stockStoreService.save(stockStoreDto), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody ExpenseTypeDto expenseTypeDto, @PathVariable int id) {
-		logger.info("Controller: Update Expense type details by id: {}", id);
-		return new ResponseEntity<>(expenseTypeService.update(expenseTypeDto, id), HttpStatus.OK);
+	public ResponseEntity<?> update(@RequestBody Stock_StoreDto stockStoreDto, @PathVariable int id) {
+		logger.info("Controller: Update stock details by id: {}", id);
+		return new ResponseEntity<>(stockStoreService.update(stockStoreDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable int id) {
-		logger.info("Controller: Delete Expense type details by id: {}", id);
-		return new ResponseEntity<>(expenseTypeService.delete(id), HttpStatus.OK);
+		logger.info("Controller: Delete stock details by id: {}", id);
+		return new ResponseEntity<>(stockStoreService.delete(id), HttpStatus.OK);
 	}
 
 }

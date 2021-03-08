@@ -35,7 +35,7 @@ public class CategoryController {
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy) {
-		logger.info("Controller: Fetching list kitchen details");
+		logger.info("Controller: Fetching list category details");
 		return new ResponseEntity<>(categoryService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
 				HttpStatus.OK);
 	}
