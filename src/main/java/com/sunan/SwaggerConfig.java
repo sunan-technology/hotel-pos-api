@@ -2,7 +2,6 @@ package com.sunan;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -12,10 +11,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.Contact;
@@ -33,7 +30,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport{
 	 
 	@Bean
     public Docket productApi() {
-		final String swaggerToken ="";
+//		final String swaggerToken ="";
     	List<SecurityScheme> schemeList = new ArrayList<>();
     	schemeList.add(apiKey());
         return new Docket(DocumentationType.SWAGGER_2)

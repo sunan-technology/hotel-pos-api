@@ -109,7 +109,7 @@ public class HotelService implements Serializable {
 			}
 		});
 		logger.info("Service: Fetching list of hotel details, total records: {}", page.getTotalElements());
-		return utils.objectMapperSuccess(page, "All Acive Category list.");
+		return utils.objectMapperSuccess(page, "All Acive Hotel list.");
 	}
 	
 	

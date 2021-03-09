@@ -15,8 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.sunan.hotel.HotelDto;
-import com.sunan.model.Hotel;
 import com.sunan.model.Kitchen;
 import com.sunan.utils.JsonUtils;
 

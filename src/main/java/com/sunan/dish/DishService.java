@@ -82,7 +82,7 @@ public class DishService implements Serializable {
 
 	@Transactional
 	public String findActiveList(String searchTerm, Integer pageNo, Integer pageSize, String sortBy) {
-		logger.info("Service: Fetching list of kitchen details ");
+		logger.info("Service: Fetching list of dish details ");
 		PageRequest pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Dish> pagedResult = null;
 		if (StringUtils.isBlank(searchTerm)) {

@@ -1,7 +1,5 @@
 package com.sunan.hotel;
 
-import javax.persistence.Column;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

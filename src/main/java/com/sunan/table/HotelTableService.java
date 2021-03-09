@@ -33,13 +33,7 @@ public class HotelTableService implements Serializable {
 	@Autowired
 	private JsonUtils utils;
 
-	/*
-	 * @Transactional public String save(TableDto tableDto) { HotelTable table =
-	 * tableMapper.getTableBuilder(tableDto); tableRepository.save(table);
-	 * logger.info("Service: Save Table details"); return
-	 * utils.objectMapperSuccess(tableMapper.getTableDtoBuilder(table),
-	 * "Table Details Saved"); }
-	 */
+	
 
 	@Transactional
 	public String saveTable(HotelTableDto dto) {

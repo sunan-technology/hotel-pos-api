@@ -12,7 +12,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-
 import com.sunan.model.Hotel;
 @Repository
 public interface HotelRepository extends PagingAndSortingRepository<Hotel, Integer>

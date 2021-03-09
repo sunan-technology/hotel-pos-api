@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -51,8 +52,9 @@ public class Warehouses implements Serializable {
 	@Column(name = "city")
 	private String city;
 
+	
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "warehousetype_id")
-	@ManyToOne
 	private WarehouseType warehouseType;
 
 	@Column(name = "is_active")
