@@ -15,7 +15,7 @@ import com.sunan.model.HotelTable;
 @Repository
 public interface HotelTableRepository extends PagingAndSortingRepository<HotelTable, Integer> {
 
-	public Optional<HotelTable> findById(int id);
+	public Optional<HotelTable> findByTableNo(int id);
 
 	public Page<HotelTable> findByStatusContainingIgnoreCaseAndIsActive(String status, String active, Pageable pageable);
 

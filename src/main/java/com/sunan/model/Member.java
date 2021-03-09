@@ -3,12 +3,14 @@ package com.sunan.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,7 +33,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "member")
+@Table(name = "member_table")
 public class Member implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -73,6 +75,9 @@ public class Member implements Serializable {
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date updatedAt;
+	
+	@OneToMany(mappedBy = "member")
+	List<MemberLedger> memberLedgers;
 
 	public Member(int memberId) {
 		super();

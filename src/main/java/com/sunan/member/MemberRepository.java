@@ -15,7 +15,7 @@ import com.sunan.model.Member;
 @Repository
 public interface MemberRepository extends PagingAndSortingRepository<Member, Integer> {
 
-	public Optional<Member> findById(int id);
+	public Optional<Member> findByMemberId(int id);
 
 	public Page<Member> findByNameContainingIgnoreCaseAndIsActive(String name, String active, Pageable pageable);
 

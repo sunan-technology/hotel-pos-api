@@ -51,9 +51,8 @@ public class Warehouses implements Serializable {
 
 	@Column(name = "city")
 	private String city;
-
-	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+ 
+	@ManyToOne
 	@JoinColumn(name = "warehousetype_id")
 	private WarehouseType warehouseType;
 

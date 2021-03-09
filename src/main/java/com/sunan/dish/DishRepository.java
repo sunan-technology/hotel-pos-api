@@ -14,7 +14,7 @@ import com.sunan.model.Dish;
 @Repository
 public interface DishRepository extends PagingAndSortingRepository<Dish, Integer> {
 
-	public Optional<Dish> findById(int id);
+	public Optional<Dish> findByDishId(int id);
 
 	public Page<Dish> findByDishNameContainingIgnoreCaseAndIsActive(String dishName, String active, Pageable pageable);
 

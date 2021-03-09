@@ -13,7 +13,7 @@ import com.sunan.model.MemberLedger;
 @Repository
 public interface MemberLedgerRepository extends PagingAndSortingRepository<MemberLedger, Integer> {
 	
-	public Optional<MemberLedger> findById(int id);
+	public Optional<MemberLedger> findByLedgerNo(int id);
 	
 	@Query("SELECT SUM(b.credit-b.debit) FROM MemberLedger b")
 	public double getMemberBalance();

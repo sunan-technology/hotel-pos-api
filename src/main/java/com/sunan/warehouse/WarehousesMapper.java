@@ -16,7 +16,7 @@ public class WarehousesMapper {
 				.warehouseName(dto.getWarehouseName())
 				.address(dto.getAddress())
 				.city(dto.getCity())
-				.warehouseType(new WarehouseType(dto.getId()))
+				.warehouseType(new WarehouseType(dto.getWarehouseTypeId()))
 				.isActive(dto.getIsActive())
 				.build();
 	}
