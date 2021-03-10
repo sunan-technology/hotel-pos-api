@@ -32,8 +32,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "warehouses")
-public class Warehouses implements Serializable {
+@Table(name = "product")
+public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,18 +42,32 @@ public class Warehouses implements Serializable {
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
 
-	@Column(name = "warehouse_name")
-	private String warehouseName;
+	@Column(name = "product_code")
+	private String productCode;
 
-	@Column(name = "address")
-	private String address;
+	@Column(name = "product_name")
+	private String productName;
 
-	@Column(name = "city")
-	private String city;
-
+	@JoinColumn(name = "category_id")
 	@ManyToOne
-	@JoinColumn(name = "warehousetype_id")
-	private WarehouseType warehouseType;
+	private Category category;
+
+	public Product(int id) {
+		super();
+		this.id = id;
+	}
+
+	@Column(name = "description")
+	private String description;
+
+	@Column(name = "unit")
+	private String unit;
+
+	@Column(name = "price")
+	private Double price;
+
+	@Column(name = "reorder_point")
+	private Double reorderPoint;
 
 	@Column(name = "is_active")
 	private String isActive;
@@ -71,11 +85,4 @@ public class Warehouses implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date updatedAt;
 
-	public Warehouses(int id) {
-		super();
-		this.id = id;
-	}
-
-	
-	
 }

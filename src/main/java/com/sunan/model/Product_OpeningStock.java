@@ -32,28 +32,37 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "warehouses")
-public class Warehouses implements Serializable {
+@Table(name = "product_openingstock")
+public class Product_OpeningStock implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
 
-	@Column(name = "warehouse_name")
-	private String warehouseName;
-
-	@Column(name = "address")
-	private String address;
-
-	@Column(name = "city")
-	private String city;
-
+	@JoinColumn(name = "product_id")
 	@ManyToOne
-	@JoinColumn(name = "warehousetype_id")
-	private WarehouseType warehouseType;
+	private Product product;
+
+	@JoinColumn(name = "storagetype_id")
+	@ManyToOne
+	private StorageType storageType;
+
+	@JoinColumn(name = "warehouses_id")
+	@ManyToOne
+	private Warehouses warehouses;
+
+	@Column(name = "quantity")
+	private int quantity;
+
+	@Column(name = "has_expirydate")
+	private int hasExpiryDate;
+
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "expiry_date")
+	private Date expiryDate;
 
 	@Column(name = "is_active")
 	private String isActive;
@@ -71,11 +80,4 @@ public class Warehouses implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date updatedAt;
 
-	public Warehouses(int id) {
-		super();
-		this.id = id;
-	}
-
-	
-	
 }

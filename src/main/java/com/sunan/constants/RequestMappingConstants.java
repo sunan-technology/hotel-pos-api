@@ -28,6 +28,12 @@ public class RequestMappingConstants {
 	
 	public static final String WAREHOUSES =RequestMappingConstants.ROOTURL+"/Warehouses";
 	
+	public static final String PRODUCT =RequestMappingConstants.ROOTURL+"/Product";
+	
+	public static final String STORAGETYPE =RequestMappingConstants.ROOTURL+"/StorageType";
+	
+	public static final String PRODUCTOPENINGSTOCK =RequestMappingConstants.ROOTURL+"/ProductOpeningStock";
+	
 	
 	
 }
