@@ -1,0 +1,67 @@
+package com.sunan.creditCustomer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sunan.constants.RequestMappingConstants;
+
+import io.swagger.annotations.Api;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(RequestMappingConstants.CREDITCUSTOMER)
+@Api(value = "CreditCustomer profile", description = "Operations related to credit customer")
+public class CreditCustomerController {
+
+	private static final Logger logger = LoggerFactory.getLogger(CreditCustomerController.class);
+
+	@Autowired
+	private CreditCustomerService creditCustomerSerivce;
+
+	@GetMapping()
+	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
+			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
+			@RequestParam(defaultValue = "id") String sortBy) {
+		logger.info("Controller: Fetching list storage type details");
+		return new ResponseEntity<>(creditCustomerSerivce.findActiveList(searchTerm, pageNo, pageSize, sortBy),
+				HttpStatus.OK);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getById(@PathVariable int id) {
+		logger.info("Controller: Fetching supplier details with id {}", id);
+		return new ResponseEntity<>(creditCustomerSerivce.getById(id), HttpStatus.OK);
+	}
+
+	@PostMapping
+	public ResponseEntity<?> save(@RequestBody CreditCustomerDto creditCustomerDto) {
+		logger.info("Controller: Save credit customer  details ");
+		return new ResponseEntity<>(creditCustomerSerivce.save(creditCustomerDto), HttpStatus.OK);
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<?> update(@RequestBody CreditCustomerDto creditCustomerDto, @PathVariable int id) {
+		logger.info("Controller: Update credit customer details by id: {}", id);
+		return new ResponseEntity<>(creditCustomerSerivce.update(creditCustomerDto, id), HttpStatus.OK);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> delete(@PathVariable int id) {
+		logger.info("Controller: Delete credit customer details by id: {}", id);
+		return new ResponseEntity<>(creditCustomerSerivce.delete(id), HttpStatus.OK);
+	}
+
+}

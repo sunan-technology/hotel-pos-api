@@ -34,6 +34,12 @@ public class RequestMappingConstants {
 	
 	public static final String PRODUCTOPENINGSTOCK =RequestMappingConstants.ROOTURL+"/ProductOpeningStock";
 	
+	public static final String SUPPLIER =RequestMappingConstants.ROOTURL+"/Supplier";
+	
+	public static final String CREDITCUSTOMER =RequestMappingConstants.ROOTURL+"/CreditCustomer";
+	
+	public static final String CREDITCUSTOMERPAYMENT =RequestMappingConstants.ROOTURL+"/CreditCustomerPayment";
+	
 	
 	
 }
