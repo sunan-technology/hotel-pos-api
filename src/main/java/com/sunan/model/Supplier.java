@@ -112,4 +112,11 @@ public class Supplier implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date updatedAt;
 
+	public Supplier(int supplierId) {
+		super();
+		this.supplierId = supplierId;
+	}
+	
+	
+
 }

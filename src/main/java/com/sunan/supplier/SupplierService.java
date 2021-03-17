@@ -1,6 +1,8 @@
 package com.sunan.supplier;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -15,6 +17,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sunan.model.Supplier;
+import com.sunan.model.SupplierLedger;
+import com.sunan.supplierLedger.SupplierLedgerDto;
+import com.sunan.supplierLedger.SupplierLedgerRepository;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -27,6 +32,9 @@ public class SupplierService implements Serializable {
 	private SupplierRepository supplierRepository;
 
 	@Autowired
+	private SupplierLedgerRepository supplierLedgerRepository;
+
+	@Autowired
 	SupplierMapper supplierMapper;
 
 	@Autowired
@@ -36,6 +44,21 @@ public class SupplierService implements Serializable {
 	public String save(SupplierDto supplierDto) {
 		Supplier supplier = supplierMapper.getSupplierBuilder(supplierDto);
 		supplierRepository.save(supplier);
+		Double openingbalance = supplier.getOpeningBalance();
+		int supplierId = supplier.getSupplierId();
+
+		SupplierLedgerDto supplierLedgerDto = new SupplierLedgerDto();
+		supplierLedgerDto.setDate(new Date());
+		supplierLedgerDto.setName(supplierDto.getSupplierName());
+		supplierLedgerDto.setLedgerNo(null);
+		supplierLedgerDto.setLabel("OpeningBalance");
+		supplierLedgerDto.setDebit(0.0);
+		supplierLedgerDto.setCredit(openingbalance);
+		supplierLedgerDto.setSupplierId(supplierId);
+
+		SupplierLedger supplierLedger = supplierMapper.getSupplierLedgerBuilder(supplierLedgerDto);
+		supplierLedgerRepository.save(supplierLedger);
+
 		logger.info("Service: supplier details");
 		return utils.objectMapperSuccess(supplierMapper.getSupplierDtoBuilder(supplier), " Supplier Details Saved");
 	}
@@ -80,6 +103,7 @@ public class SupplierService implements Serializable {
 		return utils.objectMapperError("Supplier Details Not found, Id :" + id);
 	}
 
+	@Transactional
 	public String findActiveList(String searchTerm, Integer pageNo, Integer pageSize, String sortBy) {
 		logger.info("Service: Fetching list of supplier details ");
 		PageRequest pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
@@ -96,6 +120,30 @@ public class SupplierService implements Serializable {
 		});
 		logger.info("Service: Fetching list of supplier details, total records: {}", page.getTotalElements());
 		return utils.objectMapperSuccess(page, "All Acive supplier list.");
+	}
+
+	@Transactional
+	public Object getSupplierBalanceBySupplierId(int id) {
+		logger.info("Service: Fetching supplier balance details with id {}", id);
+
+		List<SupplierLedger> list = supplierLedgerRepository.findSupplierBySupplier(new Supplier(id));
+
+		if (list != null) {
+
+			logger.info("Service: supplier ledger details found with id {}", id);
+
+			Double balance = supplierLedgerRepository.getSupplierBalanceBySupplierId(new Supplier(id));
+
+			Optional<Supplier> supplier = supplierRepository.findBySupplierId(id);
+
+			return utils.objectMapperSuccess(supplierMapper.getSupplierBalanceDtoBuilder(supplier.get(), balance),
+					"Supplier balance details");
+
+		} else {
+			logger.info("Service: supplier balance details not found with id {}", id);
+			return utils.objectMapperError("Supplier balance Details Not found, Id :" + id);
+		}
+
 	}
 
 }

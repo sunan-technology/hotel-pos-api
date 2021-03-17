@@ -63,5 +63,12 @@ public class SupplierController {
 		logger.info("Controller: Delete supplier details by id: {}", id);
 		return new ResponseEntity<>(supplierService.delete(id), HttpStatus.OK);
 	}
+	
+	@GetMapping("/get-supplier-balance/{id}")
+	public ResponseEntity<?> getSupplierBalance(@PathVariable int id){
+		logger.info("Controller: Fetching supplier balance details with id {}", id);
+		
+		return new ResponseEntity<>(supplierService.getSupplierBalanceBySupplierId(id),HttpStatus.OK);
+	}
 
 }

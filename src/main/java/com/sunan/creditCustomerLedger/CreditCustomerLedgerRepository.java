@@ -17,10 +17,10 @@ public interface CreditCustomerLedgerRepository extends PagingAndSortingReposito
 	
 	public Optional<CreditCustomerLedger> getCreditCustomerLedgerByCreditCustomer(CreditCustomer creditCustomer);
 
-	@Query("SELECT SUM(b.credit-b.debit) FROM CreditCustomerLedger b WHERE creditCustomerId= :creditCustomerId")
-	public Double getCreditCustomerBalanceByCreditCustomerId(int creditCustomerId);
+	@Query("SELECT SUM(b.credit-b.debit) FROM CreditCustomerLedger b WHERE creditCustomer= :creditCustomer")
+	public Double getCreditCustomerBalanceByCreditCustomerId(CreditCustomer creditCustomer);
 	
-//	@Query("SELECT * FROM CreditCustomerLedger WHERE creditCustomerId = :creditCustomerId")
-	public List<CreditCustomerLedger> findCreditCustomerByCreditCustomerId(int creditCustomerId);
+
+	public List<CreditCustomerLedger> findCreditCustomerByCreditCustomer(CreditCustomer creditCustomer);
 
 }

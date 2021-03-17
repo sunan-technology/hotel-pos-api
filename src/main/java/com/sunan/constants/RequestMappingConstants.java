@@ -40,6 +40,18 @@ public class RequestMappingConstants {
 	
 	public static final String CREDITCUSTOMERPAYMENT =RequestMappingConstants.ROOTURL+"/CreditCustomerPayment";
 	
+	public static final String PURCHASE =RequestMappingConstants.ROOTURL+"/Purchase";
+	
+	public static final String PURCHASE_ORDER =RequestMappingConstants.ROOTURL+"/PurchaseOrder";
+	
+	public static final String SUPPLIER_PAYMENT =RequestMappingConstants.ROOTURL+"/SupplierPayment";
+	
+	public static final String CUSTOMER =RequestMappingConstants.ROOTURL+"/Customer";
+	
+	public static final String EMPLOYEE_REGISTRATION =RequestMappingConstants.ROOTURL+"/EmployeeRegistration";
+	
+	public static final String RECIPE =RequestMappingConstants.ROOTURL+"/Recipe";
+	
 	
 	
 }

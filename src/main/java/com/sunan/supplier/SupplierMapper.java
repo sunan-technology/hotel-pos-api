@@ -3,6 +3,8 @@ package com.sunan.supplier;
 import org.springframework.stereotype.Component;
 
 import com.sunan.model.Supplier;
+import com.sunan.model.SupplierLedger;
+import com.sunan.supplierLedger.SupplierLedgerDto;
 
 @Component
 public class SupplierMapper {
@@ -58,6 +60,32 @@ public class SupplierMapper {
 				.openingBalance(supplier.getOpeningBalance())
 				.openingBalanceType(supplier.getOpeningBalanceType())
 				.isActive(supplier.getIsActive())
+				.build();
+	}
+	
+	public SupplierLedger getSupplierLedgerBuilder(SupplierLedgerDto dto) {
+		
+		return SupplierLedger.builder()
+				.id(dto.getId())
+				.date(dto.getDate())
+				.name(dto.getName())
+				.ledgerNo(dto.getLedgerNo())
+				.label(dto.getLabel())
+				.debit(dto.getDebit())
+				.credit(dto.getCredit())
+				.supplier(new Supplier(dto.getSupplierId()))
+				.build();
+	}
+	
+	public SupplierBalanceDto getSupplierBalanceDtoBuilder(Supplier supplier, Double balance) {
+		
+		return SupplierBalanceDto.builder()
+				.supplierId(supplier.getSupplierId())
+				.supplierName(supplier.getSupplierName())
+				.address(supplier.getAddress())
+				.city(supplier.getCity())
+				.contactNo(supplier.getContactNo())
+				.balance(balance)
 				.build();
 	}
 	

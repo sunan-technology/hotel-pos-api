@@ -72,16 +72,13 @@ public class CreditCustomerPaymentService implements Serializable {
 		logger.info("Service: Fetching  credit customer balance details with id {}", id);
 
 		
-
-		Optional<CreditCustomerLedger> creditCustomerId = creditCustomerLedgerRepository.getCreditCustomerLedgerByCreditCustomerId(id);
-		
-		List<CreditCustomerLedger> list = creditCustomerLedgerRepository.findCreditCustomerByCreditCustomerId(id);
+	 List<CreditCustomerLedger> list = creditCustomerLedgerRepository.findCreditCustomerByCreditCustomer(new CreditCustomer(id));
 		
 		if (list != null) {
 			logger.info("Service: credit customer details found with id {}", id);
 			Optional<CreditCustomer> creditCustomer = creditCustomerRepository.findByCreditCustomerId(id);
 
-			Double balance = creditCustomerLedgerRepository.getCreditCustomerBalanceByCreditCustomerId(id);
+			Double balance = creditCustomerLedgerRepository.getCreditCustomerBalanceByCreditCustomerId(new CreditCustomer(id));
 
 			return utils.objectMapperSuccess(
 					creditCustomerPaymentMapper.getCreditCustomerBalanceDtoBuilder(creditCustomer.get(), balance),
