@@ -6,7 +6,6 @@ import com.sunan.model.Dish;
 import com.sunan.model.Product;
 import com.sunan.model.Recipe;
 import com.sunan.model.RecipeJoin;
-import com.sunan.recipe_join.RecipeJoinDto;
 
 @Component
 public class RecipeMapper {

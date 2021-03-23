@@ -2,8 +2,6 @@ package com.sunan.member;
 
 import java.util.Date;
 
-import com.sunan.model.Member;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
