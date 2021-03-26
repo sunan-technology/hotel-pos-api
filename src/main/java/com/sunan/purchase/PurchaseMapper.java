@@ -9,6 +9,7 @@ import com.sunan.model.StorageType;
 import com.sunan.model.Supplier;
 import com.sunan.model.Warehouses;
 import com.sunan.purchaseJoin.PurchaseJoinDto;
+import com.sunan.utils.Common;
 
 @Component
 public class PurchaseMapper {
@@ -24,8 +25,8 @@ public class PurchaseMapper {
 				.supplier(new Supplier(dto.getSupplierId()))
 				.subTotal(dto.getSubTotal())
 				.discount(dto.getDiscount())
-				.discountPer(0.0)
-				.paymentDue(0.0)
+				.discountPer(Common.defaultValue)
+				.paymentDue(Common.defaultValue)
 				.previousDue(dto.getPreviousDue())
 				.freightCharges(dto.getFreightCharges())
 				.otherCharges(dto.getOtherCharges())

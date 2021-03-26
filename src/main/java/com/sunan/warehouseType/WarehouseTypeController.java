@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,20 +35,20 @@ public class WarehouseTypeController {
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
-			@RequestParam(defaultValue = "id") String sortBy) {
+			@RequestParam(defaultValue = "id") String sortBy,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching list warehouse type details");
 		return new ResponseEntity<>(warehouseTypeService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
 				HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable int id) {
+	public ResponseEntity<?> getById(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching Warehouse type details with id {}", id);
 		return new ResponseEntity<>(warehouseTypeService.getById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody WarehouseTypeDto warehouseTypeDto) {
+	public ResponseEntity<?> save(@RequestBody WarehouseTypeDto warehouseTypeDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save Warehouse type details ");
 		return new ResponseEntity<>(warehouseTypeService.save(warehouseTypeDto), HttpStatus.OK);
 	}

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,7 @@ public class RecipeController {
 	private RecipeService recipeService;
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody RecipeDto recipeDto) {
+	public ResponseEntity<?> save(@RequestBody RecipeDto recipeDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save recipe details ");
 		return new ResponseEntity<>(recipeService.save(recipeDto), HttpStatus.OK);
 	}
@@ -51,7 +52,7 @@ public class RecipeController {
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable int id) {
+	public ResponseEntity<?> getById(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching recipe details with id {}", id);
 		return new ResponseEntity<>(recipeService.getById(id), HttpStatus.OK);
 	}
@@ -60,7 +61,7 @@ public class RecipeController {
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
-			@RequestParam(defaultValue = "id") String sortBy) {
+			@RequestParam(defaultValue = "id") String sortBy,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching list recipe details");
 		return new ResponseEntity<>(recipeService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
 				HttpStatus.OK);
