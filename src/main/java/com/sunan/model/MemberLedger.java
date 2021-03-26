@@ -34,7 +34,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "member_ledger")
-public class MemberLedger implements Serializable {
+public class MemberLedger extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -59,18 +59,6 @@ public class MemberLedger implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Member member;
 	
-	@JsonIgnore
-	@Column(name="created_at", nullable = false, updatable = false)
-	@CreationTimestamp
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Timestamp createdAt;
-	
-	@JsonIgnore
-	@Temporal(TemporalType.DATE)
-	@Column(name="updated_at")
-	@UpdateTimestamp
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date updatedAt;
 	
 
 }

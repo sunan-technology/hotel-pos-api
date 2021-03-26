@@ -56,13 +56,13 @@ public class WalletTypeController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody WalletTypeDto walletTypeDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody WalletTypeDto walletTypeDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update Wallet type details by id: {}", id);
 		return new ResponseEntity<>(walletTypeService.update(walletTypeDto, id), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete Wallet type details by id: {}", id);
 		return new ResponseEntity<>(walletTypeService.delete(id), HttpStatus.OK);
 	}

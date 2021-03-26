@@ -54,13 +54,13 @@ public class WarehousesController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody WarehousesDto warehousesDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody WarehousesDto warehousesDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update warehouse details by id: {}", id);
 		return new ResponseEntity<>(warehousesService.update(warehousesDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete warehouse details by id: {}", id);
 		return new ResponseEntity<>(warehousesService.delete(id), HttpStatus.OK);
 	}

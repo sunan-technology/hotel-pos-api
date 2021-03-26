@@ -1,7 +1,5 @@
 package com.sunan.model;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -22,7 +20,6 @@ public abstract class Supplier_ {
 	public static volatile SingularAttribute<Supplier, String> branch;
 	public static volatile SingularAttribute<Supplier, String> openingBalanceType;
 	public static volatile SingularAttribute<Supplier, String> zipcode;
-	public static volatile SingularAttribute<Supplier, Timestamp> createdAt;
 	public static volatile SingularAttribute<Supplier, String> bank;
 	public static volatile SingularAttribute<Supplier, String> stNo;
 	public static volatile SingularAttribute<Supplier, String> tin;
@@ -32,7 +29,6 @@ public abstract class Supplier_ {
 	public static volatile SingularAttribute<Supplier, Double> openingBalance;
 	public static volatile SingularAttribute<Supplier, String> remarks;
 	public static volatile SingularAttribute<Supplier, String> contactNo;
-	public static volatile SingularAttribute<Supplier, Date> updatedAt;
 
 	public static final String SUPPLIER_NAME = "supplierName";
 	public static final String SUPPLIER_ID = "supplierId";
@@ -46,7 +42,6 @@ public abstract class Supplier_ {
 	public static final String BRANCH = "branch";
 	public static final String OPENING_BALANCE_TYPE = "openingBalanceType";
 	public static final String ZIPCODE = "zipcode";
-	public static final String CREATED_AT = "createdAt";
 	public static final String BANK = "bank";
 	public static final String ST_NO = "stNo";
 	public static final String TIN = "tin";
@@ -56,7 +51,6 @@ public abstract class Supplier_ {
 	public static final String OPENING_BALANCE = "openingBalance";
 	public static final String REMARKS = "remarks";
 	public static final String CONTACT_NO = "contactNo";
-	public static final String UPDATED_AT = "updatedAt";
 
 }
 

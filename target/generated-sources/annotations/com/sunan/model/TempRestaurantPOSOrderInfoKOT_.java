@@ -1,6 +1,5 @@
 package com.sunan.model;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
@@ -16,7 +15,6 @@ public abstract class TempRestaurantPOSOrderInfoKOT_ {
 	public static volatile SingularAttribute<TempRestaurantPOSOrderInfoKOT, Date> billDate;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderInfoKOT, String> isActive;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderInfoKOT, String> operator;
-	public static volatile SingularAttribute<TempRestaurantPOSOrderInfoKOT, Timestamp> createdAt;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderInfoKOT, String> groupName;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderInfoKOT, String> ticketNo;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderInfoKOT, String> isEditable;
@@ -24,7 +22,6 @@ public abstract class TempRestaurantPOSOrderInfoKOT_ {
 	public static volatile SingularAttribute<TempRestaurantPOSOrderInfoKOT, Integer> id;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderInfoKOT, String> waiter;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderInfoKOT, String> tableNo;
-	public static volatile SingularAttribute<TempRestaurantPOSOrderInfoKOT, Date> updatedAt;
 
 	public static final String KOT_STATUS = "kotStatus";
 	public static final String GRAND_TOTAL = "grandTotal";
@@ -32,7 +29,6 @@ public abstract class TempRestaurantPOSOrderInfoKOT_ {
 	public static final String BILL_DATE = "billDate";
 	public static final String IS_ACTIVE = "isActive";
 	public static final String OPERATOR = "operator";
-	public static final String CREATED_AT = "createdAt";
 	public static final String GROUP_NAME = "groupName";
 	public static final String TICKET_NO = "ticketNo";
 	public static final String IS_EDITABLE = "isEditable";
@@ -40,7 +36,6 @@ public abstract class TempRestaurantPOSOrderInfoKOT_ {
 	public static final String ID = "id";
 	public static final String WAITER = "waiter";
 	public static final String TABLE_NO = "tableNo";
-	public static final String UPDATED_AT = "updatedAt";
 
 }
 

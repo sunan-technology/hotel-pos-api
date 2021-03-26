@@ -54,13 +54,13 @@ public class ExpenseTypeController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody ExpenseTypeDto expenseTypeDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody ExpenseTypeDto expenseTypeDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update Expense type details by id: {}", id);
 		return new ResponseEntity<>(expenseTypeService.update(expenseTypeDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete Expense type details by id: {}", id);
 		return new ResponseEntity<>(expenseTypeService.delete(id), HttpStatus.OK);
 	}

@@ -55,13 +55,13 @@ public class HotelTableController {
 
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody HotelTableDto tableDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody HotelTableDto tableDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update table details by id: {}", id);
 		return new ResponseEntity<>(tableService.update(tableDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete table details by id: {}", id);
 		return new ResponseEntity<>(tableService.delete(id), HttpStatus.OK);
 	}

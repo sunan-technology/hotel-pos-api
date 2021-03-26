@@ -54,13 +54,13 @@ public class CategoryController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody CategoryDto categoryDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody CategoryDto categoryDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update category details by id: {}", id);
 		return new ResponseEntity<>(categoryService.update(categoryDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete category details by id: {}", id);
 		return new ResponseEntity<>(categoryService.delete(id), HttpStatus.OK);
 	}

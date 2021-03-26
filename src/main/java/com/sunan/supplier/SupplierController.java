@@ -54,19 +54,19 @@ public class SupplierController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody SupplierDto supplierDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody SupplierDto supplierDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update supplier details by id: {}", id);
 		return new ResponseEntity<>(supplierService.update(supplierDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete supplier details by id: {}", id);
 		return new ResponseEntity<>(supplierService.delete(id), HttpStatus.OK);
 	}
 	
 	@GetMapping("/get-supplier-balance/{id}")
-	public ResponseEntity<?> getSupplierBalance(@PathVariable int id){
+	public ResponseEntity<?> getSupplierBalance(@PathVariable int id,@RequestHeader("hotelId") int hotelId){
 		logger.info("Controller: Fetching supplier balance details with id {}", id);
 		
 		return new ResponseEntity<>(supplierService.getSupplierBalanceBySupplierId(id),HttpStatus.OK);

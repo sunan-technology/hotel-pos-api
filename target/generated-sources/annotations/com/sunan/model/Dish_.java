@@ -1,7 +1,5 @@
 package com.sunan.model;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -16,7 +14,6 @@ public abstract class Dish_ {
 	public static volatile SingularAttribute<Dish, Double> zRate;
 	public static volatile SingularAttribute<Dish, Double> discount;
 	public static volatile SingularAttribute<Dish, String> isActive;
-	public static volatile SingularAttribute<Dish, Timestamp> createdAt;
 	public static volatile SingularAttribute<Dish, Double> nonAcRate;
 	public static volatile SingularAttribute<Dish, Double> rate;
 	public static volatile SingularAttribute<Dish, Integer> dishId;
@@ -26,7 +23,6 @@ public abstract class Dish_ {
 	public static volatile SingularAttribute<Dish, Category> category;
 	public static volatile SingularAttribute<Dish, Kitchen> kitchen;
 	public static volatile SingularAttribute<Dish, String> barcode;
-	public static volatile SingularAttribute<Dish, Date> updatedAt;
 
 	public static final String TA_RATE = "taRate";
 	public static final String U_RATE = "uRate";
@@ -34,7 +30,6 @@ public abstract class Dish_ {
 	public static final String Z_RATE = "zRate";
 	public static final String DISCOUNT = "discount";
 	public static final String IS_ACTIVE = "isActive";
-	public static final String CREATED_AT = "createdAt";
 	public static final String NON_AC_RATE = "nonAcRate";
 	public static final String RATE = "rate";
 	public static final String DISH_ID = "dishId";
@@ -44,7 +39,6 @@ public abstract class Dish_ {
 	public static final String CATEGORY = "category";
 	public static final String KITCHEN = "kitchen";
 	public static final String BARCODE = "barcode";
-	public static final String UPDATED_AT = "updatedAt";
 
 }
 

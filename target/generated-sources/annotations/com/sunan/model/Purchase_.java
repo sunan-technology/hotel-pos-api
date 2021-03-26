@@ -1,6 +1,5 @@
 package com.sunan.model;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
@@ -18,7 +17,6 @@ public abstract class Purchase_ {
 	public static volatile SingularAttribute<Purchase, Double> paymentDue;
 	public static volatile SingularAttribute<Purchase, String> isActive;
 	public static volatile SingularAttribute<Purchase, String> purchaseType;
-	public static volatile SingularAttribute<Purchase, Timestamp> createdAt;
 	public static volatile SingularAttribute<Purchase, Double> total;
 	public static volatile SingularAttribute<Purchase, Double> totalPayment;
 	public static volatile SingularAttribute<Purchase, Double> previousDue;
@@ -29,7 +27,6 @@ public abstract class Purchase_ {
 	public static volatile SingularAttribute<Purchase, Double> roundOff;
 	public static volatile SingularAttribute<Purchase, Double> freightCharges;
 	public static volatile SingularAttribute<Purchase, String> remarks;
-	public static volatile SingularAttribute<Purchase, Date> updatedAt;
 
 	public static final String DATE = "date";
 	public static final String GRAND_TOTAL = "grandTotal";
@@ -39,7 +36,6 @@ public abstract class Purchase_ {
 	public static final String PAYMENT_DUE = "paymentDue";
 	public static final String IS_ACTIVE = "isActive";
 	public static final String PURCHASE_TYPE = "purchaseType";
-	public static final String CREATED_AT = "createdAt";
 	public static final String TOTAL = "total";
 	public static final String TOTAL_PAYMENT = "totalPayment";
 	public static final String PREVIOUS_DUE = "previousDue";
@@ -50,7 +46,6 @@ public abstract class Purchase_ {
 	public static final String ROUND_OFF = "roundOff";
 	public static final String FREIGHT_CHARGES = "freightCharges";
 	public static final String REMARKS = "remarks";
-	public static final String UPDATED_AT = "updatedAt";
 
 }
 

@@ -1,6 +1,5 @@
 package com.sunan.model;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
@@ -11,7 +10,6 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class EmployeeRegistration_ {
 
 	public static volatile SingularAttribute<EmployeeRegistration, String> employeeName;
-	public static volatile SingularAttribute<EmployeeRegistration, Timestamp> createdAt;
 	public static volatile SingularAttribute<EmployeeRegistration, Date> dateOfJoining;
 	public static volatile SingularAttribute<EmployeeRegistration, String> address;
 	public static volatile SingularAttribute<EmployeeRegistration, String> city;
@@ -21,10 +19,8 @@ public abstract class EmployeeRegistration_ {
 	public static volatile SingularAttribute<EmployeeRegistration, String> isActive;
 	public static volatile SingularAttribute<EmployeeRegistration, String> email;
 	public static volatile SingularAttribute<EmployeeRegistration, String> contactNo;
-	public static volatile SingularAttribute<EmployeeRegistration, Date> updatedAt;
 
 	public static final String EMPLOYEE_NAME = "employeeName";
-	public static final String CREATED_AT = "createdAt";
 	public static final String DATE_OF_JOINING = "dateOfJoining";
 	public static final String ADDRESS = "address";
 	public static final String CITY = "city";
@@ -34,7 +30,6 @@ public abstract class EmployeeRegistration_ {
 	public static final String IS_ACTIVE = "isActive";
 	public static final String EMAIL = "email";
 	public static final String CONTACT_NO = "contactNo";
-	public static final String UPDATED_AT = "updatedAt";
 
 }
 

@@ -54,13 +54,13 @@ public class ProductOpeningStockController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody ProductOpeningStockDto productOpeningStockDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody ProductOpeningStockDto productOpeningStockDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update product opening stock details by id: {}", id);
 		return new ResponseEntity<>(productOpeningStockService.update(productOpeningStockDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Deleteproduct opening stock details by id: {}", id);
 		return new ResponseEntity<>(productOpeningStockService.delete(id), HttpStatus.OK);
 	}

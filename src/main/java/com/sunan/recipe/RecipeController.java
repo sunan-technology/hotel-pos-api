@@ -39,13 +39,13 @@ public class RecipeController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody RecipeDto recipeDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody RecipeDto recipeDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update customer details by id: {}", id);
 		return new ResponseEntity<>(recipeService.update(recipeDto, id), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete recipe details by id: {}", id);
 		return new ResponseEntity<>(recipeService.delete(id), HttpStatus.OK);
 	}

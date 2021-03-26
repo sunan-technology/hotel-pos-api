@@ -53,13 +53,13 @@ public class MemberController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody MemberDto memberDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody MemberDto memberDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update member details by id: {}", id);
 		return new ResponseEntity<>(memberService.update(memberDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete member details by id: {}", id);
 		return new ResponseEntity<>(memberService.delete(id), HttpStatus.OK);
 	}
@@ -72,7 +72,7 @@ public class MemberController {
 	}
 	
 	@PutMapping("/credit-debit-funds/{id}")
-	public ResponseEntity<?> updateCreditAndDebitFunds(@RequestBody MemberLedgerDto dto,@PathVariable int id)
+	public ResponseEntity<?> updateCreditAndDebitFunds(@RequestBody MemberLedgerDto dto,@PathVariable int id,@RequestHeader("hotelId") int hotelId)
 	{
 		logger.info("Controller: Update credit and debbit details by id: {}", id);
 		return new ResponseEntity<>(memberService.updateCreditAndDebitFunds(dto, id), HttpStatus.OK);

@@ -1,7 +1,5 @@
 package com.sunan.model;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -20,7 +18,6 @@ public abstract class TempRestaurantPOSOrderedProductKOT_ {
 	public static volatile SingularAttribute<TempRestaurantPOSOrderedProductKOT, String> tableNumber;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderedProductKOT, Double> scPer;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderedProductKOT, Double> totalAmount;
-	public static volatile SingularAttribute<TempRestaurantPOSOrderedProductKOT, Timestamp> createdAt;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderedProductKOT, String> dish;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderedProductKOT, Double> rate;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderedProductKOT, Double> stPer;
@@ -29,7 +26,6 @@ public abstract class TempRestaurantPOSOrderedProductKOT_ {
 	public static volatile SingularAttribute<TempRestaurantPOSOrderedProductKOT, Integer> id;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderedProductKOT, TempRestaurantPOSOrderInfoKOT> tempRestaurantPOSOrderInfoKOT;
 	public static volatile SingularAttribute<TempRestaurantPOSOrderedProductKOT, Double> vatPer;
-	public static volatile SingularAttribute<TempRestaurantPOSOrderedProductKOT, Date> updatedAt;
 
 	public static final String ST_AMOUNT = "stAmount";
 	public static final String AMOUNT = "amount";
@@ -41,7 +37,6 @@ public abstract class TempRestaurantPOSOrderedProductKOT_ {
 	public static final String TABLE_NUMBER = "tableNumber";
 	public static final String SC_PER = "scPer";
 	public static final String TOTAL_AMOUNT = "totalAmount";
-	public static final String CREATED_AT = "createdAt";
 	public static final String DISH = "dish";
 	public static final String RATE = "rate";
 	public static final String ST_PER = "stPer";
@@ -50,7 +45,6 @@ public abstract class TempRestaurantPOSOrderedProductKOT_ {
 	public static final String ID = "id";
 	public static final String TEMP_RESTAURANT_PO_SORDER_INFO_KO_T = "tempRestaurantPOSOrderInfoKOT";
 	public static final String VAT_PER = "vatPer";
-	public static final String UPDATED_AT = "updatedAt";
 
 }
 

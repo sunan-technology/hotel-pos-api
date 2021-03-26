@@ -54,13 +54,13 @@ public class StorageTypeController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody StorageTypeDto storageTypeDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody StorageTypeDto storageTypeDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update storage type details by id: {}", id);
 		return new ResponseEntity<>(storageTypeService.update(storageTypeDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete storage type details by id: {}", id);
 		return new ResponseEntity<>(storageTypeService.delete(id), HttpStatus.OK);
 	}

@@ -54,13 +54,13 @@ public class CustomerContoller {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody CustomerDto customerDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody CustomerDto customerDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update customer details by id: {}", id);
 		return new ResponseEntity<>(customerService.update(customerDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete customer details by id: {}", id);
 		return new ResponseEntity<>(customerService.delete(id), HttpStatus.OK);
 	}

@@ -54,13 +54,13 @@ public class CreditCustomerController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody CreditCustomerDto creditCustomerDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody CreditCustomerDto creditCustomerDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update credit customer details by id: {}", id);
 		return new ResponseEntity<>(creditCustomerSerivce.update(creditCustomerDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete credit customer details by id: {}", id);
 		return new ResponseEntity<>(creditCustomerSerivce.delete(id), HttpStatus.OK);
 	}
