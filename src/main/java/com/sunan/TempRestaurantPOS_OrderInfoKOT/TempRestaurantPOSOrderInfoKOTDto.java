@@ -1,6 +1,7 @@
 package com.sunan.TempRestaurantPOS_OrderInfoKOT;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,5 +39,25 @@ public class TempRestaurantPOSOrderInfoKOTDto {
 	private String kotType;
 
 	private String isActive;
+
+	public List<DishKOTDto> dish;
+
+	private Double totalAmount;
+
+	
+
+}
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+class DishKOTDto {
+
+	private int dishId;
+	private String dish;
+	private Double rate;
+	private int quantity;
+	private int categoryId;
 
 }

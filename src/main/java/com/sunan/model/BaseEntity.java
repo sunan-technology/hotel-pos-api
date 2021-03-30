@@ -19,25 +19,25 @@ public class BaseEntity {
 
 	@JoinColumn(name = "hotel_id")
 	@ManyToOne
-	private Hotel hotelId;
+	public Hotel hotelId;
 
-	@CreationTimestamp
-	private Date creationDate;
-
-	@UpdateTimestamp
-	private Date updationDate;
+//	@CreationTimestamp
+//	public Date creationDate;
+//
+//	@UpdateTimestamp
+//	public Date updationDate;
 
 	@JsonIgnore
 	@Column(name = "created_at", nullable = false, updatable = false)
 	@CreationTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Timestamp createdAt;
+	public Timestamp createdAt;
 
 	@JsonIgnore
 	@Temporal(TemporalType.DATE)
 	@Column(name = "updated_at")
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date updatedAt;
+	public Date updatedAt;
 
 }

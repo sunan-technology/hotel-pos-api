@@ -1,5 +1,7 @@
 package com.sunan.model;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -17,6 +19,7 @@ public abstract class Hotel_ {
 	public static volatile SingularAttribute<Hotel, String> hotelName;
 	public static volatile SingularAttribute<Hotel, String> baseCurrency;
 	public static volatile SingularAttribute<Hotel, String> startBillNo;
+	public static volatile SingularAttribute<Hotel, Timestamp> createdAt;
 	public static volatile SingularAttribute<Hotel, String> stNo;
 	public static volatile SingularAttribute<Hotel, String> ticketFooterMessage;
 	public static volatile SingularAttribute<Hotel, String> tin;
@@ -25,6 +28,7 @@ public abstract class Hotel_ {
 	public static volatile SingularAttribute<Hotel, String> currencyCode;
 	public static volatile SingularAttribute<Hotel, String> email;
 	public static volatile SingularAttribute<Hotel, String> contactNo;
+	public static volatile SingularAttribute<Hotel, Date> updatedAt;
 
 	public static final String SHOW_LOGO = "showLogo";
 	public static final String ADDRESS3 = "address3";
@@ -35,6 +39,7 @@ public abstract class Hotel_ {
 	public static final String HOTEL_NAME = "hotelName";
 	public static final String BASE_CURRENCY = "baseCurrency";
 	public static final String START_BILL_NO = "startBillNo";
+	public static final String CREATED_AT = "createdAt";
 	public static final String ST_NO = "stNo";
 	public static final String TICKET_FOOTER_MESSAGE = "ticketFooterMessage";
 	public static final String TIN = "tin";
@@ -43,6 +48,7 @@ public abstract class Hotel_ {
 	public static final String CURRENCY_CODE = "currencyCode";
 	public static final String EMAIL = "email";
 	public static final String CONTACT_NO = "contactNo";
+	public static final String UPDATED_AT = "updatedAt";
 
 }
 

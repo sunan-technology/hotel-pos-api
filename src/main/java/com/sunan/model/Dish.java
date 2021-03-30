@@ -1,6 +1,7 @@
 package com.sunan.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -84,5 +85,16 @@ public class Dish extends BaseEntity implements Serializable {
 		super();
 		this.dishId = dishId;
 	}
+
+	public Dish(List<Dish> dish) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Dish(String dishName) {
+		super();
+		this.dishName = dishName;
+	}
+	
+	
 
 }
