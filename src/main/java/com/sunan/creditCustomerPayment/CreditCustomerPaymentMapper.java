@@ -44,19 +44,7 @@ public class CreditCustomerPaymentMapper {
 	
 	
 	
-	public CreditCustomerLedger getCreditCustomerLedgerBuilder(CreditCustomerLedgerDto dto)
-	{
-		return CreditCustomerLedger.builder()
-				.id(dto.getId())
-				.date(dto.getDate())
-				.ledgerNo(dto.getLedgerNo())
-				.label(dto.getLabel())
-				.debit(dto.getDebit())
-				.credit(dto.getCredit())
-				.creditCustomer(new CreditCustomer(dto.getCreditCustomerId()))
-				.isActive(dto.getIsActive())
-				.build();
-	}
+	
 	
 	public CreditCustomerBalanceDto getCreditCustomerBalanceDtoBuilder(CreditCustomer creditCustomer,Double balance)
 	{
