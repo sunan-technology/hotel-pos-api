@@ -26,14 +26,14 @@ public class CreditCustomerLedgerMapper {
 	public CreditCustomerLedger getCreditCustomerLedgerBuilder(CreditCustomerPaymentDto creditCustomerPaymentDto, int creditCustomerPaymentId)
 	{
 		return CreditCustomerLedger.builder()
-				.id(dto.getId())
-				.date(dto.getDate())
-				.ledgerNo(dto.getLedgerNo())
-				.label(dto.getLabel())
-				.debit(dto.getDebit())
-				.credit(dto.getCredit())
-				.creditCustomer(new CreditCustomer(dto.getCreditCustomerId()))
-				.isActive(dto.getIsActive())
+//				.id(dto.getId())
+//				.date(dto.getDate())
+//				.ledgerNo(dto.getLedgerNo())
+//				.label(dto.getLabel())
+//				.debit(dto.getDebit())
+//				.credit(dto.getCredit())
+//				.creditCustomer(new CreditCustomer(dto.getCreditCustomerId()))
+//				.isActive(dto.getIsActive())
 				.build();
 	}
 }

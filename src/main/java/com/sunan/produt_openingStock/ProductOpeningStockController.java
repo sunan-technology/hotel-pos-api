@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,32 +35,32 @@ public class ProductOpeningStockController {
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
-			@RequestParam(defaultValue = "id") String sortBy) {
+			@RequestParam(defaultValue = "id") String sortBy,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching list storage type details");
 		return new ResponseEntity<>(productOpeningStockService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
 				HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable int id) {
+	public ResponseEntity<?> getById(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching product opening stock details with id {}", id);
 		return new ResponseEntity<>(productOpeningStockService.getById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody ProductOpeningStockDto productOpeningStockDto) {
+	public ResponseEntity<?> save(@RequestBody ProductOpeningStockDto productOpeningStockDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save product opening stock details ");
 		return new ResponseEntity<>(productOpeningStockService.save(productOpeningStockDto), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody ProductOpeningStockDto productOpeningStockDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody ProductOpeningStockDto productOpeningStockDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update product opening stock details by id: {}", id);
 		return new ResponseEntity<>(productOpeningStockService.update(productOpeningStockDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Deleteproduct opening stock details by id: {}", id);
 		return new ResponseEntity<>(productOpeningStockService.delete(id), HttpStatus.OK);
 	}

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,32 +35,32 @@ public class CreditCustomerController {
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
-			@RequestParam(defaultValue = "id") String sortBy) {
+			@RequestParam(defaultValue = "id") String sortBy,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching list storage type details");
 		return new ResponseEntity<>(creditCustomerSerivce.findActiveList(searchTerm, pageNo, pageSize, sortBy),
 				HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable int id) {
+	public ResponseEntity<?> getById(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching supplier details with id {}", id);
 		return new ResponseEntity<>(creditCustomerSerivce.getById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody CreditCustomerDto creditCustomerDto) {
+	public ResponseEntity<?> save(@RequestBody CreditCustomerDto creditCustomerDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save credit customer  details ");
 		return new ResponseEntity<>(creditCustomerSerivce.save(creditCustomerDto), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody CreditCustomerDto creditCustomerDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody CreditCustomerDto creditCustomerDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update credit customer details by id: {}", id);
 		return new ResponseEntity<>(creditCustomerSerivce.update(creditCustomerDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete credit customer details by id: {}", id);
 		return new ResponseEntity<>(creditCustomerSerivce.delete(id), HttpStatus.OK);
 	}

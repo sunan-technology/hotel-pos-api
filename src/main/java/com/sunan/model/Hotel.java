@@ -89,14 +89,14 @@ public class Hotel implements Serializable {
 	private String isActive;
 	
 	@JsonIgnore
-	@Column(name="created_at", nullable = false, updatable = false)
+	@Column(name = "created_at", nullable = false, updatable = false)
 	@CreationTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp createdAt;
-	
+
 	@JsonIgnore
 	@Temporal(TemporalType.DATE)
-	@Column(name="updated_at")
+	@Column(name = "updated_at")
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date updatedAt;

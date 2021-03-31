@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,39 +26,59 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "product_openingstock")
-public class ProductOpeningStock extends BaseEntity implements Serializable {
+@Table(name = "temprestaurantpos_orderinfokot")
+public class TempRestaurantPOSOrderInfoKOT extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
 
-	@JoinColumn(name = "product_id")
-	@ManyToOne
-	private Product product;
-
-	@JoinColumn(name = "storagetype_id")
-	@ManyToOne
-	private StorageType storageType;
-
-	@JoinColumn(name = "warehouses_id")
-	@ManyToOne
-	private Warehouses warehouses;
-
-	@Column(name = "quantity")
-	private int quantity;
-
-	@Column(name = "has_expirydate")
-	private int hasExpiryDate;
+	@Column(name = "ticketno")
+	private String ticketNo;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
-	@Column(name = "expiry_date")
-	private Date expiryDate;
+	@Column(name = "bill_date")
+	private Date billDate;
+
+	@Column(name = "grandtotal")
+	private Double grandTotal;
+
+	@Column(name = "tableno")
+	private String tableNo;
+
+	@Column(name = "groupname")
+	private String groupName;
+
+	@Column(name = "operator")
+	private String operator;
+
+	@Column(name = "ticketnote")
+	private String ticketNote;
+
+	@Column(name = "waiter")
+	private String waiter;
+
+	@Column(name = "kotstatus")
+	private String kotStatus;
+
+	@Column(name = "iseditable")
+	private String isEditable;
+
+	@Column(name = "kottype")
+	private String kotType;
 
 	@Column(name = "is_active")
 	private String isActive;
+
+	public TempRestaurantPOSOrderInfoKOT(int id) {
+		super();
+		this.id = id;
+	}
+	
+	
 
 }

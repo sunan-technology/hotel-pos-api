@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class Common {
 	
+	public static final Double defaultValue=0.0;
+	
+	public static final String itemStatus="new";
 
 	private String[] monthName = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 	
@@ -22,5 +25,9 @@ public class Common {
 //	}
 	
 	
+	public static Double calculateGST(Double amount,Double percentage) {
+		
+		return percentage*amount/100; 
+	}
 
 }

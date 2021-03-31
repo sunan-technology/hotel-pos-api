@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,13 +30,13 @@ public class CreditCustomerPaymentController {
 	private CreditCustomerPaymentService creditCustomerPaymentService;
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody CreditCustomerPaymentDto creditCustomerPaymentDto) {
+	public ResponseEntity<?> save(@RequestBody CreditCustomerPaymentDto creditCustomerPaymentDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save credit customer payment details ");
 		return new ResponseEntity<>(creditCustomerPaymentService.save(creditCustomerPaymentDto), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getCreditCustomerBalance(@PathVariable int id){
+	public ResponseEntity<?> getCreditCustomerBalance(@PathVariable int id,@RequestHeader("hotelId") int hotelId){
 		
 		logger.info("Controller: Fetching credit customer balance details with id {}", id);
 		return new ResponseEntity<>(creditCustomerPaymentService.getCreditCustomerBalanceByCustomerId(id),HttpStatus.OK);

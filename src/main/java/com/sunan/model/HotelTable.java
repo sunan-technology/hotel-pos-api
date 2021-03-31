@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "hotel_table")
-public class HotelTable implements Serializable {
+public class HotelTable extends BaseEntity implements Serializable {
 	
 	/**
 	 * 
@@ -55,18 +55,6 @@ public class HotelTable implements Serializable {
 	@Column(name = "is_active")
 	private String isActive;
 	
-	@JsonIgnore
-	@Column(name="created_at", nullable = false, updatable = false)
-	@CreationTimestamp
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Timestamp createdAt;
-	
-	@JsonIgnore
-	@Temporal(TemporalType.DATE)
-	@Column(name="updated_at")
-	@UpdateTimestamp
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date updatedAt;
 	
 	
 	

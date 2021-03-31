@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,32 +35,32 @@ public class WarehousesController {
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
-			@RequestParam(defaultValue = "id") String sortBy) {
+			@RequestParam(defaultValue = "id") String sortBy,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching list warehouses details");
 		return new ResponseEntity<>(warehousesService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
 				HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable int id) {
+	public ResponseEntity<?> getById(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching warehouse details with id {}", id);
 		return new ResponseEntity<>(warehousesService.getById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody WarehousesDto warehousesDto) {
+	public ResponseEntity<?> save(@RequestBody WarehousesDto warehousesDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save warehouse details ");
 		return new ResponseEntity<>(warehousesService.save(warehousesDto), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody WarehousesDto warehousesDto, @PathVariable int id) {
+	public ResponseEntity<?> update(@RequestBody WarehousesDto warehousesDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update warehouse details by id: {}", id);
 		return new ResponseEntity<>(warehousesService.update(warehousesDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete warehouse details by id: {}", id);
 		return new ResponseEntity<>(warehousesService.delete(id), HttpStatus.OK);
 	}

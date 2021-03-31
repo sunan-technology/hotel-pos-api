@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,33 +35,33 @@ public class EmployeeRegistrationController {
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
-			@RequestParam(defaultValue = "id") String sortBy) {
+			@RequestParam(defaultValue = "id") String sortBy,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching list employee details");
 		return new ResponseEntity<>(employeeRegistrationService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
 				HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable int id) {
+	public ResponseEntity<?> getById(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching employee details with id {}", id);
 		return new ResponseEntity<>(employeeRegistrationService.getById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody EmployeeRegistrationDto employeeRegistrationDto) {
+	public ResponseEntity<?> save(@RequestBody EmployeeRegistrationDto employeeRegistrationDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save employee details ");
 		return new ResponseEntity<>(employeeRegistrationService.save(employeeRegistrationDto), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody EmployeeRegistrationDto employeeRegistrationDto,
-			@PathVariable int id) {
+			@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update employee details by id: {}", id);
 		return new ResponseEntity<>(employeeRegistrationService.update(employeeRegistrationDto, id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id) {
+	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete employee details by id: {}", id);
 		return new ResponseEntity<>(employeeRegistrationService.delete(id), HttpStatus.OK);
 	}

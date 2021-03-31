@@ -9,6 +9,7 @@ import com.sunan.model.StorageType;
 import com.sunan.model.Supplier;
 import com.sunan.model.Warehouses;
 import com.sunan.purchaseJoin.PurchaseJoinDto;
+import com.sunan.utils.Common;
 
 @Component
 public class PurchaseMapper {
@@ -24,8 +25,8 @@ public class PurchaseMapper {
 				.supplier(new Supplier(dto.getSupplierId()))
 				.subTotal(dto.getSubTotal())
 				.discount(dto.getDiscount())
-				.discountPer(0.0)
-				.paymentDue(0.0)
+				.discountPer(Common.defaultValue)
+				.paymentDue(Common.defaultValue)
 				.previousDue(dto.getPreviousDue())
 				.freightCharges(dto.getFreightCharges())
 				.otherCharges(dto.getOtherCharges())
@@ -68,6 +69,22 @@ public class PurchaseMapper {
 				.roundOff(purchase.getRoundOff())
 				.grandTotal(purchase.getGrandTotal())
 				.totalPayment(purchase.getTotalPayment())
+				.build();
+	}
+	
+	public PerchaseJoin getPerchaseJoin(PurchaseDto purchaseDto,int purchaseId) {
+		
+		return PerchaseJoin.builder()
+				.purchase(new Purchase(purchaseId))
+				.product(new Product(purchaseDto.getId()))
+				.quantity(purchaseDto.getQuantity())
+				.price(purchaseDto.getPricePerUnit())
+				.totalAmount(purchaseDto.getTotalAmount())
+				.storageType(new StorageType(purchaseDto.getStorageTypeId()))
+				.warehouses(new Warehouses(purchaseDto.getWarehousesId()))
+				.hasExpiryDate(purchaseDto.getHasExpiryDate())
+				.expiryDate(purchaseDto.getExpriyDate())
+				.isActive("yes")
 				.build();
 	}
 	

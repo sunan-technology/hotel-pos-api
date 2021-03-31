@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,7 @@ public class SupplierPaymentController {
 	private SupplierPaymentService supplierPaymentService;
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody SupplierPaymentDto supplierPaymentDto) {
+	public ResponseEntity<?> save(@RequestBody SupplierPaymentDto supplierPaymentDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save supplier payment details ");
 		return new ResponseEntity<>(supplierPaymentService.save(supplierPaymentDto), HttpStatus.OK);
 	}
