@@ -3,6 +3,8 @@ package com.sunan.TempRestaurantPOS_OrderInfoKOT;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TempRestaurantPOSOrderInfoKOTDto {
 
+	@NotNull(message = "Id can not be null")
 	private int id;
 
 	private String ticketNo;
@@ -48,16 +51,3 @@ public class TempRestaurantPOSOrderInfoKOTDto {
 
 }
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-class DishKOTDto {
-
-	private int dishId;
-	private String dish;
-	private Double rate;
-	private int quantity;
-	private int categoryId;
-
-}

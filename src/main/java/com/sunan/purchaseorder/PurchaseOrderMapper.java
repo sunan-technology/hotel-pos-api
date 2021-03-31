@@ -6,7 +6,6 @@ import com.sunan.model.Product;
 import com.sunan.model.PurchaseOrder;
 import com.sunan.model.PurchaseOrderJoin;
 import com.sunan.model.Supplier;
-import com.sunan.purchaseorder_join.PurchaseOrderJoinDto;
 
 @Component
 public class PurchaseOrderMapper {
@@ -30,21 +29,31 @@ public class PurchaseOrderMapper {
 				.isActive(dto.getIsActive())
 				.build();
 	}
-
 	
-	public PurchaseOrderJoin getPurchaseOrderJoinBuilder(PurchaseOrderJoinDto dto) {
+	public PurchaseOrderJoin getPurchaseOrderJoin(PurchaseOrderDto dto, int PurchaseOrderId) {
+		
 		
 		return PurchaseOrderJoin.builder()
-				.id(dto.getId())
-				.purchaseOrder(new PurchaseOrder(dto.getPurchaseOrderId()))
+				.purchaseOrder(new PurchaseOrder(PurchaseOrderId))
 				.product(new Product(dto.getProductId()))
 				.quantity(dto.getQuantity())
 				.pricePerUnit(dto.getPricePerUnit())
-				.amount(dto.getAmount())
+				.amount(dto.getTotalAmount())
 				.isActive("yes")
 				.build();
 	}
+
 	
+	/*
+	 * public PurchaseOrderJoin getPurchaseOrderJoinBuilder(PurchaseOrderJoinDto
+	 * dto) {
+	 * 
+	 * return PurchaseOrderJoin.builder() .id(dto.getId()) .purchaseOrder(new
+	 * PurchaseOrder(dto.getPurchaseOrderId())) .product(new
+	 * Product(dto.getProductId())) .quantity(dto.getQuantity())
+	 * .pricePerUnit(dto.getPricePerUnit()) .amount(dto.getAmount())
+	 * .isActive("yes") .build(); }
+	 */
 	
 	public PurchaseOrderDto getPurchaseOrderDtoBuilder(PurchaseOrder purchaseOrder,PurchaseOrderJoin purchaseOrderJoin) {
 		

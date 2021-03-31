@@ -72,6 +72,22 @@ public class PurchaseMapper {
 				.build();
 	}
 	
+	public PerchaseJoin getPerchaseJoin(PurchaseDto purchaseDto,int purchaseId) {
+		
+		return PerchaseJoin.builder()
+				.purchase(new Purchase(purchaseId))
+				.product(new Product(purchaseDto.getId()))
+				.quantity(purchaseDto.getQuantity())
+				.price(purchaseDto.getPricePerUnit())
+				.totalAmount(purchaseDto.getTotalAmount())
+				.storageType(new StorageType(purchaseDto.getStorageTypeId()))
+				.warehouses(new Warehouses(purchaseDto.getWarehousesId()))
+				.hasExpiryDate(purchaseDto.getHasExpiryDate())
+				.expiryDate(purchaseDto.getExpriyDate())
+				.isActive("yes")
+				.build();
+	}
+	
 	
 	public PerchaseJoin getPerchaseJoinBuilder(PurchaseJoinDto dto)
 	{

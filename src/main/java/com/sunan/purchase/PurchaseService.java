@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.sunan.model.PerchaseJoin;
 import com.sunan.model.Purchase;
-import com.sunan.purchaseJoin.PurchaseJoinDto;
 import com.sunan.purchaseJoin.PurchaseJoinRepository;
 import com.sunan.utils.JsonUtils;
 
@@ -23,7 +22,7 @@ public class PurchaseService implements Serializable {
 
 	@Autowired
 	private PurchaseRepository purchaseRepository;
-	
+
 	@Autowired
 	private PurchaseJoinRepository purchaseJoinRepository;
 
@@ -32,31 +31,21 @@ public class PurchaseService implements Serializable {
 
 	@Autowired
 	private JsonUtils utils;
-	
-	
+
 	@Transactional
 	public String save(PurchaseDto purchaseDto) {
-		
-		Purchase purchase=purchaseMapper.getPerchaseBuilder(purchaseDto);
+
+		Purchase purchase = purchaseMapper.getPerchaseBuilder(purchaseDto);
 		purchaseRepository.save(purchase);
-		
-		int purchaseId= purchase.getId();
-		PurchaseJoinDto purchaseJoinDto=new PurchaseJoinDto();
-		purchaseJoinDto.setPerchaseId(purchaseId);
-		purchaseJoinDto.setProductId(purchaseDto.getProductId());
-		purchaseJoinDto.setQuantity(purchaseDto.getQuantity());
-		purchaseJoinDto.setTotalAmount(purchaseDto.getTotalAmount());
-		purchaseJoinDto.setStorageTypeId(purchaseDto.getStorageTypeId());
-		purchaseJoinDto.setWarehousesId(purchaseDto.getWarehousesId());
-		purchaseJoinDto.setHasExpiryDate(purchaseDto.getHasExpiryDate());
-		purchaseJoinDto.setExpiryDate(purchaseDto.getExpriyDate());
-		purchaseJoinDto.setPrice(purchaseDto.getPricePerUnit());
-		
-		PerchaseJoin perchaseJoin =purchaseMapper.getPerchaseJoinBuilder(purchaseJoinDto);
+
+		int purchaseId = purchase.getId();
+
+		PerchaseJoin perchaseJoin = purchaseMapper.getPerchaseJoin(purchaseDto, purchaseId);
 		purchaseJoinRepository.save(perchaseJoin);
-		
+
 		logger.info("Service: purchase details");
-		return utils.objectMapperSuccess(purchaseMapper.getPurchaseDtoBuilder(purchase, perchaseJoin), " Purchase Details Saved");
+		return utils.objectMapperSuccess(purchaseMapper.getPurchaseDtoBuilder(purchase, perchaseJoin),
+				" Purchase Details Saved");
 	}
 
 }

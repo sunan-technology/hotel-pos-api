@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sunan.TempRestaurantPOS_OrderedProductKOT.TempRestaurantPOSOrderedProductKOTDto;
 import com.sunan.TempRestaurantPOS_OrderedProductKOT.TempRestaurantPOSOrderedProductKOTMapper;
 import com.sunan.TempRestaurantPOS_OrderedProductKOT.TempRestaurantPOSOrderedProductKOTRepository;
 import com.sunan.category.CategoryRepository;
@@ -51,26 +50,35 @@ public class TempRestaurantPOSOrderInfoKOTService implements Serializable {
 
 	@Transactional
 	public String save(TempRestaurantPOSOrderInfoKOTDto tempRestaurantPOSOrderInfoKOTDto) {
-
+		
+	
 		TempRestaurantPOSOrderInfoKOT tempRestaurantPOSOrderInfoKOT = tempRestaurantPOSOrderedInfoKOTMapper
 				.tempRestaurantPOSOrderInfoKOTBuilder(tempRestaurantPOSOrderInfoKOTDto);
 		tempRestaurantPOSOrderInfoKOTRepository.save(tempRestaurantPOSOrderInfoKOT);
 
 		int tempRestaurantPOSOrderInfoKOTId = tempRestaurantPOSOrderInfoKOT.getId();
-		
 
-		TempRestaurantPOSOrderedProductKOTDto tempRestaurantPOSOrderedProductKOTDto = new TempRestaurantPOSOrderedProductKOTDto();
 		for (DishKOTDto dish : tempRestaurantPOSOrderInfoKOTDto.getDish()) {
 			int dishId = dish.getDishId();
+			if(dishId<=0) {
+			
+				return  utils.objectMapperError("dish id is not present"+dishId);
+			}
 
 			Double rate = dish.getRate();
 			int quantity = dish.getQuantity();
 			Double amount = quantity * rate;
 			int categoryId = dish.getCategoryId();
+			
+			if(categoryId <= 0) {
+			
+				return utils.objectMapperError("category id is not present"+categoryId);
+			}
 
 			Optional<Dish> dishes = dishRepository.findByDishId(dishId);
 
 			Optional<Category> category = categoryRepository.findById(categoryId);
+
 
 			Double vatPer = category.get().getVat();
 			Double vatAmount = Common.calculateGST(rate, vatPer);
@@ -84,26 +92,10 @@ public class TempRestaurantPOSOrderInfoKOTService implements Serializable {
 			Double discount = dishes.get().getDiscount();
 			Double discountAmount = Common.calculateGST(rate, discount);
 
-			tempRestaurantPOSOrderedProductKOTDto.setTempRestaurantPOSOrderInfoKOTId(tempRestaurantPOSOrderInfoKOTId);
-			tempRestaurantPOSOrderedProductKOTDto.setDish(dish.getDish());
-			tempRestaurantPOSOrderedProductKOTDto.setRate(dish.getRate());
-			tempRestaurantPOSOrderedProductKOTDto.setQuantity(dish.getQuantity());
-			tempRestaurantPOSOrderedProductKOTDto.setAmount(amount);
-			tempRestaurantPOSOrderedProductKOTDto.setVatPer(vatPer);
-			tempRestaurantPOSOrderedProductKOTDto.setVatAmount(vatAmount);
-			tempRestaurantPOSOrderedProductKOTDto.setStPer(stPer);
-			tempRestaurantPOSOrderedProductKOTDto.setStAmount(stAmount);
-			tempRestaurantPOSOrderedProductKOTDto.setScPer(scPer);
-			tempRestaurantPOSOrderedProductKOTDto.setScAmount(scAmount);
-			tempRestaurantPOSOrderedProductKOTDto.setDiscountPer(discount);
-			tempRestaurantPOSOrderedProductKOTDto.setDiscountAmount(discountAmount);
-			tempRestaurantPOSOrderedProductKOTDto.setTotalAmount(tempRestaurantPOSOrderInfoKOTDto.getTotalAmount());
-			tempRestaurantPOSOrderedProductKOTDto.setTableNumber(tempRestaurantPOSOrderInfoKOTDto.getTableNo());
-			tempRestaurantPOSOrderedProductKOTDto.setItemStatus(Common.itemStatus);
-			tempRestaurantPOSOrderedProductKOTDto.setIsActive("yes");
-
 			TempRestaurantPOSOrderedProductKOT tempRestaurantPOSOrderedProductKOT = tempRestaurantPOSOrderedProductKOTMapper
-					.tempRestaurantPOSOrderedProductKOTBuilder(tempRestaurantPOSOrderedProductKOTDto);
+					.tempRestaurantPOSOrderedProductKOT(tempRestaurantPOSOrderInfoKOTDto, dish,
+							tempRestaurantPOSOrderInfoKOTId, amount, vatPer, vatAmount, stPer, stAmount, scPer,
+							scAmount, discount, discountAmount);
 
 			tempRestaurantPOSOrderedProductKOT.setTempRestaurantPOSOrderInfoKOT(tempRestaurantPOSOrderInfoKOT);
 			tempRestaurantPOSOrderedProductKOTRepository.save(tempRestaurantPOSOrderedProductKOT);

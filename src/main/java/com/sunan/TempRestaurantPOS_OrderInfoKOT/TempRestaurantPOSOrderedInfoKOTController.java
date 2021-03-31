@@ -1,5 +1,7 @@
 package com.sunan.TempRestaurantPOS_OrderInfoKOT;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class TempRestaurantPOSOrderedInfoKOTController {
 	private TempRestaurantPOSOrderInfoKOTService tempRestaurantPOSOrderInfoKOTService;
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody TempRestaurantPOSOrderInfoKOTDto tempRestaurantPOSOrderInfoKOTDto,
+	public ResponseEntity<?> save(@Valid @RequestBody TempRestaurantPOSOrderInfoKOTDto tempRestaurantPOSOrderInfoKOTDto,
 			@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save temp restaurant order details ");
 		return new ResponseEntity<>(tempRestaurantPOSOrderInfoKOTService.save(tempRestaurantPOSOrderInfoKOTDto),

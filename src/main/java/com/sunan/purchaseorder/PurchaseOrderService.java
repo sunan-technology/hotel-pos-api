@@ -16,45 +16,40 @@ import com.sunan.purchaseorder_join.PurchaseOrderJoinRepository;
 import com.sunan.utils.JsonUtils;
 
 @Service
-public class PurchaseOrderService  implements Serializable {
-	
+public class PurchaseOrderService implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(PurchaseOrderService.class);
-	
+
 	@Autowired
 	private PurchaseOrderRepository purchaseOrderRepository;
-	
+
 	@Autowired
 	private PurchaseOrderJoinRepository purchaseOrderJoinRepository;
-	
+
 	@Autowired
 	PurchaseOrderMapper purchaseOrderMapper;
-	
+
 	@Autowired
 	private JsonUtils utils;
-	
+
 	@Transactional
 	public String save(PurchaseOrderDto purchaseOrderDto) {
-		
+
 		PurchaseOrder purchaseOrder = purchaseOrderMapper.getPurchaseOrderBuilder(purchaseOrderDto);
 		purchaseOrderRepository.save(purchaseOrder);
-		
-		int purchaseOrderId=purchaseOrder.getId();
-		
-		PurchaseOrderJoinDto purchaseOrderJoinDto = new PurchaseOrderJoinDto();
-		
-		purchaseOrderJoinDto.setPurchaseOrderId(purchaseOrderId);
-		purchaseOrderJoinDto.setProductId(purchaseOrderDto.getProductId());
-		purchaseOrderJoinDto.setQuantity(purchaseOrderDto.getQuantity());
-		purchaseOrderJoinDto.setPricePerUnit(purchaseOrderDto.getPricePerUnit());
-		purchaseOrderJoinDto.setAmount(purchaseOrderDto.getTotalAmount());
-		
-		PurchaseOrderJoin purchaseOrderJoin= purchaseOrderMapper.getPurchaseOrderJoinBuilder(purchaseOrderJoinDto);
+
+		int purchaseOrderId = purchaseOrder.getId();
+
+
+		PurchaseOrderJoin purchaseOrderJoin = purchaseOrderMapper.getPurchaseOrderJoin(purchaseOrderDto,
+				purchaseOrderId);
 		purchaseOrderJoinRepository.save(purchaseOrderJoin);
-		
-		
+
 		logger.info("Service: purchase order details");
-		return utils.objectMapperSuccess(purchaseOrderMapper.getPurchaseOrderDtoBuilder(purchaseOrder, purchaseOrderJoin), " Purchase order Details Saved");
+		return utils.objectMapperSuccess(
+				purchaseOrderMapper.getPurchaseOrderDtoBuilder(purchaseOrder, purchaseOrderJoin),
+				" Purchase order Details Saved");
 	}
 
 }
