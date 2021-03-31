@@ -2,6 +2,9 @@ package com.sunan.creditCustomerPayment;
 
 import java.util.Date;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +22,8 @@ public class CreditCustomerPaymentDto {
 
 	private String paymentMode;
 
+	@NotNull
+	@Min(1)
 	private int creditCustomerId;
 
 	private String creditCustomerName;

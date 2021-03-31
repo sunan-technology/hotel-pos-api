@@ -3,6 +3,7 @@
 	<name>hotel-pos-api</name>
 	<comment></comment>
 	<projects>
+		<project>school-erp-api</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

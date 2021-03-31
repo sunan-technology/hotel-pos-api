@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.sunan.creditCustomer.CreditCustomerRepository;
 import com.sunan.creditCustomerLedger.CreditCustomerLedgerDto;
+import com.sunan.creditCustomerLedger.CreditCustomerLedgerMapper;
 import com.sunan.creditCustomerLedger.CreditCustomerLedgerRepository;
 import com.sunan.model.CreditCustomer;
 import com.sunan.model.CreditCustomerLedger;
@@ -38,27 +39,38 @@ public class CreditCustomerPaymentService implements Serializable {
 	CreditCustomerPaymentMapper creditCustomerPaymentMapper;
 
 	@Autowired
+	CreditCustomerLedgerMapper creditCustomerLedgerMapper;
+	
+	@Autowired
 	private JsonUtils utils;
+	
+	 
 
 	@Transactional
 	public String save(CreditCustomerPaymentDto creditCustomerPaymentDto) {
+		
+		Optional<CreditCustomer> optional = creditCustomerRepository.findById(creditCustomerPaymentDto.getCreditCustomerId());
+		if(!optional.isPresent()) {
+			return utils.objectMapperError("Category not found. Pass valid category id in the request");
+		} 
+		
 		CreditCustomerPayment creditCustomerPayment = creditCustomerPaymentMapper
 				.getCreditCustomerPaymentBuilder(creditCustomerPaymentDto);
 		creditCustomerPaymentRepository.save(creditCustomerPayment);
-		int creditCustomerPaymentId = creditCustomerPayment.getId();
+		
+//		int creditCustomerPaymentId = creditCustomerPayment.getId();
+//
+//		CreditCustomerLedgerDto creditCustomerLedgerDto = new CreditCustomerLedgerDto();
+//		creditCustomerLedgerDto.setDate(creditCustomerPaymentDto.getDate());
+//		creditCustomerLedgerDto
+//				.setLedgerNo("C " + creditCustomerPaymentId + " T " + creditCustomerPaymentDto.getCreditCustomerId());
+//		creditCustomerLedgerDto.setLabel("payment");
+//		creditCustomerLedgerDto.setDebit(0.0);
+//		creditCustomerLedgerDto.setCredit(creditCustomerPaymentDto.getAmount());
+//		creditCustomerLedgerDto.setIsActive("Active");
+//		creditCustomerLedgerDto.setCreditCustomerId(creditCustomerPaymentDto.getCreditCustomerId());
 
-		CreditCustomerLedgerDto creditCustomerLedgerDto = new CreditCustomerLedgerDto();
-		creditCustomerLedgerDto.setDate(creditCustomerPaymentDto.getDate());
-		creditCustomerLedgerDto
-				.setLedgerNo("C " + creditCustomerPaymentId + " T " + creditCustomerPaymentDto.getCreditCustomerId());
-		creditCustomerLedgerDto.setLabel("payment");
-		creditCustomerLedgerDto.setDebit(0.0);
-		creditCustomerLedgerDto.setCredit(creditCustomerPaymentDto.getAmount());
-		creditCustomerLedgerDto.setIsActive("Active");
-		creditCustomerLedgerDto.setCreditCustomerId(creditCustomerPaymentDto.getCreditCustomerId());
-
-		CreditCustomerLedger creditCustomerLedger = creditCustomerPaymentMapper
-				.getCreditCustomerLedgerBuilder(creditCustomerLedgerDto);
+		CreditCustomerLedger creditCustomerLedger = creditCustomerLedgerMapper.getCreditCustomerLedgerBuilder(creditCustomerPaymentDto, creditCustomerPayment.getId());
 		creditCustomerLedgerRepository.save(creditCustomerLedger);
 
 		logger.info("Service: credit customer payment details");
