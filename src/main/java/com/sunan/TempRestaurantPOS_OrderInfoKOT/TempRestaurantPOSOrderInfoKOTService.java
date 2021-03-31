@@ -60,11 +60,7 @@ public class TempRestaurantPOSOrderInfoKOTService implements Serializable {
 
 		for (DishKOTDto dish : tempRestaurantPOSOrderInfoKOTDto.getDish()) {
 			int dishId = dish.getDishId();
-			if(dishId<=0) {
 			
-				return  utils.objectMapperError("dish id is not present"+dishId);
-			}
-
 			Double rate = dish.getRate();
 			int quantity = dish.getQuantity();
 			Double amount = quantity * rate;
@@ -76,8 +72,20 @@ public class TempRestaurantPOSOrderInfoKOTService implements Serializable {
 			}
 
 			Optional<Dish> dishes = dishRepository.findByDishId(dishId);
+			
+			if(dishes.isPresent()) {
+				
+				return  utils.objectMapperError("dish id is not present");
+			}
+
 
 			Optional<Category> category = categoryRepository.findById(categoryId);
+			
+			if(category.isPresent()) {
+				
+				return utils.objectMapperError("category id is not present");
+			}
+
 
 
 			Double vatPer = category.get().getVat();
@@ -101,7 +109,7 @@ public class TempRestaurantPOSOrderInfoKOTService implements Serializable {
 			tempRestaurantPOSOrderedProductKOTRepository.save(tempRestaurantPOSOrderedProductKOT);
 
 		}
-
+         logger.info("Temp restaurant order info saved");
 		return utils.objectMapperSuccess("Temp Restaurant Order info saved");
 	}
 
