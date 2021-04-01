@@ -2,6 +2,7 @@ package com.sunan.constants;
 
 public class RequestMappingConstants {
 
+    // URLs
 	private static final String ROOTURL = "/api"; 
 	
 	public static final String LOGIN = RequestMappingConstants.ROOTURL+"/login";
@@ -53,7 +54,5 @@ public class RequestMappingConstants {
 	public static final String RECIPE =RequestMappingConstants.ROOTURL+"/Recipe";
 	
 	public static final String TEMPRESTAURANTPOSORDEREDINFOKOT =RequestMappingConstants.ROOTURL+"/TempRestaurantPOSOrderedInfoKOT";
-	
-	
-	
+	 
 }

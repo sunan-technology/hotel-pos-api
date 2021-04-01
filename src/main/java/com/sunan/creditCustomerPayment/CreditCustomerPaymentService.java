@@ -56,19 +56,7 @@ public class CreditCustomerPaymentService implements Serializable {
 		
 		CreditCustomerPayment creditCustomerPayment = creditCustomerPaymentMapper
 				.getCreditCustomerPaymentBuilder(creditCustomerPaymentDto);
-		creditCustomerPaymentRepository.save(creditCustomerPayment);
-		
-//		int creditCustomerPaymentId = creditCustomerPayment.getId();
-//
-//		CreditCustomerLedgerDto creditCustomerLedgerDto = new CreditCustomerLedgerDto();
-//		creditCustomerLedgerDto.setDate(creditCustomerPaymentDto.getDate());
-//		creditCustomerLedgerDto
-//				.setLedgerNo("C " + creditCustomerPaymentId + " T " + creditCustomerPaymentDto.getCreditCustomerId());
-//		creditCustomerLedgerDto.setLabel("payment");
-//		creditCustomerLedgerDto.setDebit(0.0);
-//		creditCustomerLedgerDto.setCredit(creditCustomerPaymentDto.getAmount());
-//		creditCustomerLedgerDto.setIsActive("Active");
-//		creditCustomerLedgerDto.setCreditCustomerId(creditCustomerPaymentDto.getCreditCustomerId());
+		creditCustomerPaymentRepository.save(creditCustomerPayment); 
 
 		CreditCustomerLedger creditCustomerLedger = creditCustomerLedgerMapper.getCreditCustomerLedgerBuilder(creditCustomerPaymentDto, creditCustomerPayment.getId());
 		creditCustomerLedgerRepository.save(creditCustomerLedger);
