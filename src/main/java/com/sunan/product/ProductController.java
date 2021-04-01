@@ -47,9 +47,9 @@ public class ProductController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody ProductDto productDto,@RequestHeader("hotelId") int hotelId) {
+	public ResponseEntity<?> save(@RequestBody ProductRequestDto productRequestDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save product details ");
-		return new ResponseEntity<>(productService.save(productDto), HttpStatus.OK);
+		return new ResponseEntity<>(productService.save(productRequestDto), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")

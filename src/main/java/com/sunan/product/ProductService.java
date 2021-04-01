@@ -1,6 +1,7 @@
 package com.sunan.product;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -16,6 +17,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sunan.model.Product;
+import com.sunan.model.ProductOpeningStock;
+import com.sunan.produt_openingStock.ProductOpeningStockMapper;
+import com.sunan.produt_openingStock.ProductOpeningStockRepository;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -29,15 +33,26 @@ public class ProductService implements Serializable {
 
 	@Autowired
 	ProductMapper productMapper;
+	
+	@Autowired
+	ProductOpeningStockMapper productOpeningStockMapper;
+	
+	@Autowired
+	ProductOpeningStockRepository productOpeningStockRepository;
 
 	@Autowired
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(ProductDto productDto) {
-		Product product = productMapper.getProductBuilder(productDto);
+	public String save(ProductRequestDto productRequestDto) {
+		//todo:// request validation
+		Product product = productMapper.getProductBuilder(productRequestDto);
 		productRepository.save(product);
-		logger.info("Service: Save product details");
+		//add product entry in the product openning stock table 
+		List<ProductOpeningStock> list =  productOpeningStockMapper.getProductOpeningStockBuilder(productRequestDto.getOpeningStockDtos(), product.getId());
+		productOpeningStockRepository.saveAll(list);
+		
+		logger.info("Service: Save product details with opening stock");
 		return utils.objectMapperSuccess(productMapper.getProductDtoBuilder(product), "Product Details Saved");
 	}
 

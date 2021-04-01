@@ -22,6 +22,20 @@ public class ProductMapper {
 				.isActive(dto.getIsActive())
 				.build();
 	}
+	
+	public Product getProductBuilder(ProductRequestDto dto) {		
+		return Product.builder()
+				.id(dto.getId())
+				.productCode(dto.getProductCode())
+				.productName(dto.getProductName())
+				.category(new Category(dto.getCategoryId()))
+				.description(dto.getDescription())
+				.unit(dto.getUnit())
+				.price(dto.getPrice())
+				.reorderPoint(dto.getReorderPoint())
+				.isActive(dto.getIsActive())
+				.build();
+	}
 
 	public ProductDto getProductDtoBuilder(Product product) {
 		
