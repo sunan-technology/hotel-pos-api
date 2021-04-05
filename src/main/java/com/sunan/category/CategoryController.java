@@ -50,13 +50,13 @@ public class CategoryController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody CategoryDto categoryDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save category details ");
-		return new ResponseEntity<>(categoryService.save(categoryDto), HttpStatus.OK);
+		return new ResponseEntity<>(categoryService.save(categoryDto,hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody CategoryDto categoryDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update category details by id: {}", id);
-		return new ResponseEntity<>(categoryService.update(categoryDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(categoryService.update(categoryDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

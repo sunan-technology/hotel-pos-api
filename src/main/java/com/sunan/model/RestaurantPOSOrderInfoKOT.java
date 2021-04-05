@@ -1,6 +1,7 @@
 package com.sunan.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,16 +19,16 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Table(name = "restaurantpos_orderinfokot")
 public class RestaurantPOSOrderInfoKOT extends BaseEntity implements Serializable {
 
@@ -47,9 +50,11 @@ public class RestaurantPOSOrderInfoKOT extends BaseEntity implements Serializabl
 	@Column(name = "grandtotal")
 	private Double grandTotal;
 
-	@Column(name = "tableno")
-	private String tableNo;
-
+	@JoinColumn(name = "table_id")
+	@ManyToOne
+	private HotelTable hotelTable;
+	
+	
 	@Column(name = "groupname")
 	private String groupName;
 
@@ -79,5 +84,43 @@ public class RestaurantPOSOrderInfoKOT extends BaseEntity implements Serializabl
 
 	@Column(name = "is_active")
 	private String isActive;
+
+	public RestaurantPOSOrderInfoKOT(int id) {
+		super();
+		this.id = id;
+	}
+
+	
+	public RestaurantPOSOrderInfoKOT() {
+		
+	}
+
+    @Builder
+	public RestaurantPOSOrderInfoKOT(Hotel hotelId, Timestamp createdAt, Date updatedAt, int id, String ticketNo,
+			Date billDate, Double grandTotal, HotelTable hotelTable, String groupName, String operator,
+			String ticketNote, String waiter, String kotStatus, String isEditable, String isTempInvoiceGenerated,
+			int noOfTimes, String kotType, String isActive) {
+		super(hotelId, createdAt, updatedAt);
+		this.id = id;
+		this.ticketNo = ticketNo;
+		this.billDate = billDate;
+		this.grandTotal = grandTotal;
+		this.hotelTable = hotelTable;
+		this.groupName = groupName;
+		this.operator = operator;
+		this.ticketNote = ticketNote;
+		this.waiter = waiter;
+		this.kotStatus = kotStatus;
+		this.isEditable = isEditable;
+		this.isTempInvoiceGenerated = isTempInvoiceGenerated;
+		this.noOfTimes = noOfTimes;
+		this.kotType = kotType;
+		this.isActive = isActive;
+	}
+
+
+	
+	
+	
 
 }

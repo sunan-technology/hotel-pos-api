@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sunan.model.Hotel;
 import com.sunan.model.Supplier;
 import com.sunan.model.SupplierLedger;
 import com.sunan.supplierLedger.SupplierLedgerRepository;
@@ -31,18 +32,19 @@ public class SupplierPaymentService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(SupplierPaymentDto supplierPaymentDto) {
+	public String save(SupplierPaymentDto supplierPaymentDto,int hotelId) {
 
 		int supplierId = supplierPaymentDto.getSupplierId();
 
 		Double transactionAmount = supplierPaymentDto.getAmount();
 
 		Double supplierBalance = supplierLedgerRepository.getSupplierBalanceBySupplierId(new Supplier(supplierId));
-		System.out.println(supplierBalance);
+		
 
 		if (transactionAmount < supplierBalance) {
 
 			SupplierLedger supplierledger = supplierPaymentMapper.getSupplierPaymentBuilder(supplierPaymentDto);
+			supplierledger.setHotelId(new Hotel(hotelId));
 			supplierLedgerRepository.save(supplierledger);
 
 			logger.info("Service: supplier payment details");

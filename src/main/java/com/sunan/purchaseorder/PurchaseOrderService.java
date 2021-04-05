@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sunan.model.Hotel;
 import com.sunan.model.PurchaseOrder;
 import com.sunan.model.PurchaseOrderJoin;
-import com.sunan.purchaseorder_join.PurchaseOrderJoinDto;
 import com.sunan.purchaseorder_join.PurchaseOrderJoinRepository;
 import com.sunan.utils.JsonUtils;
 
@@ -34,9 +34,10 @@ public class PurchaseOrderService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(PurchaseOrderDto purchaseOrderDto) {
+	public String save(PurchaseOrderDto purchaseOrderDto,int hotelId) {
 
 		PurchaseOrder purchaseOrder = purchaseOrderMapper.getPurchaseOrderBuilder(purchaseOrderDto);
+		purchaseOrder.setHotelId(new Hotel(hotelId));
 		purchaseOrderRepository.save(purchaseOrder);
 
 		int purchaseOrderId = purchaseOrder.getId();
@@ -44,6 +45,7 @@ public class PurchaseOrderService implements Serializable {
 
 		PurchaseOrderJoin purchaseOrderJoin = purchaseOrderMapper.getPurchaseOrderJoin(purchaseOrderDto,
 				purchaseOrderId);
+		purchaseOrderJoin.setHotelId(new Hotel(hotelId));
 		purchaseOrderJoinRepository.save(purchaseOrderJoin);
 
 		logger.info("Service: purchase order details");

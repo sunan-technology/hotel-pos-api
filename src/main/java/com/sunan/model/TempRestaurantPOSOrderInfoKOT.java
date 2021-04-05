@@ -1,6 +1,7 @@
 package com.sunan.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,16 +19,16 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Table(name = "temprestaurantpos_orderinfokot")
 public class TempRestaurantPOSOrderInfoKOT extends BaseEntity implements Serializable {
 
@@ -47,8 +50,11 @@ public class TempRestaurantPOSOrderInfoKOT extends BaseEntity implements Seriali
 	@Column(name = "grandtotal")
 	private Double grandTotal;
 
-	@Column(name = "tableno")
-	private String tableNo;
+	
+	
+	@JoinColumn(name = "table_id")
+	@ManyToOne
+	private HotelTable hotelTable;
 
 	@Column(name = "groupname")
 	private String groupName;
@@ -78,6 +84,34 @@ public class TempRestaurantPOSOrderInfoKOT extends BaseEntity implements Seriali
 		super();
 		this.id = id;
 	}
+	
+	public TempRestaurantPOSOrderInfoKOT() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Builder
+	public TempRestaurantPOSOrderInfoKOT(Hotel hotelId, Timestamp createdAt, Date updatedAt, int id, String ticketNo,
+			Date billDate, Double grandTotal, HotelTable hotelTable, String groupName, String operator,
+			String ticketNote, String waiter, String kotStatus, String isEditable, String kotType, String isActive) {
+		super(hotelId, createdAt, updatedAt);
+		this.id = id;
+		this.ticketNo = ticketNo;
+		this.billDate = billDate;
+		this.grandTotal = grandTotal;
+		this.hotelTable = hotelTable;
+		this.groupName = groupName;
+		this.operator = operator;
+		this.ticketNote = ticketNote;
+		this.waiter = waiter;
+		this.kotStatus = kotStatus;
+		this.isEditable = isEditable;
+		this.kotType = kotType;
+		this.isActive = isActive;
+	}
+
+
+	
+	
 	
 	
 

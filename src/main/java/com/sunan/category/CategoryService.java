@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sunan.model.Category;
+import com.sunan.model.Hotel;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -34,20 +35,22 @@ public class CategoryService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(CategoryDto categoryDto) {
+	public String save(CategoryDto categoryDto,int hotelId) {
 		Category category = categoryMapper.getCategoryBuilder(categoryDto);
+		category.setHotelId(new Hotel(hotelId));
 		categoryRepository.save(category);
 		logger.info("Service: Save Category details");
 		return utils.objectMapperSuccess(categoryMapper.getCategoryDtoBuilder(category), "Category Details Saved");
 	}
 
 	@Transactional
-	public String update(CategoryDto categoryDto, int id) {
+	public String update(CategoryDto categoryDto, int id,int hotelId) {
 		logger.info("Service: Update category details with id {}", id);
 		Optional<Category> optional = categoryRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: category details found with id {} for update operation", id);
 			Category category = categoryMapper.getCategoryBuilder(categoryDto);
+			category.setHotelId(new Hotel(hotelId));
 			categoryRepository.save(category);
 			return utils.objectMapperSuccess(categoryMapper.getCategoryDtoBuilder(category),
 					"Category Details Updated");

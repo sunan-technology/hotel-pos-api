@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.model.Hotel;
 import com.sunan.model.Recipe;
 import com.sunan.model.RecipeJoin;
 import com.sunan.recipe_join.RecipeJoinRepository;
@@ -38,12 +39,14 @@ public class RecipeService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(RecipeDto recipeDto) {
+	public String save(RecipeDto recipeDto,int hotelId) {
 
 		Recipe recipe = recipeMapper.getRecipeBuilder(recipeDto);
+		recipe.setHotelId(new Hotel(hotelId));
 		recipeRepository.save(recipe);
 
 		RecipeJoin recipeJoin = recipeMapper.getRecipeJoinBuilder(recipeDto);
+		recipeJoin.setHotelId(new Hotel(hotelId));
 		recipeJoinRepository.save(recipeJoin);
 
 		logger.info("Service: recipe details");
@@ -52,17 +55,19 @@ public class RecipeService implements Serializable {
 	}
 
 	@Transactional
-	public String update(RecipeDto recipeDto, int id) {
+	public String update(RecipeDto recipeDto, int id,int hotelId) {
 		logger.info("Service: Update recipe details with id {}", id);
 		Optional<Recipe> optional = recipeRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: recipe details found with id {} for update operation", id);
 			Recipe recipe = recipeMapper.getRecipeBuilder(recipeDto);
+			recipe.setHotelId(new Hotel(hotelId));
 			recipeRepository.save(recipe);
 
 			Optional<RecipeJoin> optionalRecipe_Join = recipeJoinRepository.findByRecipe(optional.get());
 			if (optionalRecipe_Join.isPresent()) {
 				RecipeJoin recipeJoin = recipeMapper.getRecipeJoinBuilder(optionalRecipe_Join.get(), recipeDto);
+				recipeJoin.setHotelId(new Hotel(hotelId));
 				recipeJoinRepository.save(recipeJoin);
 			}
 

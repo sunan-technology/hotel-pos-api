@@ -48,16 +48,17 @@ public class ProductController {
 
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody ProductRequestDto productRequestDto,@RequestHeader("hotelId") int hotelId) {
+		
 		logger.info("Controller: Save product details ");
-		return new ResponseEntity<>(productService.save(productRequestDto), HttpStatus.OK);
+		return new ResponseEntity<>(productService.save(productRequestDto,hotelId), HttpStatus.OK);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody ProductDto productDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
-		logger.info("Controller: Update product details by id: {}", id);
-		return new ResponseEntity<>(productService.update(productDto, id), HttpStatus.OK);
-	}
-
+	/*
+	 * @PutMapping("/{id}") public ResponseEntity<?> update(@RequestBody ProductDto
+	 * productDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
+	 * logger.info("Controller: Update product details by id: {}", id); return new
+	 * ResponseEntity<>(productService.update(productDto, id), HttpStatus.OK); }
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete product details by id: {}", id);

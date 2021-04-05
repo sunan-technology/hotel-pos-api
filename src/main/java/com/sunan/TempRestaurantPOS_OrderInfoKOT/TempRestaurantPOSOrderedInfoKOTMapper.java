@@ -2,6 +2,7 @@ package com.sunan.TempRestaurantPOS_OrderInfoKOT;
 
 import org.springframework.stereotype.Component;
 
+import com.sunan.model.HotelTable;
 import com.sunan.model.TempRestaurantPOSOrderInfoKOT;
 
 @Component
@@ -15,7 +16,7 @@ public class TempRestaurantPOSOrderedInfoKOTMapper {
 				.ticketNo(dto.getTicketNo())
 				.billDate(dto.getBillDate())
 				.grandTotal(dto.getGrandTotal())
-				.tableNo(dto.getTableNo())
+				.hotelTable(new HotelTable(dto.getTableNo()))
 				.groupName(dto.getGroupName())
 				.operator(dto.getOperator())
 				.ticketNote(dto.getTicketNote())
@@ -38,7 +39,7 @@ public class TempRestaurantPOSOrderedInfoKOTMapper {
 				.ticketNo(tempRestaurantPOSOrderInfoKOT.getTicketNo())
 				.billDate(tempRestaurantPOSOrderInfoKOT.getBillDate())
 				.grandTotal(tempRestaurantPOSOrderInfoKOT.getGrandTotal())
-				.tableNo(tempRestaurantPOSOrderInfoKOT.getTableNo())
+				.tableNo(tempRestaurantPOSOrderInfoKOT.getHotelTable().getTableNo())
 				.groupName(tempRestaurantPOSOrderInfoKOT.getGroupName())
 				.operator(tempRestaurantPOSOrderInfoKOT.getOperator())
 				.ticketNote(tempRestaurantPOSOrderInfoKOT.getTicketNote())

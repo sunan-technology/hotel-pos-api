@@ -33,7 +33,7 @@ public class TempRestaurantPOSOrderedInfoKOTController {
 	public ResponseEntity<?> save(@Valid @RequestBody TempRestaurantPOSOrderInfoKOTDto tempRestaurantPOSOrderInfoKOTDto,
 			@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save temp restaurant order details ");
-		return new ResponseEntity<>(tempRestaurantPOSOrderInfoKOTService.save(tempRestaurantPOSOrderInfoKOTDto),
+		return new ResponseEntity<>(tempRestaurantPOSOrderInfoKOTService.save(tempRestaurantPOSOrderInfoKOTDto,hotelId),
 				HttpStatus.OK);
 	}
 }

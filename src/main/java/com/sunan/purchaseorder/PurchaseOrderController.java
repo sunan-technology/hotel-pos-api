@@ -30,7 +30,7 @@ public class PurchaseOrderController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody PurchaseOrderDto purchaseOrderDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save purchase order details ");
-		return new ResponseEntity<>(purchaseOrderService.save(purchaseOrderDto), HttpStatus.OK);
+		return new ResponseEntity<>(purchaseOrderService.save(purchaseOrderDto,hotelId), HttpStatus.OK);
 	}
 
 }

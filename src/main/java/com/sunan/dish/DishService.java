@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sunan.model.Dish;
+import com.sunan.model.Hotel;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -34,20 +35,22 @@ public class DishService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(DishDto dishDto) {
+	public String save(DishDto dishDto,int hotelId) {
 		Dish dish = dishMapper.getDishBuilder(dishDto);
+		dish.setHotelId(new Hotel(hotelId));
 		dishRepository.save(dish);
 		logger.info("Service: Save Dish details");
 		return utils.objectMapperSuccess(dishMapper.getDishDtoBuilder(dish), "Dish Details Saved");
 	}
 
 	@Transactional
-	public String update(DishDto dishDto, int id) {
+	public String update(DishDto dishDto, int id,int hotelId) {
 		logger.info("Service: Update dish details with id {}", id);
 		Optional<Dish> optional = dishRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: dish details found with id {} for update operation", id);
 			Dish dish = dishMapper.getDishBuilder(dishDto);
+			dish.setHotelId(new Hotel(hotelId));
 			dishRepository.save(dish);
 			return utils.objectMapperSuccess(dishMapper.getDishDtoBuilder(dish), "Dish Details Updated");
 		}

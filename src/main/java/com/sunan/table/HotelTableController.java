@@ -49,7 +49,7 @@ public class HotelTableController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody HotelTableDto tableDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save table details ");
-		return new ResponseEntity<>(tableService.saveTable(tableDto), HttpStatus.OK);
+		return new ResponseEntity<>(tableService.saveTable(tableDto,hotelId), HttpStatus.OK);
 	}
 
 
@@ -57,7 +57,7 @@ public class HotelTableController {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody HotelTableDto tableDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update table details by id: {}", id);
-		return new ResponseEntity<>(tableService.update(tableDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(tableService.update(tableDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

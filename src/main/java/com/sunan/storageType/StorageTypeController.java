@@ -50,13 +50,13 @@ public class StorageTypeController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody StorageTypeDto storageTypeDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save storage type details ");
-		return new ResponseEntity<>(storageTypeService.save(storageTypeDto), HttpStatus.OK);
+		return new ResponseEntity<>(storageTypeService.save(storageTypeDto,hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody StorageTypeDto storageTypeDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update storage type details by id: {}", id);
-		return new ResponseEntity<>(storageTypeService.update(storageTypeDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(storageTypeService.update(storageTypeDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

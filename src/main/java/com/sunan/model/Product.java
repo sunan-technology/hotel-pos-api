@@ -1,6 +1,8 @@
 package com.sunan.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,16 +15,16 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Table(name = "product")
 public class Product extends BaseEntity implements Serializable {
 
@@ -63,4 +65,23 @@ public class Product extends BaseEntity implements Serializable {
 	@Column(name = "is_active")
 	private String isActive;
 
+	@Builder
+	public Product(Hotel hotelId, Timestamp createdAt, Date updatedAt, int id, String productCode, String productName,
+			Category category, String description, String unit, Double price, Double reorderPoint, String isActive) {
+		super(hotelId, createdAt, updatedAt);
+		this.id = id;
+		this.productCode = productCode;
+		this.productName = productName;
+		this.category = category;
+		this.description = description;
+		this.unit = unit;
+		this.price = price;
+		this.reorderPoint = reorderPoint;
+		this.isActive = isActive;
+	}
+
+	public Product() {
+		// TODO Auto-generated constructor stub
+	}
+		
 }

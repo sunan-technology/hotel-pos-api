@@ -23,7 +23,7 @@ public class MemberDto {
 
 	private int cardNo;
 
-	private int contactNo;
+	private String contactNo;
 
 	private String address;
 

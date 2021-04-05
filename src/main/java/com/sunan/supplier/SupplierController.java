@@ -50,13 +50,13 @@ public class SupplierController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody SupplierDto supplierDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save supplier details ");
-		return new ResponseEntity<>(supplierService.save(supplierDto), HttpStatus.OK);
+		return new ResponseEntity<>(supplierService.save(supplierDto,hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody SupplierDto supplierDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update supplier details by id: {}", id);
-		return new ResponseEntity<>(supplierService.update(supplierDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(supplierService.update(supplierDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

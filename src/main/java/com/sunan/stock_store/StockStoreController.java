@@ -50,13 +50,13 @@ public class StockStoreController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody StockStoreDto stockStoreDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save stock details ");
-		return new ResponseEntity<>(stockStoreService.save(stockStoreDto), HttpStatus.OK);
+		return new ResponseEntity<>(stockStoreService.save(stockStoreDto,hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody StockStoreDto stockStoreDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update stock details by id: {}", id);
-		return new ResponseEntity<>(stockStoreService.update(stockStoreDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(stockStoreService.update(stockStoreDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

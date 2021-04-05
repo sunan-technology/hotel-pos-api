@@ -50,13 +50,13 @@ public class CustomerContoller {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody CustomerDto customerDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save customer details ");
-		return new ResponseEntity<>(customerService.save(customerDto), HttpStatus.OK);
+		return new ResponseEntity<>(customerService.save(customerDto,hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody CustomerDto customerDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update customer details by id: {}", id);
-		return new ResponseEntity<>(customerService.update(customerDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(customerService.update(customerDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

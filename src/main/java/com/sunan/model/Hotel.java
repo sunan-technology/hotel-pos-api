@@ -101,4 +101,11 @@ public class Hotel implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date updatedAt;
 
+	public Hotel(int id) {
+		super();
+		this.id = id;
+	}
+	
+	
+
 }

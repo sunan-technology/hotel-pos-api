@@ -52,13 +52,13 @@ public class WalletTypeController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody WalletTypeDto walletTypeDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save Wallet type details ");
-		return new ResponseEntity<>(walletTypeService.save(walletTypeDto), HttpStatus.OK);
+		return new ResponseEntity<>(walletTypeService.save(walletTypeDto,hotelId), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody WalletTypeDto walletTypeDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update Wallet type details by id: {}", id);
-		return new ResponseEntity<>(walletTypeService.update(walletTypeDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(walletTypeService.update(walletTypeDto, id,hotelId), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")

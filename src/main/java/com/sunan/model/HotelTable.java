@@ -54,6 +54,12 @@ public class HotelTable extends BaseEntity implements Serializable {
 	
 	@Column(name = "is_active")
 	private String isActive;
+
+	public HotelTable( int tableNo) {
+		
+		this.tableNo = tableNo;
+	}
+
 	
 	
 	

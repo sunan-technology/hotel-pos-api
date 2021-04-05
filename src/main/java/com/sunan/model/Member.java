@@ -1,6 +1,7 @@
 package com.sunan.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -18,16 +19,16 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Table(name = "member_table")
 public class Member extends BaseEntity implements Serializable {
 
@@ -45,7 +46,7 @@ public class Member extends BaseEntity implements Serializable {
 	private int cardNo;
 
 	@Column(name = "contact_no")
-	private int contactNo;
+	private String contactNo;
 
 	@Column(name = "address")
 	private String address;
@@ -65,5 +66,26 @@ public class Member extends BaseEntity implements Serializable {
 		super();
 		this.memberId = memberId;
 	}
+	
+	public Member() {
+		// TODO Auto-generated constructor stub
+	}
+ 
+	@Builder
+	public Member(Hotel hotelId, Timestamp createdAt, Date updatedAt, int memberId, String name, int cardNo,
+			String contactNo, String address, Date registerationDate, String isActive,
+			List<MemberLedger> memberLedgers) {
+		super(hotelId, createdAt, updatedAt);
+		this.memberId = memberId;
+		this.name = name;
+		this.cardNo = cardNo;
+		this.contactNo = contactNo;
+		this.address = address;
+		this.registerationDate = registerationDate;
+		this.isActive = isActive;
+		this.memberLedgers = memberLedgers;
+	}
+	
+	
 
 }

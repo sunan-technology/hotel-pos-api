@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.sunan.TempRestaurantPOS_OrderInfoKOT.DishKOTDto;
 import com.sunan.TempRestaurantPOS_OrderInfoKOT.TempRestaurantPOSOrderInfoKOTDto;
+import com.sunan.model.HotelTable;
 import com.sunan.model.TempRestaurantPOSOrderInfoKOT;
 import com.sunan.model.TempRestaurantPOSOrderedProductKOT;
 import com.sunan.utils.Common;
@@ -30,7 +31,7 @@ public class TempRestaurantPOSOrderedProductKOTMapper {
 				.discountPer(dto.getDiscountPer())
 				.discountAmount(dto.getDiscountAmount())
 				.totalAmount(dto.getTotalAmount())
-				.tableNumber(dto.getTableNumber())
+				.hotelTable(new HotelTable(dto.getTableNo()))
 				.itemStatus(dto.getItemStatus())
 				.isActive(dto.getIsActive())
 				.build();
@@ -53,7 +54,7 @@ public class TempRestaurantPOSOrderedProductKOTMapper {
 				.discountPer(discount)
 				.discountAmount(discountAmount)
 				.totalAmount(dto.getTotalAmount())
-				.tableNumber(dto.getTableNo())
+				.hotelTable(new HotelTable(dto.getTableNo()))
 				.itemStatus(Common.itemStatus)
 				.isActive("yes")
 				.build();

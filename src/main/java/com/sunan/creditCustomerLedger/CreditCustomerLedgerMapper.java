@@ -28,7 +28,7 @@ public class CreditCustomerLedgerMapper {
 	{
 		return CreditCustomerLedger.builder()
 				.credit(creditCustomerPaymentDto.getAmount())
-				.creditCustomer(new CreditCustomer(creditCustomerPaymentId))
+				.creditCustomer(new CreditCustomer(creditCustomerPaymentDto.getCreditCustomerId()))
 				.date(creditCustomerPaymentDto.getDate())
 				.debit(DefaultConstantValues.DEFAULT_DOUBLE_VALUE)
 				.isActive(DefaultConstantValues.ACTIVE_YES)

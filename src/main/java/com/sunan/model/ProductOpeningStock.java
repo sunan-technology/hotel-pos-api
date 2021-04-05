@@ -1,6 +1,7 @@
 package com.sunan.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -21,10 +22,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -62,5 +65,24 @@ public class ProductOpeningStock extends BaseEntity implements Serializable {
 
 	@Column(name = "is_active")
 	private String isActive;
+
+    @Builder
+	public ProductOpeningStock(Hotel hotelId, Timestamp createdAt, Date updatedAt, int id, Product product,
+			StorageType storageType, Warehouses warehouses, int quantity, int hasExpiryDate, Date expiryDate,
+			String isActive) {
+		super(hotelId, createdAt, updatedAt);
+		this.id = id;
+		this.product = product;
+		this.storageType = storageType;
+		this.warehouses = warehouses;
+		this.quantity = quantity;
+		this.hasExpiryDate = hasExpiryDate;
+		this.expiryDate = expiryDate;
+		this.isActive = isActive;
+	}
+
+	
+	
+	
 
 }

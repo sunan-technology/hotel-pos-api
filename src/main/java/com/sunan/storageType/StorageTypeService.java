@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.model.Hotel;
 import com.sunan.model.StorageType;
 import com.sunan.utils.JsonUtils;
 
@@ -34,8 +35,9 @@ public class StorageTypeService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(StorageTypeDto storageTypeDto) {
+	public String save(StorageTypeDto storageTypeDto,int hotelId) {
 		StorageType storageType = storageTypeMapper.getStorageTypeBuilder(storageTypeDto);
+		storageType.setHotelId(new Hotel(hotelId));
 		storageTypeRepository.save(storageType);
 		logger.info("Service: Save storage type details");
 		return utils.objectMapperSuccess(storageTypeMapper.getStorageTypeDtoBuilder(storageType),
@@ -43,12 +45,13 @@ public class StorageTypeService implements Serializable {
 	}
 
 	@Transactional
-	public String update(StorageTypeDto storageTypeDto, int id) {
+	public String update(StorageTypeDto storageTypeDto, int id,int hotelId) {
 		logger.info("Service: Update storage type details with id {}", id);
 		Optional<StorageType> optional = storageTypeRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: storage type details found with id {} for update operation", id);
 			StorageType storageType = storageTypeMapper.getStorageTypeBuilder(storageTypeDto);
+			storageType.setHotelId(new Hotel(hotelId));
 			storageTypeRepository.save(storageType);
 			return utils.objectMapperSuccess(storageTypeMapper.getStorageTypeDtoBuilder(storageType),
 					"Storage type Details Updated");

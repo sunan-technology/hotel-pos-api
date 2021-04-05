@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sunan.model.Customer;
+import com.sunan.model.Hotel;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -33,20 +34,22 @@ public class CustomerService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(CustomerDto customerDto) {
+	public String save(CustomerDto customerDto,int hotelId) {
 		Customer customer = customerMapper.getCustomerBuilder(customerDto);
+		customer.setHotelId(new Hotel(hotelId));
 		customerRepository.save(customer);
 		logger.info("Service: Save customer details");
 		return utils.objectMapperSuccess(customerMapper.getCustomerDtoBuilder(customer), "Customer Details Saved");
 	}
 
 	@Transactional
-	public String update(CustomerDto customerDto, int id) {
+	public String update(CustomerDto customerDto, int id,int hotelId) {
 		logger.info("Service: Update customer details with id {}", id);
 		Optional<Customer> optional = customerRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: customer details found with id {} for update operation", id);
 			Customer customer = customerMapper.getCustomerBuilder(customerDto);
+			customer.setHotelId(new Hotel(hotelId));
 			customerRepository.save(customer);
 			return utils.objectMapperSuccess(customerMapper.getCustomerDtoBuilder(customer),
 					"Customer Details Updated");

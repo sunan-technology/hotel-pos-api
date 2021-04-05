@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.model.Hotel;
 import com.sunan.model.StockStore;
 import com.sunan.utils.JsonUtils;
 
@@ -34,20 +35,22 @@ public class StockStoreService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(StockStoreDto stockStoreDto) {
+	public String save(StockStoreDto stockStoreDto,int hotelId) {
 		StockStore stockStore = stockStoreMapper.getStock_StoreBuilder(stockStoreDto);
+		stockStore.setHotelId(new Hotel(hotelId));
 		stockStoreRepository.save(stockStore);
 		logger.info("Service: Save stock details");
 		return utils.objectMapperSuccess(stockStoreMapper.getStock_StoreDtoBuilder(stockStore), "Stock Details Saved");
 	}
 
 	@Transactional
-	public String update(StockStoreDto stockStoreDto, int id) {
+	public String update(StockStoreDto stockStoreDto, int id,int hotelId) {
 		logger.info("Service: Update stock details with id {}", id);
 		Optional<StockStore> optional = stockStoreRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: stock details found with id {} for update operation", id);
 			StockStore stockStore = stockStoreMapper.getStock_StoreBuilder(stockStoreDto);
+			stockStore.setHotelId(new Hotel(hotelId));
 			stockStoreRepository.save(stockStore);
 			return utils.objectMapperSuccess(stockStoreMapper.getStock_StoreDtoBuilder(stockStore),
 					"Stock Details Updated");

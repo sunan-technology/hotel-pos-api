@@ -32,7 +32,7 @@ public class CreditCustomerPaymentController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody CreditCustomerPaymentDto creditCustomerPaymentDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save credit customer payment details ");
-		return new ResponseEntity<>(creditCustomerPaymentService.save(creditCustomerPaymentDto), HttpStatus.OK);
+		return new ResponseEntity<>(creditCustomerPaymentService.save(creditCustomerPaymentDto,hotelId), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")

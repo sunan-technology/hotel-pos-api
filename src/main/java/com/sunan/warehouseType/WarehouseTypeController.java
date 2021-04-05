@@ -50,13 +50,13 @@ public class WarehouseTypeController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody WarehouseTypeDto warehouseTypeDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save Warehouse type details ");
-		return new ResponseEntity<>(warehouseTypeService.save(warehouseTypeDto), HttpStatus.OK);
+		return new ResponseEntity<>(warehouseTypeService.save(warehouseTypeDto,hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody WarehouseTypeDto warehouseTypeDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update Warehouse type details by id: {}", id);
-		return new ResponseEntity<>(warehouseTypeService.update(warehouseTypeDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(warehouseTypeService.update(warehouseTypeDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

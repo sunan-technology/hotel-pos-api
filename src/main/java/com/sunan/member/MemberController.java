@@ -49,13 +49,13 @@ public class MemberController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody MemberDto memberDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save member details ");
-		return new ResponseEntity<>(memberService.save(memberDto), HttpStatus.OK);
+		return new ResponseEntity<>(memberService.save(memberDto,hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody MemberDto memberDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update member details by id: {}", id);
-		return new ResponseEntity<>(memberService.update(memberDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(memberService.update(memberDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

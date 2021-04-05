@@ -30,7 +30,7 @@ public class SupplierPaymentController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody SupplierPaymentDto supplierPaymentDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save supplier payment details ");
-		return new ResponseEntity<>(supplierPaymentService.save(supplierPaymentDto), HttpStatus.OK);
+		return new ResponseEntity<>(supplierPaymentService.save(supplierPaymentDto,hotelId), HttpStatus.OK);
 	}
 
 }

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sunan.model.ExpenseType;
+import com.sunan.model.Hotel;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -34,8 +35,9 @@ public class ExpenseTypeService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(ExpenseTypeDto expenseTypeDto) {
+	public String save(ExpenseTypeDto expenseTypeDto,int hotelId) {
 		ExpenseType expenseType = expenseTypeMapper.getExpenseTypeBuilder(expenseTypeDto);
+		expenseType.setHotelId(new Hotel(hotelId));
 		expenseTypeRepository.save(expenseType);
 		logger.info("Service: Save Expense type details");
 		return utils.objectMapperSuccess(expenseTypeMapper.getExpenseTypeDtoBuilder(expenseType),
@@ -43,12 +45,13 @@ public class ExpenseTypeService implements Serializable {
 	}
 
 	@Transactional
-	public String update(ExpenseTypeDto expenseTypeDto, int id) {
+	public String update(ExpenseTypeDto expenseTypeDto, int id,int hotelId) {
 		logger.info("Service: Update Expense type details with id {}", id);
 		Optional<ExpenseType> optional = expenseTypeRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: Expense type details found with id {} for update operation", id);
 			ExpenseType expenseType = expenseTypeMapper.getExpenseTypeBuilder(expenseTypeDto);
+			expenseType.setHotelId(new Hotel(hotelId));
 			expenseTypeRepository.save(expenseType);
 			return utils.objectMapperSuccess(expenseTypeMapper.getExpenseTypeDtoBuilder(expenseType),
 					"Expense type Details Updated");

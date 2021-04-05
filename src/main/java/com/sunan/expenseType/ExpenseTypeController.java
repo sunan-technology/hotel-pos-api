@@ -50,13 +50,13 @@ public class ExpenseTypeController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody ExpenseTypeDto expenseTypeDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save Expense type details ");
-		return new ResponseEntity<>(expenseTypeService.save(expenseTypeDto), HttpStatus.OK);
+		return new ResponseEntity<>(expenseTypeService.save(expenseTypeDto,hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody ExpenseTypeDto expenseTypeDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update Expense type details by id: {}", id);
-		return new ResponseEntity<>(expenseTypeService.update(expenseTypeDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(expenseTypeService.update(expenseTypeDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

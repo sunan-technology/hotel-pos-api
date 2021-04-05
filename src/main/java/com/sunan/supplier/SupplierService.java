@@ -1,7 +1,6 @@
 package com.sunan.supplier;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -16,9 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.model.Hotel;
 import com.sunan.model.Supplier;
 import com.sunan.model.SupplierLedger;
-import com.sunan.supplierLedger.SupplierLedgerDto;
 import com.sunan.supplierLedger.SupplierLedgerRepository;
 import com.sunan.utils.JsonUtils;
 
@@ -41,22 +40,15 @@ public class SupplierService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(SupplierDto supplierDto) {
+	public String save(SupplierDto supplierDto,int hotelId) {
 		Supplier supplier = supplierMapper.getSupplierBuilder(supplierDto);
+		supplier.setHotelId(new Hotel(hotelId));
 		supplierRepository.save(supplier);
 		Double openingbalance = supplier.getOpeningBalance();
 		int supplierId = supplier.getSupplierId();
 
-		SupplierLedgerDto supplierLedgerDto = new SupplierLedgerDto();
-		supplierLedgerDto.setDate(new Date());
-		supplierLedgerDto.setName(supplierDto.getSupplierName());
-		supplierLedgerDto.setLedgerNo(null);
-		supplierLedgerDto.setLabel("OpeningBalance");
-		supplierLedgerDto.setDebit(0.0);
-		supplierLedgerDto.setCredit(openingbalance);
-		supplierLedgerDto.setSupplierId(supplierId);
-
-		SupplierLedger supplierLedger = supplierMapper.getSupplierLedgerBuilder(supplierLedgerDto);
+		SupplierLedger supplierLedger = supplierMapper.getSupplierLedger(supplierDto, supplierId, openingbalance);
+		supplierLedger.setHotelId(new Hotel(hotelId));
 		supplierLedgerRepository.save(supplierLedger);
 
 		logger.info("Service: supplier details");
@@ -64,12 +56,13 @@ public class SupplierService implements Serializable {
 	}
 
 	@Transactional
-	public String update(SupplierDto supplierDto, int id) {
+	public String update(SupplierDto supplierDto, int id,int hotelId) {
 		logger.info("Service: Update supplier details with id {}", id);
 		Optional<Supplier> optional = supplierRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: supplier details found with id {} for update operation", id);
 			Supplier supplier = supplierMapper.getSupplierBuilder(supplierDto);
+			supplier.setHotelId(new Hotel(hotelId));
 			supplierRepository.save(supplier);
 			return utils.objectMapperSuccess(supplierMapper.getSupplierDtoBuilder(supplier),
 					"Supplier Details Updated");

@@ -12,12 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sunan.creditCustomer.CreditCustomerRepository;
-import com.sunan.creditCustomerLedger.CreditCustomerLedgerDto;
 import com.sunan.creditCustomerLedger.CreditCustomerLedgerMapper;
 import com.sunan.creditCustomerLedger.CreditCustomerLedgerRepository;
 import com.sunan.model.CreditCustomer;
 import com.sunan.model.CreditCustomerLedger;
 import com.sunan.model.CreditCustomerPayment;
+import com.sunan.model.Hotel;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -47,7 +47,7 @@ public class CreditCustomerPaymentService implements Serializable {
 	 
 
 	@Transactional
-	public String save(CreditCustomerPaymentDto creditCustomerPaymentDto) {
+	public String save(CreditCustomerPaymentDto creditCustomerPaymentDto,int hotelId) {
 		
 		Optional<CreditCustomer> optional = creditCustomerRepository.findById(creditCustomerPaymentDto.getCreditCustomerId());
 		if(!optional.isPresent()) {
@@ -56,9 +56,11 @@ public class CreditCustomerPaymentService implements Serializable {
 		
 		CreditCustomerPayment creditCustomerPayment = creditCustomerPaymentMapper
 				.getCreditCustomerPaymentBuilder(creditCustomerPaymentDto);
+		creditCustomerPayment.setHotelId(new Hotel(hotelId));
 		creditCustomerPaymentRepository.save(creditCustomerPayment); 
 
 		CreditCustomerLedger creditCustomerLedger = creditCustomerLedgerMapper.getCreditCustomerLedgerBuilder(creditCustomerPaymentDto, creditCustomerPayment.getId());
+		creditCustomerLedger.setHotelId(new Hotel(hotelId));
 		creditCustomerLedgerRepository.save(creditCustomerLedger);
 
 		logger.info("Service: credit customer payment details");

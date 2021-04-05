@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.model.Hotel;
 import com.sunan.model.Member;
 import com.sunan.model.MemberLedger;
 import com.sunan.utils.JsonUtils;
@@ -41,20 +42,23 @@ public class MemberService implements Serializable {
 	MemberLedgerMapper memberLedgerMapper;
 
 	@Transactional
-	public String save(MemberDto memberDto) {
+	public String save(MemberDto memberDto,int hotelId) {
 		Member member = memberMapper.getMemberBuilder(memberDto);
+		member.setHotelId(new Hotel(hotelId));
 		memberRepository.save(member);
 		logger.info("Service: Save member details");
 		return utils.objectMapperSuccess(memberMapper.getMemberDtoBulider(member), "Member Details Saved");
 	}
 
 	@Transactional
-	public String update(MemberDto memberDto, int id) {
+	public String update(MemberDto memberDto, int id,int hotelId) {
 		logger.info("Service: Update member details with id {}", id);
 		Optional<Member> optional = memberRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: member details found with id {} for update operation", id);
+			
 			Member member = memberMapper.getMemberBuilder(memberDto);
+			member.setHotelId(new Hotel(hotelId));
 			memberRepository.save(member);
 			return utils.objectMapperSuccess(memberMapper.getMemberDtoBulider(member), "Member Details Updated");
 		}

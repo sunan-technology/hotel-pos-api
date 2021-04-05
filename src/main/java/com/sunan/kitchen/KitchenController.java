@@ -53,13 +53,13 @@ public class KitchenController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody KitchenDto kitchenDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save kitchen details ");
-		return new ResponseEntity<>(kitchenService.save(kitchenDto), HttpStatus.OK);
+		return new ResponseEntity<>(kitchenService.save(kitchenDto,hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody KitchenDto kitchenDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update kitchen details by id: {}", id);
-		return new ResponseEntity<>(kitchenService.update(kitchenDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(kitchenService.update(kitchenDto, id,hotelId), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")

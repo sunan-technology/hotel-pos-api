@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sunan.model.CreditCustomer;
+import com.sunan.model.Hotel;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -33,8 +34,9 @@ public class CreditCustomerService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(CreditCustomerDto creditCustomerDto) {
+	public String save(CreditCustomerDto creditCustomerDto,int hotelId) {
 		CreditCustomer creditCustomer = creditCustomerMapper.getCreditCustomerBuilder(creditCustomerDto);
+		creditCustomer.setHotelId(new Hotel(hotelId));
 		creditCustomerRepository.save(creditCustomer);
 		logger.info("Service: credit customer details");
 		return utils.objectMapperSuccess(creditCustomerMapper.getCreditCustomerDtoBuilder(creditCustomer),
@@ -42,12 +44,13 @@ public class CreditCustomerService implements Serializable {
 	}
 
 	@Transactional
-	public String update(CreditCustomerDto creditCustomerDto, int id) {
+	public String update(CreditCustomerDto creditCustomerDto, int id,int hotelId) {
 		logger.info("Service: Update credit customer details with id {}", id);
 		Optional<CreditCustomer> optional = creditCustomerRepository.findByCreditCustomerId(id);
 		if (optional.isPresent()) {
 			logger.info("Service: credit customer details found with id {} for update operation", id);
 			CreditCustomer creditCustomer = creditCustomerMapper.getCreditCustomerBuilder(creditCustomerDto);
+			creditCustomer.setHotelId(new Hotel(hotelId));
 			creditCustomerRepository.save(creditCustomer);
 			return utils.objectMapperSuccess(creditCustomerMapper.getCreditCustomerDtoBuilder(creditCustomer),
 					"Credit customer Details Updated");

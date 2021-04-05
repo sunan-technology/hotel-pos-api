@@ -49,13 +49,13 @@ public class DishController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody DishDto dishDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save dish details ");
-		return new ResponseEntity<>(dishService.save(dishDto), HttpStatus.OK);
+		return new ResponseEntity<>(dishService.save(dishDto,hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody DishDto dishDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update dish details by id: {}", id);
-		return new ResponseEntity<>(dishService.update(dishDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(dishService.update(dishDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.model.Hotel;
 import com.sunan.model.Product;
 import com.sunan.model.ProductOpeningStock;
 import com.sunan.produt_openingStock.ProductOpeningStockMapper;
@@ -44,12 +45,14 @@ public class ProductService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(ProductRequestDto productRequestDto) {
+	public String save(ProductRequestDto productRequestDto,int hotelId) {
 		//todo:// request validation
 		Product product = productMapper.getProductBuilder(productRequestDto);
+		product.setHotelId(new Hotel(hotelId));
 		productRepository.save(product);
-		//add product entry in the product openning stock table 
-		List<ProductOpeningStock> list =  productOpeningStockMapper.getProductOpeningStockBuilder(productRequestDto.getOpeningStockDtos(), product.getId());
+		//add product entry in the product opening stock table 
+		List<ProductOpeningStock> list =  productOpeningStockMapper.getProductOpeningStockBuilder(productRequestDto.getOpeningStockDtos(), product.getId(),hotelId);
+		
 		productOpeningStockRepository.saveAll(list);
 		
 		logger.info("Service: Save product details with opening stock");

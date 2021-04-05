@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.model.Hotel;
 import com.sunan.model.HotelTable;
 import com.sunan.utils.JsonUtils;
 
@@ -36,10 +37,11 @@ public class HotelTableService implements Serializable {
 	
 
 	@Transactional
-	public String saveTable(HotelTableDto dto) {
+	public String saveTable(HotelTableDto dto,int hotelId) {
 		if (tableStatusRequestValidate(dto)) {
 			if (tableTypeRequestValidate(dto)) {
 				HotelTable table = tableMapper.getTableBuilder(dto);
+				table.setHotelId(new Hotel(hotelId));
 				tableRepository.save(table);
 				logger.info("Service: Save Table details");
 				return utils.objectMapperSuccess(tableMapper.getTableDtoBuilder(table), "Table Details Saved");
@@ -54,7 +56,7 @@ public class HotelTableService implements Serializable {
 	}
 
 	@Transactional
-	public String update(HotelTableDto tableDto, int id) {
+	public String update(HotelTableDto tableDto, int id,int hotelId) {
 
 		if (tableStatusRequestValidate(tableDto)) {
 			if (tableTypeRequestValidate(tableDto)) {
@@ -63,6 +65,7 @@ public class HotelTableService implements Serializable {
 				if (optional.isPresent()) {
 					logger.info("Service: table details found with id {} for update operation", id);
 					HotelTable table = tableMapper.getTableBuilder(tableDto);
+					table.setHotelId(new Hotel(hotelId));
 					tableRepository.save(table);
 					return utils.objectMapperSuccess(tableMapper.getTableDtoBuilder(table), "Table Details Updated");
 				} else {

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sunan.model.EmployeeRegistration;
+import com.sunan.model.Hotel;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -33,9 +34,10 @@ public class EmployeeRegistrationService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(EmployeeRegistrationDto employeeRegistrationDto) {
+	public String save(EmployeeRegistrationDto employeeRegistrationDto, int hotelId) {
 		EmployeeRegistration employeeRegistration = employeeRegistrationMapper
 				.getEmployeeRegistrationBuilder(employeeRegistrationDto);
+		employeeRegistration.setHotelId(new Hotel(hotelId));
 		employeeRegistrationRepository.save(employeeRegistration);
 		logger.info("Service: Save employee details");
 		return utils.objectMapperSuccess(
@@ -44,13 +46,14 @@ public class EmployeeRegistrationService implements Serializable {
 	}
 
 	@Transactional
-	public String update(EmployeeRegistrationDto employeeRegistrationDto, int id) {
+	public String update(EmployeeRegistrationDto employeeRegistrationDto, int id,int hotelId) {
 		logger.info("Service: Update employee details with id {}", id);
 		Optional<EmployeeRegistration> optional = employeeRegistrationRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: employee details found with id {} for update operation", id);
 			EmployeeRegistration employeeRegistration = employeeRegistrationMapper
 					.getEmployeeRegistrationBuilder(employeeRegistrationDto);
+			employeeRegistration.setHotelId(new Hotel(hotelId));
 			employeeRegistrationRepository.save(employeeRegistration);
 			return utils.objectMapperSuccess(
 					employeeRegistrationMapper.getEmployeeRegistrationDtoBuilder(employeeRegistration),

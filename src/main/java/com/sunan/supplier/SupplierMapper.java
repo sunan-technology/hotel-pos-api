@@ -1,5 +1,7 @@
 package com.sunan.supplier;
 
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
 
 import com.sunan.model.Supplier;
@@ -74,6 +76,19 @@ public class SupplierMapper {
 				.debit(dto.getDebit())
 				.credit(dto.getCredit())
 				.supplier(new Supplier(dto.getSupplierId()))
+				.build();
+	}
+	
+	public SupplierLedger getSupplierLedger(SupplierDto dto,int supplierId,Double opengingBalance) {
+		return SupplierLedger.builder()
+				.date(new Date())
+				.name(dto.getSupplierName())
+				.ledgerNo(null)
+				.label("OpeningBalance")
+				.debit(0.0)
+				.credit(opengingBalance)
+				.supplier(new Supplier(supplierId))
+				.isActive(dto.getIsActive())
 				.build();
 	}
 	

@@ -41,7 +41,7 @@ public class TempRestaurantPOSOrderedProductKOTDto {
 
 	private Double totalAmount;
 
-	private String tableNumber;
+	private int tableNo;
 
 	private String itemStatus;
 

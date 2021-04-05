@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.model.Hotel;
 import com.sunan.model.WarehouseType;
 import com.sunan.utils.JsonUtils;
 
@@ -34,8 +35,9 @@ public class WarehouseTypeService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(WarehouseTypeDto warehouseTypeDto) {
+	public String save(WarehouseTypeDto warehouseTypeDto,int hotelId) {
 		WarehouseType warehouseType = warehouseTypeMapper.getWarehouseTypeBuilder(warehouseTypeDto);
+		warehouseType.setHotelId(new Hotel(hotelId));
 		warehouseTypeRepository.save(warehouseType);
 		logger.info("Service: Save Warehouse type details");
 		return utils.objectMapperSuccess(warehouseTypeMapper.getWarehouseTypeDtoBuilder(warehouseType),
@@ -43,12 +45,13 @@ public class WarehouseTypeService implements Serializable {
 	}
 
 	@Transactional
-	public String update(WarehouseTypeDto warehouseTypeDto, int id) {
+	public String update(WarehouseTypeDto warehouseTypeDto, int id,int hotelId) {
 		logger.info("Service: Update warehouse type details with id {}", id);
 		Optional<WarehouseType> optional = warehouseTypeRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: Warehouse type details found with id {} for update operation", id);
 			WarehouseType warehouseType = warehouseTypeMapper.getWarehouseTypeBuilder(warehouseTypeDto);
+			warehouseType.setHotelId(new Hotel(hotelId));
 			warehouseTypeRepository.save(warehouseType);
 			return utils.objectMapperSuccess(warehouseTypeMapper.getWarehouseTypeDtoBuilder(warehouseType),
 					"Warehouse type Details Updated");

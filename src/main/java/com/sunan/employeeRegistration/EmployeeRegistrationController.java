@@ -50,14 +50,14 @@ public class EmployeeRegistrationController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody EmployeeRegistrationDto employeeRegistrationDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save employee details ");
-		return new ResponseEntity<>(employeeRegistrationService.save(employeeRegistrationDto), HttpStatus.OK);
+		return new ResponseEntity<>(employeeRegistrationService.save(employeeRegistrationDto,hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody EmployeeRegistrationDto employeeRegistrationDto,
 			@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update employee details by id: {}", id);
-		return new ResponseEntity<>(employeeRegistrationService.update(employeeRegistrationDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(employeeRegistrationService.update(employeeRegistrationDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

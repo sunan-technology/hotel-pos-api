@@ -24,5 +24,7 @@ public interface HotelTableRepository extends PagingAndSortingRepository<HotelTa
 	@Modifying
 	@Query("UPDATE HotelTable SET isActive='no' WHERE id= :id ")
 	int updateIsActiveStatus(@Param("id") int id);
+	
+
 
 }

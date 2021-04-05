@@ -25,7 +25,7 @@ public class TempRestaurantPOSOrderInfoKOTDto {
 
 	private Double grandTotal;
 
-	private String tableNo;
+	private int tableNo;
 
 	private String groupName;
 
@@ -46,6 +46,8 @@ public class TempRestaurantPOSOrderInfoKOTDto {
 	public List<DishKOTDto> dish;
 
 	private Double totalAmount;
+	
+	private String isTempInvoiceGenerated;
 
 	
 

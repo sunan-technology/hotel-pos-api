@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.sunan.model.Hotel;
 import com.sunan.model.Product;
 import com.sunan.model.ProductOpeningStock;
 import com.sunan.model.StorageType;
@@ -21,13 +22,19 @@ public class ProductOpeningStockMapper {
 				.isActive(dto.getIsActive()).build();
 	}
 
-	public List<ProductOpeningStock> getProductOpeningStockBuilder(List<ProductOpeningStockDto> openingStockDtos, int productId) {
+	public List<ProductOpeningStock> getProductOpeningStockBuilder(List<ProductOpeningStockDto> openingStockDtos, int productId, int hotelId) {
 		List<ProductOpeningStock> list = new ArrayList<ProductOpeningStock>();
 		for (ProductOpeningStockDto dto : openingStockDtos) {
-			list.add(ProductOpeningStock.builder().id(dto.getId()).product(new Product(productId))
+			list.add(ProductOpeningStock.builder()
+					.id(dto.getId())
+					.product(new Product(productId))
 					.storageType(new StorageType(dto.getStorageTypeId()))
-					.warehouses(new Warehouses(dto.getWarehousesId())).quantity(dto.getQuantity())
-					.hasExpiryDate(dto.getHasExpriyDate()).expiryDate(dto.getExpiryDate()).isActive(dto.getIsActive())
+					.warehouses(new Warehouses(dto.getWarehousesId()))
+					.quantity(dto.getQuantity())
+					.hasExpiryDate(dto.getHasExpriyDate())
+					.expiryDate(dto.getExpiryDate())
+					.isActive(dto.getIsActive())
+		            .hotelId(new Hotel(hotelId))
 					.build());
 		}
 		return list;

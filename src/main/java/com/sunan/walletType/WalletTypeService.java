@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.model.Hotel;
 import com.sunan.model.WalletType;
 import com.sunan.utils.JsonUtils;
 
@@ -34,8 +35,9 @@ public class WalletTypeService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(WalletTypeDto walletTypeDto) {
+	public String save(WalletTypeDto walletTypeDto,int hotelId) {
 		WalletType walletType = walletTypeMapper.getWalletTypeBuilder(walletTypeDto);
+		walletType.setHotelId(new Hotel(hotelId));
 		walletTypeRepository.save(walletType);
 		logger.info("Service: Save WalletType details");
 		return utils.objectMapperSuccess(walletTypeMapper.getWalletTypeDtoBuilder(walletType),
@@ -43,12 +45,13 @@ public class WalletTypeService implements Serializable {
 	}
 
 	@Transactional
-	public String update(WalletTypeDto walletTypeDto, int id) {
+	public String update(WalletTypeDto walletTypeDto, int id,int hotelId) {
 		logger.info("Service: Update wallet type details with id {}", id);
 		Optional<WalletType> optional = walletTypeRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: Wallet type details found with id {} for update operation", id);
 			WalletType walletType = walletTypeMapper.getWalletTypeBuilder(walletTypeDto);
+			walletType.setHotelId(new Hotel(hotelId));
 			walletTypeRepository.save(walletType);
 			return utils.objectMapperSuccess(walletTypeMapper.getWalletTypeDtoBuilder(walletType),
 					"Wallet type Details Updated");
