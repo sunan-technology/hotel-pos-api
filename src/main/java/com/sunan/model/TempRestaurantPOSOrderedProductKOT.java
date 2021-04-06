@@ -12,8 +12,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +33,7 @@ import lombok.EqualsAndHashCode;
 //@AllArgsConstructor
 //@NoArgsConstructor
 @Table(name = "temprestaurantpos_orderedproductkot")
-public class TempRestaurantPOSOrderedProductKOT extends BaseEntity implements Serializable {
+public class TempRestaurantPOSOrderedProductKOT implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -88,44 +95,20 @@ public class TempRestaurantPOSOrderedProductKOT extends BaseEntity implements Se
 	@Column(name = "is_active")
 	private String isActive;
 	
-	
-	
-	public TempRestaurantPOSOrderedProductKOT() {
-		
-	}
+	@JoinColumn(name = "hotel_id")
+	@ManyToOne
+	public Hotel hotel;
 
+	@JsonIgnore
+	@Column(name = "created_at", nullable = false, updatable = false)
+	@CreationTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Timestamp createdAt;
 
-    @Builder
-	public TempRestaurantPOSOrderedProductKOT(Hotel hotelId, Timestamp createdAt, Date updatedAt, int id,
-			TempRestaurantPOSOrderInfoKOT tempRestaurantPOSOrderInfoKOT, String dish, Double rate, int quantity,
-			Double amount, Double vatPer, Double vatAmount, Double stPer, Double stAmount, Double scPer,
-			Double scAmount, Double discountPer, Double discountAmount, Double totalAmount, HotelTable hotelTable,
-			String itemStatus, String isActive) {
-		super(hotelId, createdAt, updatedAt);
-		this.id = id;
-		this.tempRestaurantPOSOrderInfoKOT = tempRestaurantPOSOrderInfoKOT;
-		this.dish = dish;
-		this.rate = rate;
-		this.quantity = quantity;
-		this.amount = amount;
-		this.vatPer = vatPer;
-		this.vatAmount = vatAmount;
-		this.stPer = stPer;
-		this.stAmount = stAmount;
-		this.scPer = scPer;
-		this.scAmount = scAmount;
-		this.discountPer = discountPer;
-		this.discountAmount = discountAmount;
-		this.totalAmount = totalAmount;
-		this.hotelTable = hotelTable;
-		this.itemStatus = itemStatus;
-		this.isActive = isActive;
-	}
-
-
-
-	
-
-	
-
+	@JsonIgnore
+	@Temporal(TemporalType.DATE)
+	@Column(name = "updated_at")
+	@UpdateTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Date updatedAt;
 }

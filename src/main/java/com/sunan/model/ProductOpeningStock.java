@@ -15,9 +15,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,12 +30,12 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "product_openingstock")
-public class ProductOpeningStock extends BaseEntity implements Serializable {
+public class ProductOpeningStock implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -66,23 +69,21 @@ public class ProductOpeningStock extends BaseEntity implements Serializable {
 	@Column(name = "is_active")
 	private String isActive;
 
-    @Builder
-	public ProductOpeningStock(Hotel hotelId, Timestamp createdAt, Date updatedAt, int id, Product product,
-			StorageType storageType, Warehouses warehouses, int quantity, int hasExpiryDate, Date expiryDate,
-			String isActive) {
-		super(hotelId, createdAt, updatedAt);
-		this.id = id;
-		this.product = product;
-		this.storageType = storageType;
-		this.warehouses = warehouses;
-		this.quantity = quantity;
-		this.hasExpiryDate = hasExpiryDate;
-		this.expiryDate = expiryDate;
-		this.isActive = isActive;
-	}
+	@JoinColumn(name = "hotel_id")
+	@ManyToOne
+	public Hotel hotel;
 
-	
-	
-	
+	@JsonIgnore
+	@Column(name = "created_at", nullable = false, updatable = false)
+	@CreationTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Timestamp createdAt;
+
+	@JsonIgnore
+	@Temporal(TemporalType.DATE)
+	@Column(name = "updated_at")
+	@UpdateTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Date updatedAt;
 
 }

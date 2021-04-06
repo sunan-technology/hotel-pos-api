@@ -29,25 +29,28 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	@Autowired
 	JsonUtils utils;
 	
-	@ExceptionHandler(CustomNotFoundException.class)
-	public final ResponseEntity<ApiErrorDetails> handleUserNotFoundException(CustomNotFoundException ex,
+	@ExceptionHandler(NotFoundException.class)
+	public final ResponseEntity<String> handleUserNotFoundException(NotFoundException ex,
 			WebRequest request) {
+		logger.error(ex.getMessage(), ex);
 		ApiErrorDetails errorDetails = new ApiErrorDetails(HttpStatus.NOT_FOUND, LocalDateTime.now(), ex.getMessage(),
-				request.getDescription(false),"");
-		return new ResponseEntity<ApiErrorDetails>(errorDetails, HttpStatus.NOT_FOUND);
+				request.getDescription(false),ex.getClass().getName());
+		return new ResponseEntity<String>(utils.objectMapperError(errorDetails, ex.getMessage()), HttpStatus.NOT_FOUND);
 	}
 	
 	@ExceptionHandler(BadRequestException.class)
 	public final ResponseEntity<String> handleBadRequestException(BadRequestException ex,
 			WebRequest request) {
+		logger.error(ex.getMessage(), ex);
 		ApiErrorDetails errorDetails = new ApiErrorDetails(HttpStatus.BAD_REQUEST, LocalDateTime.now(), ex.getMessage(),
-				request.getDescription(false),"Bad Request Exception");
+				request.getDescription(false),ex.getClass().getName());
 		return new ResponseEntity<String>(utils.objectMapperError(errorDetails, ex.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(BadRequest.class)
-	public final ResponseEntity<ApiErrorDetails> handleBadRequestException(CustomNotFoundException ex,
+	public final ResponseEntity<ApiErrorDetails> handleBadRequestException(NotFoundException ex,
 			WebRequest request) {
+		logger.error(ex.getMessage(), ex);
 		ApiErrorDetails errorDetails = new ApiErrorDetails(HttpStatus.NOT_FOUND, LocalDateTime.now(), ex.getMessage(),
 				request.getDescription(false),"");
 		return new ResponseEntity<ApiErrorDetails>(errorDetails, HttpStatus.NOT_FOUND);
@@ -55,7 +58,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<String> handleAllExceptions(Exception ex,  HandlerMethod handlerMethod, WebRequest request) {
-		
+		logger.error(ex.getMessage(), ex);
 		ApiErrorDetails errorDetails = new ApiErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(), ex.getMessage(),
 				request.getDescription(false),ex.getClass().getName());
 		 ex.printStackTrace();

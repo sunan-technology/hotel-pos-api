@@ -15,22 +15,27 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Builder
-//@AllArgsConstructor
-//@NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "restaurantpos_orderinfokot")
-public class RestaurantPOSOrderInfoKOT extends BaseEntity implements Serializable {
+public class RestaurantPOSOrderInfoKOT  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -85,39 +90,31 @@ public class RestaurantPOSOrderInfoKOT extends BaseEntity implements Serializabl
 	@Column(name = "is_active")
 	private String isActive;
 
+	@JoinColumn(name = "hotel_id")
+	@ManyToOne
+	public Hotel hotel;
+
+	@JsonIgnore
+	@Column(name = "created_at", nullable = false, updatable = false)
+	@CreationTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Timestamp createdAt;
+
+	@JsonIgnore
+	@Temporal(TemporalType.DATE)
+	@Column(name = "updated_at")
+	@UpdateTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Date updatedAt;
+	
 	public RestaurantPOSOrderInfoKOT(int id) {
 		super();
 		this.id = id;
 	}
 
-	
-	public RestaurantPOSOrderInfoKOT() {
-		
-	}
+	 
 
-    @Builder
-	public RestaurantPOSOrderInfoKOT(Hotel hotelId, Timestamp createdAt, Date updatedAt, int id, String ticketNo,
-			Date billDate, Double grandTotal, HotelTable hotelTable, String groupName, String operator,
-			String ticketNote, String waiter, String kotStatus, String isEditable, String isTempInvoiceGenerated,
-			int noOfTimes, String kotType, String isActive) {
-		super(hotelId, createdAt, updatedAt);
-		this.id = id;
-		this.ticketNo = ticketNo;
-		this.billDate = billDate;
-		this.grandTotal = grandTotal;
-		this.hotelTable = hotelTable;
-		this.groupName = groupName;
-		this.operator = operator;
-		this.ticketNote = ticketNote;
-		this.waiter = waiter;
-		this.kotStatus = kotStatus;
-		this.isEditable = isEditable;
-		this.isTempInvoiceGenerated = isTempInvoiceGenerated;
-		this.noOfTimes = noOfTimes;
-		this.kotType = kotType;
-		this.isActive = isActive;
-	}
-
+  
 
 	
 	

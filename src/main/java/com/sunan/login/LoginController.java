@@ -30,11 +30,6 @@ public class LoginController {
 	@PostMapping
 	public ResponseEntity<?> loginUser(@RequestBody LoginDto loginDto) {
 		logger.info("Request for login user data");
-		if(loginService.loginUser(loginDto)) {
-			return new ResponseEntity<>("Login successful ", HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>("Login Failed", HttpStatus.UNAUTHORIZED);
-		}
-		
+		return loginService.loginUser(loginDto);
 	}
 }

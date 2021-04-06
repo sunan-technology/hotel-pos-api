@@ -38,7 +38,7 @@ public class ProductOpeningStockMapper {
 					.hasExpiryDate(dto.getHasExpriyDate())
 					.expiryDate(dto.getExpiryDate())
 					.isActive(dto.getIsActive())
-		            .hotelId(new Hotel(hotelId))
+					.hotel(new Hotel(hotelId))
 					.build());
 		}
 		return list;

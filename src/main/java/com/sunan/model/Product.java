@@ -12,21 +12,30 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Builder
-//@AllArgsConstructor
-//@NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "product")
-public class Product extends BaseEntity implements Serializable {
+public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,24 +73,21 @@ public class Product extends BaseEntity implements Serializable {
 
 	@Column(name = "is_active")
 	private String isActive;
+ 
+	@JoinColumn(name = "hotel_id")
+	@ManyToOne
+	public Hotel hotel;
 
-	@Builder
-	public Product(Hotel hotelId, Timestamp createdAt, Date updatedAt, int id, String productCode, String productName,
-			Category category, String description, String unit, Double price, Double reorderPoint, String isActive) {
-		super(hotelId, createdAt, updatedAt);
-		this.id = id;
-		this.productCode = productCode;
-		this.productName = productName;
-		this.category = category;
-		this.description = description;
-		this.unit = unit;
-		this.price = price;
-		this.reorderPoint = reorderPoint;
-		this.isActive = isActive;
-	}
+	@JsonIgnore
+	@Column(name = "created_at", nullable = false, updatable = false)
+	@CreationTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Timestamp createdAt;
 
-	public Product() {
-		// TODO Auto-generated constructor stub
-	}
-		
+	@JsonIgnore
+	@Temporal(TemporalType.DATE)
+	@Column(name = "updated_at")
+	@UpdateTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Date updatedAt;
 }
