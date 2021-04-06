@@ -37,13 +37,14 @@ public class PurchaseService implements Serializable {
 	public String save(PurchaseDto purchaseDto,int hotelId) {
 
 		Purchase purchase = purchaseMapper.getPerchaseBuilder(purchaseDto);
-		purchase.setHotelId(new Hotel(hotelId));
+		purchase.setHotel(new Hotel(hotelId));
 		purchaseRepository.save(purchase);
 
 		int purchaseId = purchase.getId();
+		
 
 		PerchaseJoin perchaseJoin = purchaseMapper.getPerchaseJoin(purchaseDto, purchaseId);
-		perchaseJoin.setHotelId(new Hotel(hotelId));
+		perchaseJoin.setHotel(new Hotel(hotelId));
 		purchaseJoinRepository.save(perchaseJoin);
 
 		logger.info("Service: purchase details");

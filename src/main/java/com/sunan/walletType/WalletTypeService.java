@@ -37,7 +37,7 @@ public class WalletTypeService implements Serializable {
 	@Transactional
 	public String save(WalletTypeDto walletTypeDto,int hotelId) {
 		WalletType walletType = walletTypeMapper.getWalletTypeBuilder(walletTypeDto);
-		walletType.setHotelId(new Hotel(hotelId));
+		walletType.setHotel(new Hotel(hotelId));
 		walletTypeRepository.save(walletType);
 		logger.info("Service: Save WalletType details");
 		return utils.objectMapperSuccess(walletTypeMapper.getWalletTypeDtoBuilder(walletType),
@@ -51,7 +51,7 @@ public class WalletTypeService implements Serializable {
 		if (optional.isPresent()) {
 			logger.info("Service: Wallet type details found with id {} for update operation", id);
 			WalletType walletType = walletTypeMapper.getWalletTypeBuilder(walletTypeDto);
-			walletType.setHotelId(new Hotel(hotelId));
+			walletType.setHotel(new Hotel(hotelId));
 			walletTypeRepository.save(walletType);
 			return utils.objectMapperSuccess(walletTypeMapper.getWalletTypeDtoBuilder(walletType),
 					"Wallet type Details Updated");

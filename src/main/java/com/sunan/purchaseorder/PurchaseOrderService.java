@@ -37,7 +37,7 @@ public class PurchaseOrderService implements Serializable {
 	public String save(PurchaseOrderDto purchaseOrderDto,int hotelId) {
 
 		PurchaseOrder purchaseOrder = purchaseOrderMapper.getPurchaseOrderBuilder(purchaseOrderDto);
-		purchaseOrder.setHotelId(new Hotel(hotelId));
+		purchaseOrder.setHotel(new Hotel(hotelId));
 		purchaseOrderRepository.save(purchaseOrder);
 
 		int purchaseOrderId = purchaseOrder.getId();
@@ -45,7 +45,7 @@ public class PurchaseOrderService implements Serializable {
 
 		PurchaseOrderJoin purchaseOrderJoin = purchaseOrderMapper.getPurchaseOrderJoin(purchaseOrderDto,
 				purchaseOrderId);
-		purchaseOrderJoin.setHotelId(new Hotel(hotelId));
+		purchaseOrderJoin.setHotel(new Hotel(hotelId));
 		purchaseOrderJoinRepository.save(purchaseOrderJoin);
 
 		logger.info("Service: purchase order details");

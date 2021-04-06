@@ -76,11 +76,11 @@ public class TempRestaurantPOSOrderInfoKOTService implements Serializable {
 	
 		TempRestaurantPOSOrderInfoKOT tempRestaurantPOSOrderInfoKOT = tempRestaurantPOSOrderedInfoKOTMapper
 				.tempRestaurantPOSOrderInfoKOTBuilder(tempRestaurantPOSOrderInfoKOTDto);
-		tempRestaurantPOSOrderInfoKOT.setHotelId(new Hotel(hotelId));
+		tempRestaurantPOSOrderInfoKOT.setHotel(new Hotel(hotelId));
 		tempRestaurantPOSOrderInfoKOTRepository.save(tempRestaurantPOSOrderInfoKOT);
 		
 		RestaurantPOSOrderInfoKOT restaurantPOSOrderInfoKOT=restaurantPOSOrderInfoKOTMapper.getRestaurantPOSOrderInfoKOTBuilder(tempRestaurantPOSOrderInfoKOTDto);
-		restaurantPOSOrderInfoKOT.setHotelId(new Hotel(hotelId));
+		restaurantPOSOrderInfoKOT.setHotel(new Hotel(hotelId));
 		restaurantPOSOrderInfoKOTRepository.save(restaurantPOSOrderInfoKOT);
 		
 		int tempRestaurantPOSOrderInfoKOTId = tempRestaurantPOSOrderInfoKOT.getId();
@@ -130,12 +130,12 @@ public class TempRestaurantPOSOrderInfoKOTService implements Serializable {
 							scAmount, discount, discountAmount);
 
 			tempRestaurantPOSOrderedProductKOT.setTempRestaurantPOSOrderInfoKOT(tempRestaurantPOSOrderInfoKOT);
-			tempRestaurantPOSOrderedProductKOT.setHotelId(new Hotel(hotelId));
+			tempRestaurantPOSOrderedProductKOT.setHotel(new Hotel(hotelId));
 			tempRestaurantPOSOrderedProductKOTRepository.save(tempRestaurantPOSOrderedProductKOT);
 			
 			RestaurantPOSOrderedProductKOT restaurantPOSOrderedProductKOT  =restaurantPOSOrderedProductKOTMapper.getRestaurantPOSOrderedProductKOTBuilder(tempRestaurantPOSOrderInfoKOTDto, dish, restaurantPOSOrderInfoKOT.getId(), amount, vatPer, vatAmount, stPer, stAmount, scPer, scAmount, discount, discountAmount);
 			
-			restaurantPOSOrderedProductKOT.setHotelId(new Hotel(hotelId));
+			restaurantPOSOrderedProductKOT.setHotel(new Hotel(hotelId));
 			
 			restaurantPOSOrderedProductKOTRepository.save(restaurantPOSOrderedProductKOT);
 

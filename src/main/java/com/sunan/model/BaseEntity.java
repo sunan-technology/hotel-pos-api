@@ -26,7 +26,7 @@ public class BaseEntity {
 
 	@JoinColumn(name = "hotel_id")
 	@ManyToOne
-	public Hotel hotelId;
+	public Hotel hotel;
 
 //	@CreationTimestamp
 //	public Date creationDate;
@@ -47,9 +47,9 @@ public class BaseEntity {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
 
-	public BaseEntity(Hotel hotelId, Timestamp createdAt, Date updatedAt) {
+	public BaseEntity(Hotel hotel, Timestamp createdAt, Date updatedAt) {
 		super();
-		this.hotelId = hotelId;
+		this.hotel = hotel;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}

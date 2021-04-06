@@ -41,7 +41,7 @@ public class HotelTableService implements Serializable {
 		if (tableStatusRequestValidate(dto)) {
 			if (tableTypeRequestValidate(dto)) {
 				HotelTable table = tableMapper.getTableBuilder(dto);
-				table.setHotelId(new Hotel(hotelId));
+				table.setHotel(new Hotel(hotelId));
 				tableRepository.save(table);
 				logger.info("Service: Save Table details");
 				return utils.objectMapperSuccess(tableMapper.getTableDtoBuilder(table), "Table Details Saved");
@@ -65,7 +65,7 @@ public class HotelTableService implements Serializable {
 				if (optional.isPresent()) {
 					logger.info("Service: table details found with id {} for update operation", id);
 					HotelTable table = tableMapper.getTableBuilder(tableDto);
-					table.setHotelId(new Hotel(hotelId));
+					table.setHotel(new Hotel(hotelId));
 					tableRepository.save(table);
 					return utils.objectMapperSuccess(tableMapper.getTableDtoBuilder(table), "Table Details Updated");
 				} else {

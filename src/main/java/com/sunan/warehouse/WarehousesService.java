@@ -37,7 +37,7 @@ public class WarehousesService implements Serializable {
 	@Transactional
 	public String save(WarehousesDto warehousesDto,int hotelId) {
 		Warehouses warehouses = warehousesMapper.getWarehousesBuilder(warehousesDto);
-		warehouses.setHotelId(new Hotel(hotelId));
+		warehouses.setHotel(new Hotel(hotelId));
 		warehousesRepository.save(warehouses);
 		logger.info("Service: Save warehouse details");
 		return utils.objectMapperSuccess(warehousesMapper.getWarehousesDtoBuilder(warehouses),
@@ -51,7 +51,7 @@ public class WarehousesService implements Serializable {
 		if (optional.isPresent()) {
 			logger.info("Service: warehouse details found with id {} for update operation", id);
 			Warehouses warehouses = warehousesMapper.getWarehousesBuilder(warehousesDto);
-			warehouses.setHotelId(new Hotel(hotelId));
+			warehouses.setHotel(new Hotel(hotelId));
 			warehousesRepository.save(warehouses);
 			return utils.objectMapperSuccess(warehousesMapper.getWarehousesDtoBuilder(warehouses),
 					"Warehouse Details Updated");

@@ -37,7 +37,7 @@ public class DishService implements Serializable {
 	@Transactional
 	public String save(DishDto dishDto,int hotelId) {
 		Dish dish = dishMapper.getDishBuilder(dishDto);
-		dish.setHotelId(new Hotel(hotelId));
+		dish.setHotel(new Hotel(hotelId));
 		dishRepository.save(dish);
 		logger.info("Service: Save Dish details");
 		return utils.objectMapperSuccess(dishMapper.getDishDtoBuilder(dish), "Dish Details Saved");
@@ -50,7 +50,7 @@ public class DishService implements Serializable {
 		if (optional.isPresent()) {
 			logger.info("Service: dish details found with id {} for update operation", id);
 			Dish dish = dishMapper.getDishBuilder(dishDto);
-			dish.setHotelId(new Hotel(hotelId));
+			dish.setHotel(new Hotel(hotelId));
 			dishRepository.save(dish);
 			return utils.objectMapperSuccess(dishMapper.getDishDtoBuilder(dish), "Dish Details Updated");
 		}

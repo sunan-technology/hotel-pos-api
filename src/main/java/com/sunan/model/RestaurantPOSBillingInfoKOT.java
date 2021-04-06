@@ -1,7 +1,6 @@
 package com.sunan.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,7 +17,6 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sunan.model.RestaurantPOSOrderedProductBillKOT.RestaurantPOSOrderedProductBillKOTBuilder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -16,9 +16,13 @@ public class ProductOpeningStockMapper {
 
 	public ProductOpeningStock getProductOpeningStockBuilder(ProductOpeningStockDto dto) {
 
-		return ProductOpeningStock.builder().id(dto.getId()).product(new Product(dto.getProductId()))
-				.storageType(new StorageType(dto.getStorageTypeId())).warehouses(new Warehouses(dto.getWarehousesId()))
-				.quantity(dto.getQuantity()).hasExpiryDate(dto.getHasExpriyDate()).expiryDate(dto.getExpiryDate())
+		return ProductOpeningStock.builder(
+				).id(dto.getId())
+				.product(new Product(dto.getProductId()))
+				.storageType(new StorageType(dto.getStorageTypeId()))
+				.warehouses(new Warehouses(dto.getWarehousesId()))
+				.quantity(dto.getQuantity())
+				.hasExpiryDate(dto.getHasExpriyDate()).expiryDate(dto.getExpiryDate())
 				.isActive(dto.getIsActive()).build();
 	}
 

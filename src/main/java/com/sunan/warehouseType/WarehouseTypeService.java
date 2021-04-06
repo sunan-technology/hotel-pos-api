@@ -37,7 +37,7 @@ public class WarehouseTypeService implements Serializable {
 	@Transactional
 	public String save(WarehouseTypeDto warehouseTypeDto,int hotelId) {
 		WarehouseType warehouseType = warehouseTypeMapper.getWarehouseTypeBuilder(warehouseTypeDto);
-		warehouseType.setHotelId(new Hotel(hotelId));
+		warehouseType.setHotel(new Hotel(hotelId));
 		warehouseTypeRepository.save(warehouseType);
 		logger.info("Service: Save Warehouse type details");
 		return utils.objectMapperSuccess(warehouseTypeMapper.getWarehouseTypeDtoBuilder(warehouseType),
@@ -51,7 +51,7 @@ public class WarehouseTypeService implements Serializable {
 		if (optional.isPresent()) {
 			logger.info("Service: Warehouse type details found with id {} for update operation", id);
 			WarehouseType warehouseType = warehouseTypeMapper.getWarehouseTypeBuilder(warehouseTypeDto);
-			warehouseType.setHotelId(new Hotel(hotelId));
+			warehouseType.setHotel(new Hotel(hotelId));
 			warehouseTypeRepository.save(warehouseType);
 			return utils.objectMapperSuccess(warehouseTypeMapper.getWarehouseTypeDtoBuilder(warehouseType),
 					"Warehouse type Details Updated");

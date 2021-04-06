@@ -23,7 +23,7 @@ public class RecipeMapper {
 	}
 	
 	
-	public RecipeJoin getRecipeJoinBuilder(RecipeDto dto) {
+	public RecipeJoin getRecipeJoinBuilder(RecipeDto dto,int recipeId) {
 		
 		return RecipeJoin.builder()
 				.product(new Product(dto.getProductId()))
@@ -31,7 +31,7 @@ public class RecipeMapper {
 				.costPerUnit(dto.getCostPerUnit())
 				.totalItemCost(dto.getTotalItemCost())
 				.isActive(dto.getIsActive())
-				.recipe(new Recipe(dto.getId()))
+				.recipe(new Recipe(recipeId))
 				.build();
 	}
 	

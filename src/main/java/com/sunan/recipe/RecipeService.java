@@ -42,11 +42,11 @@ public class RecipeService implements Serializable {
 	public String save(RecipeDto recipeDto,int hotelId) {
 
 		Recipe recipe = recipeMapper.getRecipeBuilder(recipeDto);
-		recipe.setHotelId(new Hotel(hotelId));
+		recipe.setHotel(new Hotel(hotelId));
 		recipeRepository.save(recipe);
 
-		RecipeJoin recipeJoin = recipeMapper.getRecipeJoinBuilder(recipeDto);
-		recipeJoin.setHotelId(new Hotel(hotelId));
+		RecipeJoin recipeJoin = recipeMapper.getRecipeJoinBuilder(recipeDto,recipe.getId());
+		recipeJoin.setHotel(new Hotel(hotelId));
 		recipeJoinRepository.save(recipeJoin);
 
 		logger.info("Service: recipe details");
@@ -61,13 +61,13 @@ public class RecipeService implements Serializable {
 		if (optional.isPresent()) {
 			logger.info("Service: recipe details found with id {} for update operation", id);
 			Recipe recipe = recipeMapper.getRecipeBuilder(recipeDto);
-			recipe.setHotelId(new Hotel(hotelId));
+			recipe.setHotel(new Hotel(hotelId));
 			recipeRepository.save(recipe);
 
 			Optional<RecipeJoin> optionalRecipe_Join = recipeJoinRepository.findByRecipe(optional.get());
 			if (optionalRecipe_Join.isPresent()) {
 				RecipeJoin recipeJoin = recipeMapper.getRecipeJoinBuilder(optionalRecipe_Join.get(), recipeDto);
-				recipeJoin.setHotelId(new Hotel(hotelId));
+				recipeJoin.setHotel(new Hotel(hotelId));
 				recipeJoinRepository.save(recipeJoin);
 			}
 

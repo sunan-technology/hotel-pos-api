@@ -56,11 +56,11 @@ public class CreditCustomerPaymentService implements Serializable {
 		
 		CreditCustomerPayment creditCustomerPayment = creditCustomerPaymentMapper
 				.getCreditCustomerPaymentBuilder(creditCustomerPaymentDto);
-		creditCustomerPayment.setHotelId(new Hotel(hotelId));
+		creditCustomerPayment.setHotel(new Hotel(hotelId));
 		creditCustomerPaymentRepository.save(creditCustomerPayment); 
 
 		CreditCustomerLedger creditCustomerLedger = creditCustomerLedgerMapper.getCreditCustomerLedgerBuilder(creditCustomerPaymentDto, creditCustomerPayment.getId());
-		creditCustomerLedger.setHotelId(new Hotel(hotelId));
+		creditCustomerLedger.setHotel(new Hotel(hotelId));
 		creditCustomerLedgerRepository.save(creditCustomerLedger);
 
 		logger.info("Service: credit customer payment details");

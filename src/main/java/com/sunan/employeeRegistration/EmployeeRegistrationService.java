@@ -37,7 +37,7 @@ public class EmployeeRegistrationService implements Serializable {
 	public String save(EmployeeRegistrationDto employeeRegistrationDto, int hotelId) {
 		EmployeeRegistration employeeRegistration = employeeRegistrationMapper
 				.getEmployeeRegistrationBuilder(employeeRegistrationDto);
-		employeeRegistration.setHotelId(new Hotel(hotelId));
+		employeeRegistration.setHotel(new Hotel(hotelId));
 		employeeRegistrationRepository.save(employeeRegistration);
 		logger.info("Service: Save employee details");
 		return utils.objectMapperSuccess(
@@ -53,7 +53,7 @@ public class EmployeeRegistrationService implements Serializable {
 			logger.info("Service: employee details found with id {} for update operation", id);
 			EmployeeRegistration employeeRegistration = employeeRegistrationMapper
 					.getEmployeeRegistrationBuilder(employeeRegistrationDto);
-			employeeRegistration.setHotelId(new Hotel(hotelId));
+			employeeRegistration.setHotel(new Hotel(hotelId));
 			employeeRegistrationRepository.save(employeeRegistration);
 			return utils.objectMapperSuccess(
 					employeeRegistrationMapper.getEmployeeRegistrationDtoBuilder(employeeRegistration),

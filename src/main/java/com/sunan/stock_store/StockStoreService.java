@@ -37,7 +37,7 @@ public class StockStoreService implements Serializable {
 	@Transactional
 	public String save(StockStoreDto stockStoreDto,int hotelId) {
 		StockStore stockStore = stockStoreMapper.getStock_StoreBuilder(stockStoreDto);
-		stockStore.setHotelId(new Hotel(hotelId));
+		stockStore.setHotel(new Hotel(hotelId));
 		stockStoreRepository.save(stockStore);
 		logger.info("Service: Save stock details");
 		return utils.objectMapperSuccess(stockStoreMapper.getStock_StoreDtoBuilder(stockStore), "Stock Details Saved");
@@ -50,7 +50,7 @@ public class StockStoreService implements Serializable {
 		if (optional.isPresent()) {
 			logger.info("Service: stock details found with id {} for update operation", id);
 			StockStore stockStore = stockStoreMapper.getStock_StoreBuilder(stockStoreDto);
-			stockStore.setHotelId(new Hotel(hotelId));
+			stockStore.setHotel(new Hotel(hotelId));
 			stockStoreRepository.save(stockStore);
 			return utils.objectMapperSuccess(stockStoreMapper.getStock_StoreDtoBuilder(stockStore),
 					"Stock Details Updated");

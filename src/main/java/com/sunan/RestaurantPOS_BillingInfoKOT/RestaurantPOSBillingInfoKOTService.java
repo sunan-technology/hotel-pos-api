@@ -42,20 +42,19 @@ public class RestaurantPOSBillingInfoKOTService implements Serializable {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
-	
+
 	@Autowired
 	private CustomerRepository customerRepository;
-	
+
 	@Autowired
 	private HotelRepository hotelRepository;
-	
+
 	@Autowired
 	private MemberRepository memberRepository;
-	
+
 	@Autowired
 	private TempRestaurantPOSOrderInfoKOTRepository tempRestaurantPOSOrderInfoKOTRepository;
-	
+
 	@Autowired
 	private TempRestaurantPOSOrderedProductKOTRepository tempRestaurantPOSOrderedProductKOTRepository;
 
@@ -76,29 +75,28 @@ public class RestaurantPOSBillingInfoKOTService implements Serializable {
 
 	@Transactional
 	public String save(RestaurantPOSBillingInfoKOTDto restaurantPOSBillingInfoKOTDto, int hotelId) {
-		
-	     Optional<Hotel> hotel=hotelRepository.findById(hotelId);
-	     if(!hotel.isPresent() || hotelId==0) {
-				utils.objectMapperError("hotel id is not present");
-				
-				Optional<Customer> customer=customerRepository.findById(restaurantPOSBillingInfoKOTDto.getCustomerId());
-				if(!customer.isPresent() || restaurantPOSBillingInfoKOTDto.getCustomerId() == 0) {
-					utils.objectMapperError("Customer id is not present");
-					
-					Optional<Member> member=memberRepository.findById(restaurantPOSBillingInfoKOTDto.getMemberId());
-					if(!member.isPresent() || restaurantPOSBillingInfoKOTDto.getMemberId()== 0) {
-						utils.objectMapperError("Member id is not present");
-					}
+
+		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+		if (!hotel.isPresent() || hotelId == 0) {
+			utils.objectMapperError("hotel id is not present");
+
+			Optional<Customer> customer = customerRepository.findById(restaurantPOSBillingInfoKOTDto.getCustomerId());
+			if (!customer.isPresent() || restaurantPOSBillingInfoKOTDto.getCustomerId() == 0) {
+				utils.objectMapperError("Customer id is not present");
+
+				Optional<Member> member = memberRepository.findById(restaurantPOSBillingInfoKOTDto.getMemberId());
+				if (!member.isPresent() || restaurantPOSBillingInfoKOTDto.getMemberId() == 0) {
+					utils.objectMapperError("Member id is not present");
 				}
 			}
-		
-		
-		Double roundOff=(double) Math.round(restaurantPOSBillingInfoKOTDto.getGrandTotal());
+		}
+
+		Double roundOff = (double) Math.round(restaurantPOSBillingInfoKOTDto.getGrandTotal());
 
 		logger.info("saving restaurant pos bill info ");
 		RestaurantPOSBillingInfoKOT restaurantPOSBillingInfoKOT = restaurantPOSBillingInfoKOTMapper
-				.getRestaurantPOSBillingInfoKOTBuilder(restaurantPOSBillingInfoKOTDto,roundOff);
-		restaurantPOSBillingInfoKOT.setHotelId(new Hotel(hotelId));
+				.getRestaurantPOSBillingInfoKOTBuilder(restaurantPOSBillingInfoKOTDto, roundOff);
+		restaurantPOSBillingInfoKOT.setHotel(new Hotel(hotelId));
 		restaurantPOSBillingInfoKOTRepository.save(restaurantPOSBillingInfoKOT);
 
 		for (DishKOTDto dish : restaurantPOSBillingInfoKOTDto.getDish()) {
@@ -109,8 +107,6 @@ public class RestaurantPOSBillingInfoKOTService implements Serializable {
 			int quantity = dish.getQuantity();
 			Double amount = quantity * rate;
 			int categoryId = dish.getCategoryId();
-
-		
 
 			Optional<Dish> dishes = dishRepository.findByDishId(dishId);
 
@@ -141,26 +137,25 @@ public class RestaurantPOSBillingInfoKOTService implements Serializable {
 			RestaurantPOSOrderedProductBillKOT restaurantPOSOrderedProductBillKOT = restaurantPOSOrderedProductBillKOTMapper
 					.getRestaurantPOSOrderedProductBillKOTBuilder(restaurantPOSBillingInfoKOTDto, dish, hotelId, amount,
 							vatPer, vatAmount, stPer, stAmount, scPer, scAmount, discount, discountAmount);
-			restaurantPOSOrderedProductBillKOT.setHotelId(new Hotel(hotelId));
+			restaurantPOSOrderedProductBillKOT.setHotel(new Hotel(hotelId));
 			restaurantPOSOrderedProductBillKOTRepository.save(restaurantPOSOrderedProductBillKOT);
-			
-			
-			tempMethod(restaurantPOSOrderedProductBillKOT.getHotelTable().getTableNo(),hotelId);
-//			tempRestaurantPOSOrderInfoKOTRepository.deleteByTableId();
-//			tempRestaurantPOSOrderedProductKOTRepository.deleteByTableId(restaurantPOSOrderedProductBillKOT.getHotelTable().getTableNo());
-			
+
+			tempMethod(restaurantPOSOrderedProductBillKOT.getHotelTable().getTableNo(), hotelId);
+
 		}
 
 		logger.info(" restaurant order bill info saved");
 		return utils.objectMapperSuccess(" Restaurant Order bill info saved");
 
 	}
-	
+
 	@Transactional
 	private void tempMethod(int tableId, int hotelId) {
-		tempRestaurantPOSOrderInfoKOTRepository.deleteByHotelTableAndHotelId(new HotelTable(tableId), new Hotel(hotelId));
-		tempRestaurantPOSOrderedProductKOTRepository.deleteByHotelTableAndHotelId(new HotelTable(tableId), new Hotel(hotelId));
-		
+		tempRestaurantPOSOrderInfoKOTRepository.deleteByHotelTableAndHotel(new HotelTable(tableId),
+				new Hotel(hotelId));
+		tempRestaurantPOSOrderedProductKOTRepository.deleteByHotelTableAndHotel(new HotelTable(tableId),
+				new Hotel(hotelId));
+
 	}
 
 }

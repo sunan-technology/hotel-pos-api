@@ -38,7 +38,7 @@ public class KitchenService implements Serializable {
 	@Transactional
 	public String save(KitchenDto kitchenDto,int hotelId) { 
 		Kitchen kitchen = kitchenMapper.getKitchenBuilder(kitchenDto);
-		kitchen.setHotelId(new Hotel(hotelId));
+		kitchen.setHotel(new Hotel(hotelId));
 		kitchenRepository.save(kitchen);
 		logger.info("Service: Save Kitchen details");
 		return utils.objectMapperSuccess(kitchenMapper.getKitchenDtoBuilder(kitchen),"Kitchen Details Saved");
@@ -54,7 +54,7 @@ public class KitchenService implements Serializable {
 		 {
 			 logger.info("Service: kitchen details found with id {} for update operation", id);
 			 Kitchen kitchen = kitchenMapper.getKitchenBuilder(kitchenDto);
-			 kitchen.setHotelId(new Hotel(hotelId));
+			 kitchen.setHotel(new Hotel(hotelId));
 			 kitchenRepository.save(kitchen);
 			 return utils.objectMapperSuccess(kitchenMapper.getKitchenDtoBuilder(kitchen),"Kitchen Details Updated");
 		 }

@@ -44,7 +44,7 @@ public class SupplierPaymentService implements Serializable {
 		if (transactionAmount < supplierBalance) {
 
 			SupplierLedger supplierledger = supplierPaymentMapper.getSupplierPaymentBuilder(supplierPaymentDto);
-			supplierledger.setHotelId(new Hotel(hotelId));
+			supplierledger.setHotel(new Hotel(hotelId));
 			supplierLedgerRepository.save(supplierledger);
 
 			logger.info("Service: supplier payment details");

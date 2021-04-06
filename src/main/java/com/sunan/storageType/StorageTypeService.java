@@ -37,7 +37,7 @@ public class StorageTypeService implements Serializable {
 	@Transactional
 	public String save(StorageTypeDto storageTypeDto,int hotelId) {
 		StorageType storageType = storageTypeMapper.getStorageTypeBuilder(storageTypeDto);
-		storageType.setHotelId(new Hotel(hotelId));
+		storageType.setHotel(new Hotel(hotelId));
 		storageTypeRepository.save(storageType);
 		logger.info("Service: Save storage type details");
 		return utils.objectMapperSuccess(storageTypeMapper.getStorageTypeDtoBuilder(storageType),
@@ -51,7 +51,7 @@ public class StorageTypeService implements Serializable {
 		if (optional.isPresent()) {
 			logger.info("Service: storage type details found with id {} for update operation", id);
 			StorageType storageType = storageTypeMapper.getStorageTypeBuilder(storageTypeDto);
-			storageType.setHotelId(new Hotel(hotelId));
+			storageType.setHotel(new Hotel(hotelId));
 			storageTypeRepository.save(storageType);
 			return utils.objectMapperSuccess(storageTypeMapper.getStorageTypeDtoBuilder(storageType),
 					"Storage type Details Updated");

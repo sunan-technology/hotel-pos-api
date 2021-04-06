@@ -44,7 +44,7 @@ public class MemberService implements Serializable {
 	@Transactional
 	public String save(MemberDto memberDto,int hotelId) {
 		Member member = memberMapper.getMemberBuilder(memberDto);
-		member.setHotelId(new Hotel(hotelId));
+		member.setHotel(new Hotel(hotelId));
 		memberRepository.save(member);
 		logger.info("Service: Save member details");
 		return utils.objectMapperSuccess(memberMapper.getMemberDtoBulider(member), "Member Details Saved");
@@ -58,7 +58,7 @@ public class MemberService implements Serializable {
 			logger.info("Service: member details found with id {} for update operation", id);
 			
 			Member member = memberMapper.getMemberBuilder(memberDto);
-			member.setHotelId(new Hotel(hotelId));
+			member.setHotel(new Hotel(hotelId));
 			memberRepository.save(member);
 			return utils.objectMapperSuccess(memberMapper.getMemberDtoBulider(member), "Member Details Updated");
 		}

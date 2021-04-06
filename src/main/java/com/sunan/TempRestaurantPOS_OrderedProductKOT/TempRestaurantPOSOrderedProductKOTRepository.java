@@ -10,7 +10,7 @@ import com.sunan.model.TempRestaurantPOSOrderedProductKOT;
 public interface TempRestaurantPOSOrderedProductKOTRepository extends PagingAndSortingRepository<TempRestaurantPOSOrderedProductKOT, Integer> {
 
 //	@Query("delete FROM  TempRestaurantPOSOrderedProductKOT WHERE table_id = :tableId")
-	public void deleteByHotelTableAndHotelId(HotelTable hotelTable, Hotel hotelId);
+	public void deleteByHotelTableAndHotel(HotelTable hotelTable, Hotel hotelId);
 	
 }
 

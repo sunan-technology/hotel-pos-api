@@ -42,13 +42,13 @@ public class SupplierService implements Serializable {
 	@Transactional
 	public String save(SupplierDto supplierDto,int hotelId) {
 		Supplier supplier = supplierMapper.getSupplierBuilder(supplierDto);
-		supplier.setHotelId(new Hotel(hotelId));
+		supplier.setHotel(new Hotel(hotelId));
 		supplierRepository.save(supplier);
 		Double openingbalance = supplier.getOpeningBalance();
 		int supplierId = supplier.getSupplierId();
 
 		SupplierLedger supplierLedger = supplierMapper.getSupplierLedger(supplierDto, supplierId, openingbalance);
-		supplierLedger.setHotelId(new Hotel(hotelId));
+		supplierLedger.setHotel(new Hotel(hotelId));
 		supplierLedgerRepository.save(supplierLedger);
 
 		logger.info("Service: supplier details");
@@ -62,7 +62,7 @@ public class SupplierService implements Serializable {
 		if (optional.isPresent()) {
 			logger.info("Service: supplier details found with id {} for update operation", id);
 			Supplier supplier = supplierMapper.getSupplierBuilder(supplierDto);
-			supplier.setHotelId(new Hotel(hotelId));
+			supplier.setHotel(new Hotel(hotelId));
 			supplierRepository.save(supplier);
 			return utils.objectMapperSuccess(supplierMapper.getSupplierDtoBuilder(supplier),
 					"Supplier Details Updated");

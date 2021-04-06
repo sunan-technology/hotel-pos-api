@@ -36,7 +36,7 @@ public class CreditCustomerService implements Serializable {
 	@Transactional
 	public String save(CreditCustomerDto creditCustomerDto,int hotelId) {
 		CreditCustomer creditCustomer = creditCustomerMapper.getCreditCustomerBuilder(creditCustomerDto);
-		creditCustomer.setHotelId(new Hotel(hotelId));
+		creditCustomer.setHotel(new Hotel(hotelId));
 		creditCustomerRepository.save(creditCustomer);
 		logger.info("Service: credit customer details");
 		return utils.objectMapperSuccess(creditCustomerMapper.getCreditCustomerDtoBuilder(creditCustomer),
@@ -50,7 +50,7 @@ public class CreditCustomerService implements Serializable {
 		if (optional.isPresent()) {
 			logger.info("Service: credit customer details found with id {} for update operation", id);
 			CreditCustomer creditCustomer = creditCustomerMapper.getCreditCustomerBuilder(creditCustomerDto);
-			creditCustomer.setHotelId(new Hotel(hotelId));
+			creditCustomer.setHotel(new Hotel(hotelId));
 			creditCustomerRepository.save(creditCustomer);
 			return utils.objectMapperSuccess(creditCustomerMapper.getCreditCustomerDtoBuilder(creditCustomer),
 					"Credit customer Details Updated");

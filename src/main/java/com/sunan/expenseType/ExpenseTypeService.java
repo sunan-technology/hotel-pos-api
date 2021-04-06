@@ -37,7 +37,7 @@ public class ExpenseTypeService implements Serializable {
 	@Transactional
 	public String save(ExpenseTypeDto expenseTypeDto,int hotelId) {
 		ExpenseType expenseType = expenseTypeMapper.getExpenseTypeBuilder(expenseTypeDto);
-		expenseType.setHotelId(new Hotel(hotelId));
+		expenseType.setHotel(new Hotel(hotelId));
 		expenseTypeRepository.save(expenseType);
 		logger.info("Service: Save Expense type details");
 		return utils.objectMapperSuccess(expenseTypeMapper.getExpenseTypeDtoBuilder(expenseType),
@@ -51,7 +51,7 @@ public class ExpenseTypeService implements Serializable {
 		if (optional.isPresent()) {
 			logger.info("Service: Expense type details found with id {} for update operation", id);
 			ExpenseType expenseType = expenseTypeMapper.getExpenseTypeBuilder(expenseTypeDto);
-			expenseType.setHotelId(new Hotel(hotelId));
+			expenseType.setHotel(new Hotel(hotelId));
 			expenseTypeRepository.save(expenseType);
 			return utils.objectMapperSuccess(expenseTypeMapper.getExpenseTypeDtoBuilder(expenseType),
 					"Expense type Details Updated");

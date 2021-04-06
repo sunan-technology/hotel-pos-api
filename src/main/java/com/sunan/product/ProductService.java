@@ -48,7 +48,7 @@ public class ProductService implements Serializable {
 	public String save(ProductRequestDto productRequestDto,int hotelId) {
 		//todo:// request validation
 		Product product = productMapper.getProductBuilder(productRequestDto);
-		product.setHotelId(new Hotel(hotelId));
+		product.setHotel(new Hotel(hotelId));
 		productRepository.save(product);
 		//add product entry in the product opening stock table 
 		List<ProductOpeningStock> list =  productOpeningStockMapper.getProductOpeningStockBuilder(productRequestDto.getOpeningStockDtos(), product.getId(),hotelId);

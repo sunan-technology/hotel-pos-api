@@ -36,7 +36,7 @@ public class CustomerService implements Serializable {
 	@Transactional
 	public String save(CustomerDto customerDto,int hotelId) {
 		Customer customer = customerMapper.getCustomerBuilder(customerDto);
-		customer.setHotelId(new Hotel(hotelId));
+		customer.setHotel(new Hotel(hotelId));
 		customerRepository.save(customer);
 		logger.info("Service: Save customer details");
 		return utils.objectMapperSuccess(customerMapper.getCustomerDtoBuilder(customer), "Customer Details Saved");
@@ -49,7 +49,7 @@ public class CustomerService implements Serializable {
 		if (optional.isPresent()) {
 			logger.info("Service: customer details found with id {} for update operation", id);
 			Customer customer = customerMapper.getCustomerBuilder(customerDto);
-			customer.setHotelId(new Hotel(hotelId));
+			customer.setHotel(new Hotel(hotelId));
 			customerRepository.save(customer);
 			return utils.objectMapperSuccess(customerMapper.getCustomerDtoBuilder(customer),
 					"Customer Details Updated");

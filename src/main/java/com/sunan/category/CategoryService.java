@@ -37,7 +37,7 @@ public class CategoryService implements Serializable {
 	@Transactional
 	public String save(CategoryDto categoryDto,int hotelId) {
 		Category category = categoryMapper.getCategoryBuilder(categoryDto);
-		category.setHotelId(new Hotel(hotelId));
+		category.setHotel(new Hotel(hotelId));
 		categoryRepository.save(category);
 		logger.info("Service: Save Category details");
 		return utils.objectMapperSuccess(categoryMapper.getCategoryDtoBuilder(category), "Category Details Saved");
@@ -50,7 +50,7 @@ public class CategoryService implements Serializable {
 		if (optional.isPresent()) {
 			logger.info("Service: category details found with id {} for update operation", id);
 			Category category = categoryMapper.getCategoryBuilder(categoryDto);
-			category.setHotelId(new Hotel(hotelId));
+			category.setHotel(new Hotel(hotelId));
 			categoryRepository.save(category);
 			return utils.objectMapperSuccess(categoryMapper.getCategoryDtoBuilder(category),
 					"Category Details Updated");

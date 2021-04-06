@@ -10,5 +10,5 @@ import com.sunan.model.RestaurantPOSBillingInfoKOT;
 public interface RestaurantPOSBillingInfoKOTRepository extends PagingAndSortingRepository<RestaurantPOSBillingInfoKOT, Integer> {
 
 	
-	public void deleteByHotelTableAndHotelId(HotelTable hotelTable, Hotel hotelId);
+	//public void deleteByHotelTableAndHotelId(HotelTable hotelTable, Hotel hotelId);
 }

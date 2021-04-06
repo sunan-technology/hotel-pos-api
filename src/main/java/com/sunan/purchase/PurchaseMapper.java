@@ -76,7 +76,7 @@ public class PurchaseMapper {
 		
 		return PerchaseJoin.builder()
 				.purchase(new Purchase(purchaseId))
-				.product(new Product(purchaseDto.getId()))
+				.product(new Product(purchaseDto.getProductId()))
 				.quantity(purchaseDto.getQuantity())
 				.price(purchaseDto.getPricePerUnit())
 				.totalAmount(purchaseDto.getTotalAmount())
