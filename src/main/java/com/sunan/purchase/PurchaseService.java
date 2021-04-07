@@ -39,11 +39,9 @@ public class PurchaseService implements Serializable {
 		Purchase purchase = purchaseMapper.getPerchaseBuilder(purchaseDto);
 		purchase.setHotel(new Hotel(hotelId));
 		purchaseRepository.save(purchase);
+		logger.info("Service: perchase details saved");
 
-		int purchaseId = purchase.getId();
-		
-
-		PerchaseJoin perchaseJoin = purchaseMapper.getPerchaseJoin(purchaseDto, purchaseId);
+		PerchaseJoin perchaseJoin = purchaseMapper.getPerchaseJoin(purchaseDto, purchase.getId());
 		perchaseJoin.setHotel(new Hotel(hotelId));
 		purchaseJoinRepository.save(perchaseJoin);
 

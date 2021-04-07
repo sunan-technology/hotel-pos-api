@@ -1,4 +1,4 @@
-package com.sunan.member;
+package com.sunan.member.ledger;
 
 import org.springframework.stereotype.Component;
 

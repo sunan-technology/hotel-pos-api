@@ -40,11 +40,8 @@ public class PurchaseOrderService implements Serializable {
 		purchaseOrder.setHotel(new Hotel(hotelId));
 		purchaseOrderRepository.save(purchaseOrder);
 
-		int purchaseOrderId = purchaseOrder.getId();
-
-
 		PurchaseOrderJoin purchaseOrderJoin = purchaseOrderMapper.getPurchaseOrderJoin(purchaseOrderDto,
-				purchaseOrderId);
+				purchaseOrder.getId());
 		purchaseOrderJoin.setHotel(new Hotel(hotelId));
 		purchaseOrderJoinRepository.save(purchaseOrderJoin);
 
