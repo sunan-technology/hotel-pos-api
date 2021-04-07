@@ -26,6 +26,7 @@ import com.sunan.model.Hotel;
 import com.sunan.model.HotelTable;
 import com.sunan.model.Member;
 import com.sunan.model.OrderedProductBillKOT;
+import com.sunan.model.TempOrderInfoKOT;
 import com.sunan.order.kot.temp.info.DishKOTDto;
 import com.sunan.order.kot.temp.info.TempOrderInfoKOTRepository;
 import com.sunan.order.kot.temp.product.TempOrderedProductKOTRepository;
@@ -92,7 +93,7 @@ public class BillingInfoKOTService implements Serializable {
 		}
 	}
 
-	@Transactional
+	@Transactional(rollbackOn = Exception.class)
 	public String save(BillingInfoKOTDto billingInfoKOTDto, int hotelId) {
 		// Request Validation
 		validateSaveRestaurantBillingInfoRequest(billingInfoKOTDto, hotelId);
@@ -134,10 +135,14 @@ public class BillingInfoKOTService implements Serializable {
 	@Transactional
 	private void tempOrderRemoveMethod(int tableId, int hotelId) {
 		//Delete child 
+//		Optional<TempOrderInfoKOT> opt = tempOrderInfoKOTRepository.findByHotelTableAndHotel(new HotelTable(tableId), new Hotel(hotelId));
+//		if(opt.isPresent()) {
+//			tempOrderInfoKOTRepository.delete(opt.get());
+//		}
 		tempOrderInfoKOTRepository.deleteByHotelTableAndHotel(new HotelTable(tableId), new Hotel(hotelId));
 		//Delete parent
 		tempOrderedProductKOTRepository.deleteByHotelTableAndHotel(new HotelTable(tableId),
-				new Hotel(hotelId));
+			new Hotel(hotelId));
 
 	}
 

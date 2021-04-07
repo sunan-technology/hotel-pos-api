@@ -3,9 +3,7 @@ package com.sunan.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,65 +28,44 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+
 @Entity
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "orderinfokot")
-public class OrderInfoKOT  implements Serializable {
-
+@Table(name = "waiter")
+public class Waiter implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
-
-	@Column(name = "ticketno")
-	private String ticketNo;
-
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	@Temporal(TemporalType.DATE)
-	@Column(name = "bill_date")
-	private Date billDate;
-
-	@Column(name = "grandtotal")
-	private Double grandTotal;
-
-	@JoinColumn(name = "table_id")
-	@ManyToOne
-	private HotelTable hotelTable;
 	
+	@Column(name = "name")
+	private String name;
 	
-	@Column(name = "groupname")
-	private String groupName;
-
-	@Column(name = "operator")
-	private String operator;
-
-	@Column(name = "ticketnote")
-	private String ticketNote;
-
-	@Column(name = "waiter")
-	private String waiter;
-
-	@Column(name = "kotstatus")
-	private String kotStatus;
-
-	@Column(name = "iseditable")
-	private String isEditable;
+	@Column(name = "mobileno")
+	private String mobileNo;
 	
-	@Column(name = "istemp_invoicegenerated")
-	private String isTempInvoiceGenerated;
+	@Column(name = "email")
+	private String email;
 	
-	@Column(name = "no_oftimes")
-	private int noOfTimes;
-
-	@Column(name = "kottype")
-	private String kotType;
-
+	@Column(name = "adharcard")
+	private String adharCard;
+	
+	@Column(name = "address")
+	private String address;
+	
+	@Column(name = "city")
+	private String city;
+	
+	@Column(name = "state")
+	private String state;
+	
 	@Column(name = "is_active")
 	private String isActive;
 
@@ -109,19 +85,11 @@ public class OrderInfoKOT  implements Serializable {
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
-	
-	@OneToMany(mappedBy = "OrderInfoKOT", cascade = CascadeType.ALL)
-	Set<OrderedProductKOT> orderedProductKOTs;
-	public OrderInfoKOT(int id) {
+
+	public Waiter(int id) {
 		super();
 		this.id = id;
 	}
-
-	 
-
-  
-
-	
 	
 	
 

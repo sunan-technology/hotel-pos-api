@@ -1,6 +1,8 @@
 package com.sunan.table;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -17,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import com.sunan.model.Hotel;
 import com.sunan.model.HotelTable;
+import com.sunan.model.TempOrderInfoKOT;
+import com.sunan.order.kot.temp.info.TempOrderInfoKOTRepository;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -27,6 +31,9 @@ public class HotelTableService implements Serializable {
 
 	@Autowired
 	private HotelTableRepository tableRepository;
+	
+	@Autowired
+	private TempOrderInfoKOTRepository tempOrderInfoKOTRepository;
 
 	@Autowired
 	HotelTableMapper tableMapper;
@@ -144,6 +151,28 @@ public class HotelTableService implements Serializable {
 		} else {
 			return false;
 		}
+	}
+
+	public String getAvailableTable(int hotelId) {
+		
+		List<AvailableTableDto> result = new ArrayList<>();
+		List <HotelTable> Tablelist = tableRepository.findByHotel(new Hotel(hotelId));
+		for (HotelTable hotelTable : Tablelist) {
+			
+			AvailableTableDto availableTableDto = new AvailableTableDto();
+			availableTableDto.setId(hotelTable.getTableNo());
+			availableTableDto.setTableName(String.valueOf(hotelTable.getTableNo()));
+			
+			Optional<TempOrderInfoKOT> optional = tempOrderInfoKOTRepository.findByHotelTableAndHotel(hotelTable, new Hotel(hotelId));
+			if(optional.isPresent()) {
+				availableTableDto.setAvailableStatus("No");
+			}else {
+				availableTableDto.setAvailableStatus("yes");
+			}
+			result.add(availableTableDto);
+		} 
+		
+		return utils.objectMapperSuccess(result, "All available Table list.");
 	}
 
 }

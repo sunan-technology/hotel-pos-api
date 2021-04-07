@@ -1,5 +1,7 @@
 package com.sunan.order.kot.temp.info;
 
+import java.util.Optional;
+
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +15,5 @@ public interface TempOrderInfoKOTRepository extends PagingAndSortingRepository<T
 	
 	public void deleteByHotelTableAndHotel(HotelTable tableNo, Hotel hotelId);
 	
-	
+	public Optional<TempOrderInfoKOT> findByHotelTableAndHotel(HotelTable tableNo, Hotel hotelId);
 }

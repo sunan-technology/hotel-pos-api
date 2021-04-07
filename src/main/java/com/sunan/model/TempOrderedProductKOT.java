@@ -22,16 +22,18 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Builder
-//@AllArgsConstructor
-//@NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "temp_orderedproductkot")
 public class TempOrderedProductKOT implements Serializable {
 

@@ -1,7 +1,11 @@
 package com.sunan.order.kot.temp.info;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -103,7 +107,6 @@ public class TempOrderInfoKOTService implements Serializable {
 
 				OrderedProductKOT orderedProductKOT = orderedProductKOTMapper.getRestaurantPOSOrderedProductKOTBuilder(
 						tempOrderInfoKOTDto, dish, tempOrderInfoKOT.getId(), amount, category.get(), dishes.get());
-
 				orderedProductKOT.setHotel(new Hotel(hotelId));
 				orderedProductKOTRepository.save(orderedProductKOT);
 
@@ -116,5 +119,79 @@ public class TempOrderInfoKOTService implements Serializable {
 		logger.info("Temp restaurant order info saved");
 		return utils.objectMapperSuccess("Temp Restaurant Order info saved");
 	}
+	
+	/*
+	 * @Transactional public String save2(TempOrderInfoKOTDto tempOrderInfoKOTDto,
+	 * int hotelId) {
+	 * 
+	 * Optional<Hotel> hotel = hotelRepository.findById(hotelId); if
+	 * (!hotel.isPresent() || hotelId == 0) { throw new
+	 * BadRequestException("hotel not found"); }
+	 * 
+	 * TempOrderInfoKOT tempOrderInfoKOT =
+	 * tempOrderedInfoKOTMapper.tempOrderInfoKOTBuilder(tempOrderInfoKOTDto);
+	 * tempOrderInfoKOT.setHotel(new Hotel(hotelId));
+	 * 
+	 * // OrderInfoKOT orderInfoKOT =
+	 * orderInfoKOTMapper.getOrderInfoKOTBuilder(tempOrderInfoKOTDto);
+	 * orderInfoKOT.setHotel(new Hotel(hotelId));
+	 * 
+	 * 
+	 * Set<TempOrderedProductKOT> tempOrderedProductKOTs = new
+	 * HashSet<TempOrderedProductKOT>(); Set<OrderedProductKOT> orderedProductKOTs =
+	 * new HashSet<OrderedProductKOT>();
+	 * 
+	 * for (DishKOTDto dish : tempOrderInfoKOTDto.getDish()) { Optional<Dish> dishes
+	 * = dishRepository.findByDishId(dish.getDishId());
+	 * 
+	 * if (dishes.isPresent()) {
+	 * 
+	 * Double rate = dish.getRate(); Double amount = dish.getQuantity() * rate;
+	 * Optional<Category> category =
+	 * categoryRepository.findById(dish.getCategoryId());
+	 * 
+	 * TempOrderedProductKOT tempOrderedProductKOT =
+	 * tempOrderedProductKOTMapper.tempOrderedProductKOT( tempOrderInfoKOTDto, dish,
+	 * tempOrderInfoKOT.getId(), amount, category.get(), dishes.get());
+	 * tempOrderedProductKOT.setHotel(new Hotel(hotelId));
+	 * tempOrderedProductKOTs.add(tempOrderedProductKOT);
+	 * 
+	 * OrderedProductKOT orderedProductKOT =
+	 * orderedProductKOTMapper.getRestaurantPOSOrderedProductKOTBuilder(
+	 * tempOrderInfoKOTDto, dish, tempOrderInfoKOT.getId(), amount, category.get(),
+	 * dishes.get()); orderedProductKOT.setHotel(new Hotel(hotelId));
+	 * orderedProductKOTs.add(orderedProductKOT); } }
+	 * tempOrderInfoKOT.setTempOrderedProductKOTs(tempOrderedProductKOTs);
+	 * orderInfoKOT.setOrderedProductKOTs(orderedProductKOTs);;
+	 * 
+	 * tempOrderInfoKOTRepository.save(tempOrderInfoKOT);
+	 * orderInfoKOTRepository.save(orderInfoKOT);
+	 * 
+	 * 
+	 * // OrderInfoKOT orderInfoKOT =
+	 * orderInfoKOTMapper.getOrderInfoKOTBuilder(tempOrderInfoKOTDto); //
+	 * orderInfoKOT.setHotel(new Hotel(hotelId)); //
+	 * orderInfoKOTRepository.save(orderInfoKOT); // // for (DishKOTDto dish :
+	 * tempOrderInfoKOTDto.getDish()) { // Optional<Dish> dishes =
+	 * dishRepository.findByDishId(dish.getDishId()); // // if (dishes.isPresent())
+	 * { // // Double rate = dish.getRate(); // Double amount = dish.getQuantity() *
+	 * rate; // Optional<Category> category =
+	 * categoryRepository.findById(dish.getCategoryId()); // //
+	 * TempOrderedProductKOT tempOrderedProductKOT =
+	 * tempOrderedProductKOTMapper.tempOrderedProductKOT( // tempOrderInfoKOTDto,
+	 * dish, tempOrderInfoKOT.getId(), amount, category.get(), dishes.get()); //
+	 * tempOrderedProductKOT.setHotel(new Hotel(hotelId)); //
+	 * tempOrderedProductKOTRepository.save(tempOrderedProductKOT); // //
+	 * OrderedProductKOT orderedProductKOT =
+	 * orderedProductKOTMapper.getRestaurantPOSOrderedProductKOTBuilder( //
+	 * tempOrderInfoKOTDto, dish, tempOrderInfoKOT.getId(), amount, category.get(),
+	 * dishes.get()); // orderedProductKOT.setHotel(new Hotel(hotelId)); //
+	 * orderedProductKOTRepository.save(orderedProductKOT); // // } else { //
+	 * logger.debug("Dish is not present"); // return
+	 * utils.objectMapperError("dish  is not present"); // }
+	 * 
+	 * // } logger.info("Temp restaurant order info saved"); return
+	 * utils.objectMapperSuccess("Temp Restaurant Order info saved"); }
+	 */
 
 }
