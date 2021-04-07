@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 import com.sunan.model.Hotel;
 import com.sunan.model.Product;
 import com.sunan.model.ProductOpeningStock;
-import com.sunan.produt_openingStock.ProductOpeningStockMapper;
-import com.sunan.produt_openingStock.ProductOpeningStockRepository;
+import com.sunan.produt.opening.stock.ProductOpeningStockMapper;
+import com.sunan.produt.opening.stock.ProductOpeningStockRepository;
 import com.sunan.utils.JsonUtils;
 
 @Service

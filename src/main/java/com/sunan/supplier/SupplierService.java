@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import com.sunan.model.Hotel;
 import com.sunan.model.Supplier;
 import com.sunan.model.SupplierLedger;
-import com.sunan.supplierLedger.SupplierLedgerRepository;
+import com.sunan.supplier.ledger.SupplierLedgerRepository;
 import com.sunan.utils.JsonUtils;
 
 @Service

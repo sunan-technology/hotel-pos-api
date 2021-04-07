@@ -8,7 +8,7 @@ import com.sunan.model.Purchase;
 import com.sunan.model.StorageType;
 import com.sunan.model.Supplier;
 import com.sunan.model.Warehouses;
-import com.sunan.purchaseJoin.PurchaseJoinDto;
+import com.sunan.purchase.join.PurchaseJoinDto;
 import com.sunan.utils.Common;
 
 @Component

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import com.sunan.model.Hotel;
 import com.sunan.model.Recipe;
 import com.sunan.model.RecipeJoin;
-import com.sunan.recipe_join.RecipeJoinRepository;
+import com.sunan.recipe.join.RecipeJoinRepository;
 import com.sunan.utils.JsonUtils;
 
 @Service

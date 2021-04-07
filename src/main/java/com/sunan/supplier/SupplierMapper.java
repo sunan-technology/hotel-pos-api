@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.sunan.model.Supplier;
 import com.sunan.model.SupplierLedger;
-import com.sunan.supplierLedger.SupplierLedgerDto;
+import com.sunan.supplier.ledger.SupplierLedgerDto;
 
 @Component
 public class SupplierMapper {

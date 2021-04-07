@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.sunan.model.Hotel;
 import com.sunan.model.PerchaseJoin;
 import com.sunan.model.Purchase;
-import com.sunan.purchaseJoin.PurchaseJoinRepository;
+import com.sunan.purchase.join.PurchaseJoinRepository;
 import com.sunan.utils.JsonUtils;
 
 @Service

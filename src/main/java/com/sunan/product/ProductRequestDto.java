@@ -2,7 +2,7 @@ package com.sunan.product;
 
 import java.util.List;
 
-import com.sunan.produt_openingStock.ProductOpeningStockDto;
+import com.sunan.produt.opening.stock.ProductOpeningStockDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
