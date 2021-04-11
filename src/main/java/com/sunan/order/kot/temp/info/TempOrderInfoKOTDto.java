@@ -33,7 +33,7 @@ public class TempOrderInfoKOTDto {
 
 	private String ticketNote;
 
-	private String waiter;
+	private int  waiterId;
 
 	private String kotStatus;
 
@@ -45,9 +45,9 @@ public class TempOrderInfoKOTDto {
 
 	public List<DishKOTDto> dish;
 
-	private Double totalAmount;
+//	private Double totalAmount;
 	
-	private String isTempInvoiceGenerated;
+	//private String isTempInvoiceGenerated;
 
 	
 

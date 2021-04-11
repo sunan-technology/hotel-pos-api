@@ -34,8 +34,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "orderedproductbillkot")
-public class OrderedProductBillKOT implements Serializable {
+@Table(name = "billingorderedProductKote")
+public class BillingOrderedProductKOT implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

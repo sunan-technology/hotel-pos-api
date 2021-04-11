@@ -46,7 +46,7 @@ public class OrderedProductKOT implements Serializable {
 
 	@JoinColumn(name = "ticketid")
 	@ManyToOne
-	private OrderInfoKOT OrderInfoKOT;
+	private OrderInfoKOT orderInfoKOT;
 
 	@Column(name = "dish")
 	private String dish;

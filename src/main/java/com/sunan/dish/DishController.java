@@ -63,5 +63,12 @@ public class DishController {
 		logger.info("Controller: Delete dish details by id: {}", id);
 		return new ResponseEntity<>(dishService.delete(id), HttpStatus.OK);
 	}
+	
+	@GetMapping("/get-dish-by-category")
+	public ResponseEntity<?> getAllDishByCategory(@RequestParam int categoryId,@RequestHeader("hotelId") int hotelId){
+		
+		logger.info("Controller : Feteching Category wise dish");
+		return new ResponseEntity<>(dishService.getAllDishByCategory(categoryId,hotelId), HttpStatus.OK);
+	}
 
 }

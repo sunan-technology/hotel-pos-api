@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.sunan.model.HotelTable;
 import com.sunan.model.TempOrderInfoKOT;
+import com.sunan.model.Waiter;
 
 @Component
 public class TempOrderedInfoKOTMapper {
@@ -20,7 +21,7 @@ public class TempOrderedInfoKOTMapper {
 				.groupName(dto.getGroupName())
 				.operator(dto.getOperator())
 				.ticketNote(dto.getTicketNote())
-				.waiter(dto.getWaiter())
+				.waiter(new Waiter(dto.getWaiterId()))
 				.kotStatus(dto.getKotStatus())
 				.isEditable(dto.getIsEditable())
 				.kotType(dto.getKotType())
@@ -43,7 +44,7 @@ public class TempOrderedInfoKOTMapper {
 				.groupName(tempOrderInfoKOT.getGroupName())
 				.operator(tempOrderInfoKOT.getOperator())
 				.ticketNote(tempOrderInfoKOT.getTicketNote())
-				.waiter(tempOrderInfoKOT.getWaiter())
+				.waiterId(tempOrderInfoKOT.getWaiter().getId())
 				.kotStatus(tempOrderInfoKOT.getKotStatus())
 				.isEditable(tempOrderInfoKOT.getIsEditable())
 				.kotType(tempOrderInfoKOT.getKotType())

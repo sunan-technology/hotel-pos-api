@@ -72,8 +72,9 @@ public class OrderInfoKOT  implements Serializable {
 	@Column(name = "ticketnote")
 	private String ticketNote;
 
-	@Column(name = "waiter")
-	private String waiter;
+	@JoinColumn(name = "waiter_id")
+	@ManyToOne
+	private Waiter waiter;
 
 	@Column(name = "kotstatus")
 	private String kotStatus;
@@ -110,8 +111,9 @@ public class OrderInfoKOT  implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
 	
-	@OneToMany(mappedBy = "OrderInfoKOT", cascade = CascadeType.ALL)
-	Set<OrderedProductKOT> orderedProductKOTs;
+//	@OneToMany(mappedBy = "OrderInfoKOT", cascade = CascadeType.ALL)
+//	Set<OrderedProductKOT> orderedProductKOTs;
+	
 	public OrderInfoKOT(int id) {
 		super();
 		this.id = id;

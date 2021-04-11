@@ -73,8 +73,9 @@ public class TempOrderInfoKOT implements Serializable {
 	@Column(name = "ticketnote")
 	private String ticketNote;
 
-	@Column(name = "waiter")
-	private String waiter;
+	@JoinColumn(name = "waiter_id")
+	@ManyToOne
+	private Waiter waiter;
 
 	@Column(name = "kotstatus")
 	private String kotStatus;

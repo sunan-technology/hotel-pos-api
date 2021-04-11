@@ -7,19 +7,19 @@ import com.sunan.model.Dish;
 import com.sunan.model.HotelTable;
 import com.sunan.billing.kot.info.BillingInfoKOTDto;
 import com.sunan.model.BillingInfoKOT;
-import com.sunan.model.OrderedProductBillKOT;
+import com.sunan.model.BillingOrderedProductKOT;
 import com.sunan.order.kot.temp.info.DishKOTDto;
 import com.sunan.utils.Common;
 
 @Component
 public class OrderedProductBillKOTMapper {
 
-	public OrderedProductBillKOT getOrderedProductBillKOTBuilder(
+	public BillingOrderedProductKOT getOrderedProductBillKOTBuilder(
 			BillingInfoKOTDto dto, DishKOTDto dishDto, int restaurantPOSBillingInfoKOTId, Double amount,
 			Category category, Dish dish)
 
 	{
-		return OrderedProductBillKOT.builder()
+		return BillingOrderedProductKOT.builder()
 				.billingInfoKOT(new BillingInfoKOT(restaurantPOSBillingInfoKOTId))
 				.dish(dishDto.getDish())
 				.rate(dishDto.getRate())

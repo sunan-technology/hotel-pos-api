@@ -41,6 +41,9 @@ public class TempOrderedProductKOTMapper {
 	
 	
 	public TempOrderedProductKOT tempOrderedProductKOT(TempOrderInfoKOTDto dto,DishKOTDto dish,int tempRestaurantPOSOrderInfoKOTId,Double amount,Category category,Dish dishes) {
+		
+		Double totalAmount=amount+ Common.calculateGST(dish.getRate(), category.getSc())+Common.calculateGST(dish.getRate(), category.getSt())+Common.calculateGST(dish.getRate(), category.getVat());
+		
 		return TempOrderedProductKOT.builder()
 				.tempOrderInfoKOT(new TempOrderInfoKOT(tempRestaurantPOSOrderInfoKOTId))
 				.dish(dish.getDish())
@@ -55,7 +58,7 @@ public class TempOrderedProductKOTMapper {
 				.scAmount(Common.calculateGST(dish.getRate(), category.getSc()))
 				.discountPer(dishes.getDiscount())
 				.discountAmount(Common.calculateGST(dish.getRate(), dishes.getDiscount()))
-				.totalAmount(dto.getTotalAmount())
+				.totalAmount(totalAmount)
 				.hotelTable(new HotelTable(dto.getTableNo()))
 				.itemStatus(Common.itemStatus)
 				.isActive("yes")

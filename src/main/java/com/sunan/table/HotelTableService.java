@@ -163,8 +163,8 @@ public class HotelTableService implements Serializable {
 			availableTableDto.setId(hotelTable.getTableNo());
 			availableTableDto.setTableName(String.valueOf(hotelTable.getTableNo()));
 			
-			Optional<TempOrderInfoKOT> optional = tempOrderInfoKOTRepository.findByHotelTableAndHotel(hotelTable, new Hotel(hotelId));
-			if(optional.isPresent()) {
+			TempOrderInfoKOT optional = tempOrderInfoKOTRepository.findByHotelTableAndHotel(hotelTable, new Hotel(hotelId));
+			if(optional!= null) {
 				availableTableDto.setAvailableStatus("No");
 			}else {
 				availableTableDto.setAvailableStatus("yes");
