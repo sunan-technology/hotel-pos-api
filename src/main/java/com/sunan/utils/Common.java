@@ -9,6 +9,8 @@ public class Common {
 	public static final Double defaultValue=0.0;
 	
 	public static final String itemStatus="new";
+	
+	public static final String isActiveFlagYes="yes";
 
 	private String[] monthName = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 	

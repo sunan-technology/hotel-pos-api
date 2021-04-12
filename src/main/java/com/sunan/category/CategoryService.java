@@ -89,12 +89,9 @@ public class CategoryService implements Serializable {
 		logger.info("Service: Fetching list of category details ");
 		PageRequest pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Category> pagedResult = null;
-		if (StringUtils.isBlank(searchTerm)) {
+		
 			pagedResult = categoryRepository.findByIsActive("yes", pageable);
-		} else {
-			pagedResult = categoryRepository.findByCategoryNameContainingIgnoreCaseAndIsActive(searchTerm, "yes",
-					pageable);
-		}
+		
 
 		Page<CategoryDto> page = pagedResult.map(new Function<Category, CategoryDto>() {
 			@Override

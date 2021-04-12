@@ -58,5 +58,7 @@ public class RequestMappingConstants {
 	public static final String RESTAURANTPOSBILLINGINFOKOT =RequestMappingConstants.ROOTURL+"/RestaurantPOSBillingInfoKOT";
 	
 	public static final String WAITER =RequestMappingConstants.ROOTURL+"/Waiter";
+	
+	public static final String POSREPORTS =RequestMappingConstants.ROOTURL+"/POSReports";
 	 
 }
