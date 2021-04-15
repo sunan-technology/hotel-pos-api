@@ -1,8 +1,9 @@
 package com.sunan.billing.kot.info;
 
+import java.util.Date;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -16,15 +17,15 @@ public interface BillingInfoKOTRepository extends PagingAndSortingRepository<Bil
 	Page<BillingInfoKOT> findAll();
 
 
-	@Modifying
-	@Query( "SELECT SUM(grandtotal) FROM BillingInfoKOT b WHERE b.operator= :operator AND hotelId= :hotel")
-	public Double getGrandTotalByOperatorAndHotel(@Param("operator") String operator,Hotel hotel);
+
+	@Query( "SELECT SUM(grandTotal) FROM BillingInfoKOT b WHERE b.operator= :operator AND hotel_id= :hotel AND billdate BETWEEN :fromDate AND :toDate")
+	public Double sumGrandTotalByOperatorAndHotel( String operator,Hotel hotel,Date fromDate,Date toDate);
 	
-	@Query("SELECT SUM(grandtotal) FROM BillingInfoKOT b WHERE b.paymentmode= :paymentMode")
-	public Double getGrandTotalByPaymentMode(String paymentMode);
+	@Query("SELECT SUM(grandTotal) FROM BillingInfoKOT WHERE paymentMode= :paymentMode  AND billdate BETWEEN :fromDate AND :toDate")
+	public Double sumGrandTotalByPaymentMode(String paymentMode,Date fromDate,Date toDate);
 	
-	@Query("SELECT SUM(grandtotal) FROM BillingInfoKOT b")
-	public Double getGrandTotal();
+	@Query("SELECT SUM(grandTotal) FROM BillingInfoKOT WHERE hotel_id= :hotel  AND billdate BETWEEN :fromDate AND :toDate")
+	public Double sumGrandTotalByHotel(Hotel hotel,Date fromDate,Date toDate);
 	
 	//public void deleteByHotelTableAndHotelId(HotelTable hotelTable, Hotel hotelId);
 }

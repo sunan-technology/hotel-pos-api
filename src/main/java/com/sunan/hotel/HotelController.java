@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,19 +25,18 @@ import io.swagger.annotations.Api;
 @RequestMapping(RequestMappingConstants.HOTEL)
 @Api(value = "Hotel profile", description = "Operations related to Hotel")
 public class HotelController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(HotelController.class);
-	
+
 	@Autowired
-	private HotelService hotelService; 
-	
+	private HotelService hotelService;
+
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy) {
 		logger.info("Controller: Fetching list hotel details");
-		return new ResponseEntity<>(hotelService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
-				HttpStatus.OK);
+		return new ResponseEntity<>(hotelService.findActiveList(searchTerm, pageNo, pageSize, sortBy), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
@@ -46,8 +44,7 @@ public class HotelController {
 		logger.info("Controller: Fetching hotel details with id {}", id);
 		return new ResponseEntity<>(hotelService.getById(id), HttpStatus.OK);
 	}
-	
-	
+
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody HotelDto hotelDto) {
 		logger.info("Controller: Save hotel details ");
@@ -65,5 +62,5 @@ public class HotelController {
 		logger.info("Controller: Delete hotel details by id: {}", id);
 		return new ResponseEntity<>(hotelService.delete(id), HttpStatus.OK);
 	}
-	
+
 }

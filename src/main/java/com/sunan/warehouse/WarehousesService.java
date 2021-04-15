@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.sunan.model.Hotel;
 import com.sunan.model.Warehouses;
 import com.sunan.utils.JsonUtils;
+import com.sunan.warehouse.type.WarehouseTypeRepository;
 
 @Service
 public class WarehousesService implements Serializable {
@@ -27,6 +28,9 @@ public class WarehousesService implements Serializable {
 
 	@Autowired
 	private WarehousesRepository warehousesRepository;
+	
+	@Autowired
+	private WarehouseTypeRepository warehouseTypeRepository;
 
 	@Autowired
 	WarehousesMapper warehousesMapper;
@@ -36,12 +40,17 @@ public class WarehousesService implements Serializable {
 
 	@Transactional
 	public String save(WarehousesDto warehousesDto,int hotelId) {
+		if(warehouseTypeRepository.findById(warehousesDto.getWarehouseTypeId()).isPresent()) {
 		Warehouses warehouses = warehousesMapper.getWarehousesBuilder(warehousesDto);
 		warehouses.setHotel(new Hotel(hotelId));
 		warehousesRepository.save(warehouses);
 		logger.info("Service: Save warehouse details");
 		return utils.objectMapperSuccess(warehousesMapper.getWarehousesDtoBuilder(warehouses),
 				"Warehouse Details Saved");
+		}else {
+			logger.info("Service : Warehouse Type not found");
+		 return	utils.objectMapperError("Warehouse Type not found");
+		}
 	}
 
 	@Transactional

@@ -29,16 +29,14 @@ public class POSReportController {
 	
 	@Autowired
 	private POSReportService posReportService;
-
-	@GetMapping("/get-over-all-report")
-	public ResponseEntity<?> getOverAllReport(@RequestParam(defaultValue = "0") Integer pageNo,@RequestParam(defaultValue = "10") Integer pageSize,
-			@RequestParam(defaultValue = "id") String sortBy,
-			@RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, 
-			@RequestParam(name = "toDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate,@RequestParam(name = "operator") String operator, @RequestHeader("hotelId") int hotelId){
-		
-		logger.info("Getting over all billing report details");
-  		return new ResponseEntity<>(posReportService.overAllReport(pageNo, pageSize, sortBy, hotelId, fromDate, toDate,operator),
-			HttpStatus.OK);
-	}
+	
+	  @GetMapping("/get-over-all-report") public ResponseEntity<?> getOverAllReport(@RequestParam(defaultValue = "0") Integer pageNo,@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "id") String sortBy,
+	   @RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(name = "toDate", required =
+	  false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate,@RequestParam(name ="operator") String operator, @RequestHeader("hotelId") int hotelId){
+	  
+	  logger.info("Getting over all billing report details"); return new
+	  ResponseEntity<>(posReportService.overAllReport(pageNo, pageSize, sortBy,hotelId, fromDate, toDate,operator), HttpStatus.OK); 
+	  }
+	 
 
 }

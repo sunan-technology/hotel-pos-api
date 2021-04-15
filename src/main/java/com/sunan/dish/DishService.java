@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sunan.category.CategoryRepository;
+import com.sunan.kitchen.KitchenRepository;
 import com.sunan.model.Category;
 import com.sunan.model.Dish;
 import com.sunan.model.Hotel;
@@ -30,9 +31,12 @@ public class DishService implements Serializable {
 
 	@Autowired
 	private DishRepository dishRepository;
-	
+
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private KitchenRepository kitchenRepository;
 
 	@Autowired
 	DishMapper dishMapper;
@@ -41,16 +45,28 @@ public class DishService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(DishDto dishDto,int hotelId) {
-		Dish dish = dishMapper.getDishBuilder(dishDto);
-		dish.setHotel(new Hotel(hotelId));
-		dishRepository.save(dish);
-		logger.info("Service: Save Dish details");
-		return utils.objectMapperSuccess(dishMapper.getDishDtoBuilder(dish), "Dish Details Saved");
+	public String save(DishDto dishDto, int hotelId) {
+
+		if (categoryRepository.findById(dishDto.getCategoryId()).isPresent()) {
+
+			if (kitchenRepository.findById(dishDto.getKitchenId()).isPresent()) {
+				Dish dish = dishMapper.getDishBuilder(dishDto);
+				dish.setHotel(new Hotel(hotelId));
+				dishRepository.save(dish);
+				logger.info("Service: Save Dish details");
+				return utils.objectMapperSuccess(dishMapper.getDishDtoBuilder(dish), "Dish Details Saved");
+			} else {
+				logger.info("Service : Kitchen not present");
+				return utils.objectMapperError("Kitchen not present");
+			}
+		} else {
+			logger.info("Service : Category Not Found");
+			return utils.objectMapperError("Category Not Found");
+		}
 	}
 
 	@Transactional
-	public String update(DishDto dishDto, int id,int hotelId) {
+	public String update(DishDto dishDto, int id, int hotelId) {
 		logger.info("Service: Update dish details with id {}", id);
 		Optional<Dish> optional = dishRepository.findById(id);
 		if (optional.isPresent()) {
@@ -112,16 +128,16 @@ public class DishService implements Serializable {
 	}
 
 	@Transactional
-	public String getAllDishByCategory(int categoryId,int hotelId) {
-		
-		Optional<Category> category=categoryRepository.findById(categoryId);
-		if(category.isPresent()) {
-		logger.info("Service : fetching category wise dish");
-	  List<Dish> list =	dishRepository.findByCategoryAndHotelAndIsActive(new Category(categoryId), new Hotel(hotelId),"yes");
-	  logger.info("Service: Fetching list of dish details by category, total records");
-		return utils.objectMapperSuccess(list, "All Acive dish list by category.");
-		}
-		else {
+	public String getAllDishByCategory(int categoryId, int hotelId) {
+
+		Optional<Category> category = categoryRepository.findById(categoryId);
+		if (category.isPresent()) {
+			logger.info("Service : fetching category wise dish");
+			List<Dish> list = dishRepository.findByCategoryAndHotelAndIsActive(new Category(categoryId),
+					new Hotel(hotelId), "yes");
+			logger.info("Service: Fetching list of dish details by category, total records");
+			return utils.objectMapperSuccess(list, "All Acive dish list by category.");
+		} else {
 			logger.info("Service : category not found");
 			return utils.objectMapperError("Cateogry not found");
 		}

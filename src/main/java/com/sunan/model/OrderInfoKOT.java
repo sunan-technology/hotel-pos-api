@@ -3,9 +3,7 @@ package com.sunan.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,12 +30,12 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "orderinfokot")
-public class OrderInfoKOT  implements Serializable {
+public class OrderInfoKOT implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,8 +58,7 @@ public class OrderInfoKOT  implements Serializable {
 	@JoinColumn(name = "table_id")
 	@ManyToOne
 	private HotelTable hotelTable;
-	
-	
+
 	@Column(name = "groupname")
 	private String groupName;
 
@@ -81,10 +77,10 @@ public class OrderInfoKOT  implements Serializable {
 
 	@Column(name = "iseditable")
 	private String isEditable;
-	
+
 	@Column(name = "istemp_invoicegenerated")
 	private String isTempInvoiceGenerated;
-	
+
 	@Column(name = "no_oftimes")
 	private int noOfTimes;
 
@@ -110,21 +106,13 @@ public class OrderInfoKOT  implements Serializable {
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
-	
+
 //	@OneToMany(mappedBy = "OrderInfoKOT", cascade = CascadeType.ALL)
 //	Set<OrderedProductKOT> orderedProductKOTs;
-	
+
 	public OrderInfoKOT(int id) {
 		super();
 		this.id = id;
 	}
-
-	 
-
-  
-
-	
-	
-	
 
 }

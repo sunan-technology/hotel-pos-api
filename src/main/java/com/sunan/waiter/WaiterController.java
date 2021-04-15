@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sunan.category.CategoryDto;
 import com.sunan.constants.RequestMappingConstants;
 
 import io.swagger.annotations.Api;
@@ -27,47 +26,43 @@ import io.swagger.annotations.Api;
 @RequestMapping(RequestMappingConstants.WAITER)
 @Api(value = "Waiter profile", description = "Operations related to waiter")
 public class WaiterController {
-	
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(WaiterController.class);
-	
+
 	@Autowired
 	private WaiterService waiterService;
-	
-	
+
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
-			@RequestParam(defaultValue = "id") String sortBy,@RequestHeader("hotelId") int hotelId) {
+			@RequestParam(defaultValue = "id") String sortBy, @RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching list waiter details");
-		return new ResponseEntity<>(waiterService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
-				HttpStatus.OK);
+		return new ResponseEntity<>(waiterService.findActiveList(searchTerm, pageNo, pageSize, sortBy), HttpStatus.OK);
 	}
-	
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
+	public ResponseEntity<?> getById(@PathVariable int id, @RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching waiter details with id {}", id);
 		return new ResponseEntity<>(waiterService.getById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody WaiterDto waiterDto,@RequestHeader("hotelId") int hotelId) {
+	public ResponseEntity<?> save(@RequestBody WaiterDto waiterDto, @RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save waiter details ");
-		return new ResponseEntity<>(waiterService.save(waiterDto,hotelId), HttpStatus.OK);
+		return new ResponseEntity<>(waiterService.save(waiterDto, hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody WaiterDto waiterDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
+	public ResponseEntity<?> update(@RequestBody WaiterDto waiterDto, @PathVariable int id,
+			@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update waiter details by id: {}", id);
-		return new ResponseEntity<>(waiterService.update(waiterDto, id,hotelId), HttpStatus.OK);
+		return new ResponseEntity<>(waiterService.update(waiterDto, id, hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
+	public ResponseEntity<?> delete(@PathVariable int id, @RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Delete waiter details by id: {}", id);
 		return new ResponseEntity<>(waiterService.delete(id), HttpStatus.OK);
 	}
-
 
 }

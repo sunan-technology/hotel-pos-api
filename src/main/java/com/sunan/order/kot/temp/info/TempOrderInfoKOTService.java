@@ -20,7 +20,6 @@ import com.sunan.model.Dish;
 import com.sunan.model.Hotel;
 import com.sunan.model.HotelTable;
 import com.sunan.model.OrderInfoKOT;
-import com.sunan.model.OrderedProductKOT;
 import com.sunan.model.TempOrderInfoKOT;
 import com.sunan.model.TempOrderedProductKOT;
 import com.sunan.order.kot.info.OrderInfoKOTMapper;
@@ -75,42 +74,43 @@ public class TempOrderInfoKOTService implements Serializable {
 
 	@Transactional
 	public String save(TempOrderInfoKOTDto tempOrderInfoKOTDto, int hotelId) {
-		
-		TempOrderInfoKOT opt=tempOrderInfoKOTRepository.findByHotelTableAndHotel(new HotelTable(tempOrderInfoKOTDto.getTableNo()), new Hotel(hotelId));
-		if(opt ==null) {
 
-		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
-		if (!hotel.isPresent() || hotelId == 0) {
-			throw new BadRequestException("hotel not found");
-		}
+		TempOrderInfoKOT opt = tempOrderInfoKOTRepository
+				.findByHotelTableAndHotel(new HotelTable(tempOrderInfoKOTDto.getTableNo()), new Hotel(hotelId));
+		if (opt == null) {
 
-		TempOrderInfoKOT tempOrderInfoKOT = tempOrderedInfoKOTMapper.tempOrderInfoKOTBuilder(tempOrderInfoKOTDto);
-		tempOrderInfoKOT.setHotel(new Hotel(hotelId));
-		tempOrderInfoKOTRepository.save(tempOrderInfoKOT);
-
-		for (DishKOTDto dish : tempOrderInfoKOTDto.getDish()) {
-			Optional<Dish> dishes = dishRepository.findByDishId(dish.getDishId());
-
-			if (dishes.isPresent()) {
-
-				Double rate = dish.getRate();
-				Double amount = dish.getQuantity() * rate;
-				Optional<Category> category = categoryRepository.findById(dish.getCategoryId());
-
-				TempOrderedProductKOT tempOrderedProductKOT = tempOrderedProductKOTMapper.tempOrderedProductKOT(
-						tempOrderInfoKOTDto, dish, tempOrderInfoKOT.getId(), amount, category.get(), dishes.get());
-				tempOrderedProductKOT.setHotel(new Hotel(hotelId));
-				tempOrderedProductKOTRepository.save(tempOrderedProductKOT);
-			} else {
-				logger.debug("Dish is not present");
-				return utils.objectMapperError("dish  is not present");
+			Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+			if (!hotel.isPresent() || hotelId == 0) {
+				throw new BadRequestException("hotel not found");
 			}
 
-		}
-		logger.info("Temp restaurant order info saved");
-		return utils.objectMapperSuccess("Temp Restaurant Order info saved");
-		}else {
-			
+			TempOrderInfoKOT tempOrderInfoKOT = tempOrderedInfoKOTMapper.tempOrderInfoKOTBuilder(tempOrderInfoKOTDto);
+			tempOrderInfoKOT.setHotel(new Hotel(hotelId));
+			tempOrderInfoKOTRepository.save(tempOrderInfoKOT);
+
+			for (DishKOTDto dish : tempOrderInfoKOTDto.getDish()) {
+				Optional<Dish> dishes = dishRepository.findByDishId(dish.getDishId());
+
+				if (dishes.isPresent()) {
+
+					Double rate = dish.getRate();
+					Double amount = dish.getQuantity() * rate;
+					Optional<Category> category = categoryRepository.findById(dish.getCategoryId());
+
+					TempOrderedProductKOT tempOrderedProductKOT = tempOrderedProductKOTMapper.tempOrderedProductKOT(
+							tempOrderInfoKOTDto, dish, tempOrderInfoKOT.getId(), amount, category.get(), dishes.get());
+					tempOrderedProductKOT.setHotel(new Hotel(hotelId));
+					tempOrderedProductKOTRepository.save(tempOrderedProductKOT);
+				} else {
+					logger.debug("Dish is not present");
+					return utils.objectMapperError("dish  is not present");
+				}
+
+			}
+			logger.info("Temp restaurant order info saved");
+			return utils.objectMapperSuccess("Temp Restaurant Order info saved");
+		} else {
+
 			logger.info("Service :Table is already occupied");
 			return utils.objectMapperSuccess("Table is already occupied");
 		}
@@ -124,14 +124,15 @@ public class TempOrderInfoKOTService implements Serializable {
 
 			tempOrderedProductKOTRepository.updateQuantityByHotelAndTicketId(new Hotel(hotelId), dishId, quantity);
 
-			Double tempGrandTotal=0.0;
-			List<TempOrderedProductKOT> optional = tempOrderedProductKOTRepository.findByTempOrderInfoKOT( new TempOrderInfoKOT(ticketId));
-			
+			Double tempGrandTotal = 0.0;
+			List<TempOrderedProductKOT> optional = tempOrderedProductKOTRepository
+					.findByTempOrderInfoKOT(new TempOrderInfoKOT(ticketId));
+
 			for (TempOrderedProductKOT tempOrderedProductKOT : optional) {
-				
-			  tempGrandTotal+=tempOrderedProductKOT.getRate()*tempOrderedProductKOT.getQuantity();
+
+				tempGrandTotal += tempOrderedProductKOT.getRate() * tempOrderedProductKOT.getQuantity();
 			}
-			
+
 			tempOrderInfoKOTRepository.updateGrandTotalByHotelAndTicketId(new Hotel(hotelId), ticketId, tempGrandTotal);
 
 		} else {
@@ -172,8 +173,8 @@ public class TempOrderInfoKOTService implements Serializable {
 			Optional<TempOrderedProductKOT> optional = tempOrderedProductKOTRepository
 					.findByIdAndTempOrderInfoKOT(dishId, new TempOrderInfoKOT(ticketId));
 
-			tempOrderInfoKOTRepository.updateGrandTotalByHotelAndTicketId(new Hotel(hotelId), ticketId,opt.get().getGrandTotal() +
-					optional.get().getRate());
+			tempOrderInfoKOTRepository.updateGrandTotalByHotelAndTicketId(new Hotel(hotelId), ticketId,
+					opt.get().getGrandTotal() + optional.get().getRate());
 		} else {
 			logger.debug("Dish is not present");
 			return utils.objectMapperError("dish  is not present");
@@ -197,8 +198,8 @@ public class TempOrderInfoKOTService implements Serializable {
 					.findByIdAndTempOrderInfoKOT(dishId, new TempOrderInfoKOT(ticketId));
 
 			// updating grand total in temp order info table
-			tempOrderInfoKOTRepository.updateGrandTotalByHotelAndTicketId(new Hotel(hotelId), ticketId,opt.get().getGrandTotal()-
-					optional.get().getRate());
+			tempOrderInfoKOTRepository.updateGrandTotalByHotelAndTicketId(new Hotel(hotelId), ticketId,
+					opt.get().getGrandTotal() - optional.get().getRate());
 		} else {
 			logger.debug("Dish is not present");
 			return utils.objectMapperError("dish  is not present");
@@ -214,8 +215,7 @@ public class TempOrderInfoKOTService implements Serializable {
 		Optional<TempOrderInfoKOT> opt = tempOrderInfoKOTRepository.findById(ticketId);
 		if (opt.isPresent()) {
 			logger.info("Service :remove product");
-			tempOrderedProductKOTRepository.deleteByTempOrderInfoKOTAndId(
-					new TempOrderInfoKOT(ticketId), dishId);
+			tempOrderedProductKOTRepository.deleteByTempOrderInfoKOTAndId(new TempOrderInfoKOT(ticketId), dishId);
 
 		} else {
 			logger.info("Service :temp  order is not present");
@@ -228,20 +228,20 @@ public class TempOrderInfoKOTService implements Serializable {
 
 	@Transactional
 	public String removeTempOrder(int ticketId) {
-		
-		Optional<TempOrderInfoKOT> tempOrderInfoKOT=tempOrderInfoKOTRepository.findById(ticketId);
-		
-		if(tempOrderInfoKOT.isPresent()) {
+
+		Optional<TempOrderInfoKOT> tempOrderInfoKOT = tempOrderInfoKOTRepository.findById(ticketId);
+
+		if (tempOrderInfoKOT.isPresent()) {
 			logger.info("Service : delete temp order info ");
 			tempOrderedProductKOTRepository.deleteByTempOrderInfoKOT(new TempOrderInfoKOT(ticketId));
 			tempOrderInfoKOTRepository.deleteById(ticketId);
-			
-		}else {
+
+		} else {
 			logger.info("Service : temp order not found");
 			return utils.objectMapperError("Temp order not found");
 		}
-       logger.info("Temp order delete suceessfully");
-       return utils.objectMapperSuccess("Temp order delete suceessfully");
+		logger.info("Temp order delete suceessfully");
+		return utils.objectMapperSuccess("Temp order delete suceessfully");
 	}
 
 	/*
