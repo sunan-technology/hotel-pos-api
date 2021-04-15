@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.sunan.credit.customer.CreditCustomerRepository;
 import com.sunan.credit.customer.ledger.CreditCustomerLedgerMapper;
 import com.sunan.credit.customer.ledger.CreditCustomerLedgerRepository;
+import com.sunan.hotel.HotelRepository;
 import com.sunan.model.CreditCustomer;
 import com.sunan.model.CreditCustomerLedger;
 import com.sunan.model.CreditCustomerPayment;
@@ -34,6 +35,9 @@ public class CreditCustomerPaymentService implements Serializable {
 
 	@Autowired
 	private CreditCustomerRepository creditCustomerRepository;
+	
+	@Autowired
+	private HotelRepository hotelRepository;
 
 	@Autowired
 	CreditCustomerPaymentMapper creditCustomerPaymentMapper;
@@ -51,9 +55,11 @@ public class CreditCustomerPaymentService implements Serializable {
 		
 		Optional<CreditCustomer> optional = creditCustomerRepository.findById(creditCustomerPaymentDto.getCreditCustomerId());
 		if(!optional.isPresent()) {
-			return utils.objectMapperError("Category not found. Pass valid category id in the request");
+			return utils.objectMapperError("Credit Customer not found. Pass valid credit customer id in the request");
 		} 
 		
+		Optional<Hotel> hotel=hotelRepository.findById(hotelId);
+		if(hotel.isPresent()) {
 		CreditCustomerPayment creditCustomerPayment = creditCustomerPaymentMapper
 				.getCreditCustomerPaymentBuilder(creditCustomerPaymentDto);
 		creditCustomerPayment.setHotel(new Hotel(hotelId));
@@ -67,6 +73,10 @@ public class CreditCustomerPaymentService implements Serializable {
 		return utils.objectMapperSuccess(
 				creditCustomerPaymentMapper.getCreditCustomerPaymentDtoBuilder(creditCustomerPayment),
 				" Credit customer payment Details Saved");
+		}else {
+			logger.info("Service: hotel not found");
+			return utils.objectMapperError("Hotel not found");
+		}
 	}
 
 	@Transactional

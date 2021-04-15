@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Hotel;
 import com.sunan.model.Kitchen;
 import com.sunan.utils.JsonUtils;
@@ -31,17 +32,28 @@ public class KitchenService implements Serializable {
 	@Autowired
 	private JsonUtils utils;
 	
+	
+	@Autowired
+	private HotelRepository hotelRepository;
+
+	
 	@Autowired
     KitchenMapper kitchenMapper;
 	
 	
 	@Transactional
 	public String save(KitchenDto kitchenDto,int hotelId) { 
+		Optional<Hotel> hotel=hotelRepository.findById(hotelId);
+		if(hotel.isPresent()) {
 		Kitchen kitchen = kitchenMapper.getKitchenBuilder(kitchenDto);
 		kitchen.setHotel(new Hotel(hotelId));
 		kitchenRepository.save(kitchen);
 		logger.info("Service: Save Kitchen details");
 		return utils.objectMapperSuccess(kitchenMapper.getKitchenDtoBuilder(kitchen),"Kitchen Details Saved");
+		}else {
+			logger.info("Service: hotel not found");
+			return utils.objectMapperError("Hotel not found");
+		}
 	}
 	
 	

@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Customer;
 import com.sunan.model.Hotel;
 import com.sunan.utils.JsonUtils;
@@ -26,6 +27,10 @@ public class CustomerService implements Serializable {
 
 	@Autowired
 	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private HotelRepository hotelRepository;
+
 
 	@Autowired
 	CustomerMapper customerMapper;
@@ -35,11 +40,17 @@ public class CustomerService implements Serializable {
 
 	@Transactional
 	public String save(CustomerDto customerDto,int hotelId) {
+		Optional<Hotel> hotel=hotelRepository.findById(hotelId);
+		if(hotel.isPresent()) {
 		Customer customer = customerMapper.getCustomerBuilder(customerDto);
 		customer.setHotel(new Hotel(hotelId));
 		customerRepository.save(customer);
 		logger.info("Service: Save customer details");
 		return utils.objectMapperSuccess(customerMapper.getCustomerDtoBuilder(customer), "Customer Details Saved");
+		}else {
+			logger.info("Service: hotel not found");
+			return utils.objectMapperError("Hotel not found");
+		}
 	}
 
 	@Transactional

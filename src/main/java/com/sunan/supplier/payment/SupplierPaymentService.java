@@ -1,6 +1,7 @@
 package com.sunan.supplier.payment;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.sunan.model.Hotel;
 import com.sunan.model.Supplier;
 import com.sunan.model.SupplierLedger;
+import com.sunan.supplier.SupplierRepository;
 import com.sunan.supplier.ledger.SupplierLedgerRepository;
 import com.sunan.utils.JsonUtils;
 
@@ -23,6 +25,9 @@ public class SupplierPaymentService implements Serializable {
 
 	@Autowired
 	private SupplierLedgerRepository supplierLedgerRepository;
+	
+	@Autowired
+	private SupplierRepository supplierRepository;
 
 	@Autowired
 	SupplierPaymentMapper supplierPaymentMapper;
@@ -33,14 +38,12 @@ public class SupplierPaymentService implements Serializable {
 
 	@Transactional
 	public String save(SupplierPaymentDto supplierPaymentDto,int hotelId) {
-
-		int supplierId = supplierPaymentDto.getSupplierId();
-
-		Double transactionAmount = supplierPaymentDto.getAmount();
-
-		Double supplierBalance = supplierLedgerRepository.getSupplierBalanceBySupplierId(new Supplier(supplierId));
 		
-
+		Optional<Supplier> supplier=supplierRepository.findById(supplierPaymentDto.getSupplierId());
+		if(supplier.isPresent()) {
+		Double transactionAmount = supplierPaymentDto.getAmount();
+		Double supplierBalance = supplierLedgerRepository.getSupplierBalanceBySupplierId(new Supplier(supplierPaymentDto.getSupplierId()));
+		
 		if (transactionAmount < supplierBalance) {
 
 			SupplierLedger supplierledger = supplierPaymentMapper.getSupplierPaymentBuilder(supplierPaymentDto);
@@ -53,6 +56,10 @@ public class SupplierPaymentService implements Serializable {
 		} else {
 			logger.info("Service: supplier balance is less than transaction amount");
 			return utils.objectMapperError("Supplier balance is less than transaction amount");
+		}
+		}else {
+			logger.info("Service: supplier not fount");
+			return utils.objectMapperError("Supplier not found");
 		}
 
 	}

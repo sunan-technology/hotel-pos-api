@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.hotel.HotelRepository;
 import com.sunan.model.ExpenseType;
 import com.sunan.model.Hotel;
 import com.sunan.utils.JsonUtils;
@@ -28,6 +29,10 @@ public class ExpenseTypeService implements Serializable {
 	@Autowired
 	private ExpenseTypeRepository expenseTypeRepository;
 
+	
+	@Autowired
+	private HotelRepository hotelRepository;
+
 	@Autowired
 	ExpenseTypeMapper expenseTypeMapper;
 
@@ -36,12 +41,18 @@ public class ExpenseTypeService implements Serializable {
 
 	@Transactional
 	public String save(ExpenseTypeDto expenseTypeDto,int hotelId) {
+		Optional<Hotel> hotel=hotelRepository.findById(hotelId);
+		if(hotel.isPresent()) {
 		ExpenseType expenseType = expenseTypeMapper.getExpenseTypeBuilder(expenseTypeDto);
 		expenseType.setHotel(new Hotel(hotelId));
 		expenseTypeRepository.save(expenseType);
 		logger.info("Service: Save Expense type details");
 		return utils.objectMapperSuccess(expenseTypeMapper.getExpenseTypeDtoBuilder(expenseType),
 				"Expense type Details Saved");
+		}else {
+			logger.info("Service: hotel not found");
+			return utils.objectMapperError("Hotel not found");
+		}
 	}
 
 	@Transactional

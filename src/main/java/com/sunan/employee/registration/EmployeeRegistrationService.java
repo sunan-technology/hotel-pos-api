@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.hotel.HotelRepository;
 import com.sunan.model.EmployeeRegistration;
 import com.sunan.model.Hotel;
 import com.sunan.utils.JsonUtils;
@@ -29,12 +30,17 @@ public class EmployeeRegistrationService implements Serializable {
 
 	@Autowired
 	EmployeeRegistrationMapper employeeRegistrationMapper;
+	
+	@Autowired
+	private HotelRepository hotelRepository;
 
 	@Autowired
 	private JsonUtils utils;
 
 	@Transactional
 	public String save(EmployeeRegistrationDto employeeRegistrationDto, int hotelId) {
+		Optional<Hotel> hotel=hotelRepository.findById(hotelId);
+		if(hotel.isPresent()) {
 		EmployeeRegistration employeeRegistration = employeeRegistrationMapper
 				.getEmployeeRegistrationBuilder(employeeRegistrationDto);
 		employeeRegistration.setHotel(new Hotel(hotelId));
@@ -43,6 +49,10 @@ public class EmployeeRegistrationService implements Serializable {
 		return utils.objectMapperSuccess(
 				employeeRegistrationMapper.getEmployeeRegistrationDtoBuilder(employeeRegistration),
 				"Employee Details Saved");
+		}else {
+			logger.info("Service: hotel not found");
+			return utils.objectMapperError("Hotel not found");
+		}
 	}
 
 	@Transactional

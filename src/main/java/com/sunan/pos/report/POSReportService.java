@@ -1,33 +1,19 @@
 package com.sunan.pos.report;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.sunan.billing.kot.info.BillingInfoKOTRepository;
 import com.sunan.hotel.HotelRepository;
-import com.sunan.model.BillingInfoKOT;
-import com.sunan.model.BillingInfoKOT_;
 import com.sunan.model.Hotel;
-import com.sunan.utils.Common;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -50,12 +36,12 @@ public class POSReportService implements Serializable {
 			Date toDate, String operator) {
 
 		logger.info("Getting data for over all report..");
-		
+
 		// CALL HOTEL REPO BY ID
 		Optional<Hotel> entity = hotelRepo.findById(hotelId);
 		if (entity.isPresent()) {
-			Double saleByOprator = billingInfoKotRepository.sumGrandTotalByOperatorAndHotel(operator, new Hotel(hotelId),
-					fromDate, toDate);
+			Double saleByOprator = billingInfoKotRepository.sumGrandTotalByOperatorAndHotel(operator,
+					new Hotel(hotelId), fromDate, toDate);
 			OverAllReportDto dto = new OverAllReportDto();
 			dto.setHotelName(entity.get().getHotelName());
 			dto.setHotelAddress(entity.get().getAddress1());
@@ -74,9 +60,10 @@ public class POSReportService implements Serializable {
 			dto.setDineIn(dineIn);
 			return utils.objectMapperSuccess(dto, "Over All billing report list.");
 		} else {
+			logger.info("Service : Hotel not found");
 			return utils.objectMapperSuccess("Hotel not found");
 		}
-		
+
 	}
 
 }

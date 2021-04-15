@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Hotel;
 import com.sunan.model.Supplier;
 import com.sunan.model.SupplierLedger;
@@ -31,6 +32,9 @@ public class SupplierService implements Serializable {
 	private SupplierRepository supplierRepository;
 
 	@Autowired
+	private HotelRepository hotelRepository;
+
+	@Autowired
 	private SupplierLedgerRepository supplierLedgerRepository;
 
 	@Autowired
@@ -40,23 +44,28 @@ public class SupplierService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(SupplierDto supplierDto,int hotelId) {
-		Supplier supplier = supplierMapper.getSupplierBuilder(supplierDto);
-		supplier.setHotel(new Hotel(hotelId));
-		supplierRepository.save(supplier);
-		Double openingbalance = supplier.getOpeningBalance();
-		int supplierId = supplier.getSupplierId();
+	public String save(SupplierDto supplierDto, int hotelId) {
+		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+		if (hotel.isPresent()) {
+			Supplier supplier = supplierMapper.getSupplierBuilder(supplierDto);
+			supplier.setHotel(new Hotel(hotelId));
+			supplierRepository.save(supplier);
 
-		SupplierLedger supplierLedger = supplierMapper.getSupplierLedger(supplierDto, supplierId, openingbalance);
-		supplierLedger.setHotel(new Hotel(hotelId));
-		supplierLedgerRepository.save(supplierLedger);
+			SupplierLedger supplierLedger = supplierMapper.getSupplierLedger(supplierDto, supplier.getSupplierId(),
+					supplier.getOpeningBalance());
+			supplierLedger.setHotel(new Hotel(hotelId));
+			supplierLedgerRepository.save(supplierLedger);
 
-		logger.info("Service: supplier details");
-		return utils.objectMapperSuccess(supplierMapper.getSupplierDtoBuilder(supplier), " Supplier Details Saved");
+			logger.info("Service: supplier details");
+			return utils.objectMapperSuccess(supplierMapper.getSupplierDtoBuilder(supplier), " Supplier Details Saved");
+		} else {
+			logger.info("Service: hotel not found");
+			return utils.objectMapperError("Hotel not found");
+		}
 	}
 
 	@Transactional
-	public String update(SupplierDto supplierDto, int id,int hotelId) {
+	public String update(SupplierDto supplierDto, int id, int hotelId) {
 		logger.info("Service: Update supplier details with id {}", id);
 		Optional<Supplier> optional = supplierRepository.findById(id);
 		if (optional.isPresent()) {

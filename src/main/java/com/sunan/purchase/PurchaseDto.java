@@ -38,7 +38,6 @@ public class PurchaseDto {
 	private Double otherCharges;
 	private Double previousDue;
 	private Double total;
-	private Double roundOff;
 	private Double grandTotal;
 	private Double totalPayment;
 		private String isActive;

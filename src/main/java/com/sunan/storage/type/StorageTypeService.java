@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Hotel;
 import com.sunan.model.StorageType;
 import com.sunan.utils.JsonUtils;
@@ -29,23 +30,32 @@ public class StorageTypeService implements Serializable {
 	private StorageTypeRepository storageTypeRepository;
 
 	@Autowired
+	private HotelRepository hotelRepository;
+
+	@Autowired
 	StorageTypeMapper storageTypeMapper;
 
 	@Autowired
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(StorageTypeDto storageTypeDto,int hotelId) {
-		StorageType storageType = storageTypeMapper.getStorageTypeBuilder(storageTypeDto);
-		storageType.setHotel(new Hotel(hotelId));
-		storageTypeRepository.save(storageType);
-		logger.info("Service: Save storage type details");
-		return utils.objectMapperSuccess(storageTypeMapper.getStorageTypeDtoBuilder(storageType),
-				"Storage type Details Saved");
+	public String save(StorageTypeDto storageTypeDto, int hotelId) {
+		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+		if (hotel.isPresent()) {
+			StorageType storageType = storageTypeMapper.getStorageTypeBuilder(storageTypeDto);
+			storageType.setHotel(new Hotel(hotelId));
+			storageTypeRepository.save(storageType);
+			logger.info("Service: Save storage type details");
+			return utils.objectMapperSuccess(storageTypeMapper.getStorageTypeDtoBuilder(storageType),
+					"Storage type Details Saved");
+		} else {
+			logger.info("Service: hotel not found");
+			return utils.objectMapperError("Hotel not found");
+		}
 	}
 
 	@Transactional
-	public String update(StorageTypeDto storageTypeDto, int id,int hotelId) {
+	public String update(StorageTypeDto storageTypeDto, int id, int hotelId) {
 		logger.info("Service: Update storage type details with id {}", id);
 		Optional<StorageType> optional = storageTypeRepository.findById(id);
 		if (optional.isPresent()) {

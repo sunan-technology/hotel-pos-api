@@ -6,7 +6,6 @@ import java.util.function.Function;
 
 import javax.transaction.Transactional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Category;
 import com.sunan.model.Hotel;
 import com.sunan.utils.JsonUtils;
@@ -30,17 +30,27 @@ public class CategoryService implements Serializable {
 
 	@Autowired
 	CategoryMapper categoryMapper;
+	
+	@Autowired
+	private HotelRepository hotelRepository;
 
 	@Autowired
 	private JsonUtils utils;
 
 	@Transactional
 	public String save(CategoryDto categoryDto,int hotelId) {
+		
+		Optional<Hotel> hotel=hotelRepository.findById(hotelId);
+		if(hotel.isPresent()) {
 		Category category = categoryMapper.getCategoryBuilder(categoryDto);
 		category.setHotel(new Hotel(hotelId));
 		categoryRepository.save(category);
 		logger.info("Service: Save Category details");
 		return utils.objectMapperSuccess(categoryMapper.getCategoryDtoBuilder(category), "Category Details Saved");
+	} else {
+		logger.info("Service: hotel not found");
+		return utils.objectMapperError("Hotel not found");
+	}
 	}
 
 	@Transactional

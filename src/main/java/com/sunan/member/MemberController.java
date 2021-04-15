@@ -68,7 +68,7 @@ public class MemberController {
 	@PostMapping("/credit-debit-funds")
 	public ResponseEntity<?> saveCreditAndDebitFunds(@RequestBody MemberLedgerDto dto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save member ledger details ");
-		return new ResponseEntity<>(memberService.saveCreditAndDebitFunds(dto), HttpStatus.OK);
+		return new ResponseEntity<>(memberService.saveCreditAndDebitFunds(dto,hotelId), HttpStatus.OK);
 		
 	}
 	
@@ -76,13 +76,13 @@ public class MemberController {
 	public ResponseEntity<?> updateCreditAndDebitFunds(@RequestBody MemberLedgerDto dto,@PathVariable int id,@RequestHeader("hotelId") int hotelId)
 	{
 		logger.info("Controller: Update credit and debbit details by id: {}", id);
-		return new ResponseEntity<>(memberService.updateCreditAndDebitFunds(dto, id), HttpStatus.OK);
+		return new ResponseEntity<>(memberService.updateCreditAndDebitFunds(dto, id,hotelId), HttpStatus.OK);
 	}
 	
 	@GetMapping("/get-member-balance/{id}")
 	public ResponseEntity<?> getMemberBalance(@PathVariable int id,@RequestHeader("hotelId") int hotelId){
 		logger.info("Controller : Fetching member balance details with id {}",id);
-		return new ResponseEntity<>(memberService.getMemberBalance(id),HttpStatus.OK);
+		return new ResponseEntity<>(memberService.getMemberBalance(id,hotelId),HttpStatus.OK);
 	}
 	
 }

@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.hotel.HotelRepository;
 import com.sunan.member.ledger.MemberLedgerDto;
 import com.sunan.member.ledger.MemberLedgerMapper;
 import com.sunan.member.ledger.MemberLedgerRepository;
@@ -36,6 +37,9 @@ public class MemberService implements Serializable {
 	MemberMapper memberMapper;
 
 	@Autowired
+	private HotelRepository hotelRepository;
+
+	@Autowired
 	private JsonUtils utils;
 
 	@Autowired
@@ -45,21 +49,27 @@ public class MemberService implements Serializable {
 	MemberLedgerMapper memberLedgerMapper;
 
 	@Transactional
-	public String save(MemberDto memberDto,int hotelId) {
-		Member member = memberMapper.getMemberBuilder(memberDto);
-		member.setHotel(new Hotel(hotelId));
-		memberRepository.save(member);
-		logger.info("Service: Save member details");
-		return utils.objectMapperSuccess(memberMapper.getMemberDtoBulider(member), "Member Details Saved");
+	public String save(MemberDto memberDto, int hotelId) {
+		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+		if (hotel.isPresent()) {
+			Member member = memberMapper.getMemberBuilder(memberDto);
+			member.setHotel(new Hotel(hotelId));
+			memberRepository.save(member);
+			logger.info("Service: Save member details");
+			return utils.objectMapperSuccess(memberMapper.getMemberDtoBulider(member), "Member Details Saved");
+		} else {
+			logger.info("Service: hotel not found");
+			return utils.objectMapperError("Hotel not found");
+		}
 	}
 
 	@Transactional
-	public String update(MemberDto memberDto, int id,int hotelId) {
+	public String update(MemberDto memberDto, int id, int hotelId) {
 		logger.info("Service: Update member details with id {}", id);
 		Optional<Member> optional = memberRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: member details found with id {} for update operation", id);
-			
+
 			Member member = memberMapper.getMemberBuilder(memberDto);
 			member.setHotel(new Hotel(hotelId));
 			memberRepository.save(member);
@@ -128,42 +138,68 @@ public class MemberService implements Serializable {
 	}
 
 	@Transactional
-	public Object saveCreditAndDebitFunds(MemberLedgerDto dto) {
+	public Object saveCreditAndDebitFunds(MemberLedgerDto dto, int hotelId) {
+		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+		if (hotel.isPresent()) {
+			Optional<Member> member = memberRepository.findById(dto.getMemberId());
+			if (member.isPresent()) {
+				MemberLedger memberLedger = memberLedgerMapper.getMemberLedgerBuilder(dto);
+				memberLedger.setHotel(new Hotel(hotelId));
+				memberLedgerRepository.save(memberLedger);
 
-		MemberLedger memberLedger = memberLedgerMapper.getMemberLedgerBuilder(dto);
-		memberLedgerRepository.save(memberLedger);
-
-		logger.info("Service: Save member ledger details");
-		return utils.objectMapperSuccess(memberLedgerMapper.getMemberLedgerDtoBuilder(memberLedger),
-				"Member ledger Details Saved");
-	}
-
-	@Transactional
-	public Object updateCreditAndDebitFunds(MemberLedgerDto dto, int id) {
-		logger.info("Service: Update member credit and debit details with id {}", id);
-		Optional<MemberLedger> optional = memberLedgerRepository.findById(id);
-
-		if (optional.isPresent()) {
-			logger.info("Service: member credit and debit details found with id {} for update operation", id);
-			MemberLedger memberLedger = memberLedgerMapper.getMemberLedgerBuilder(dto);
-			memberLedgerRepository.save(memberLedger);
-			return utils.objectMapperSuccess(memberLedgerMapper.getMemberLedgerDtoBuilder(memberLedger),
-					"Member credit and debit Details Updated");
+				logger.info("Service: Save member ledger details");
+				return utils.objectMapperSuccess(memberLedgerMapper.getMemberLedgerDtoBuilder(memberLedger),
+						"Member ledger Details Saved");
+			} else {
+				logger.info("Service : member not present");
+				return utils.objectMapperError("Member not present");
+			}
+		} else {
+			logger.info("Service: hotel not found");
+			return utils.objectMapperError("Hotel not found");
 		}
-		logger.info("Service: member credit and debit details not found with id {} for update operation", id);
-		return utils.objectMapperError("Member credit and debit Details Not Found !");
+	}
+
+	@Transactional
+	public Object updateCreditAndDebitFunds(MemberLedgerDto dto, int id, int hotelId) {
+		logger.info("Service: Update member credit and debit details with id {}", id);
+		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+		if (hotel.isPresent()) {
+			Optional<MemberLedger> optional = memberLedgerRepository.findById(id);
+
+			if (optional.isPresent()) {
+				Optional<Member> member = memberRepository.findById(dto.getMemberId());
+				if (member.isPresent()) {
+					logger.info("Service: member credit and debit details found with id {} for update operation", id);
+					MemberLedger memberLedger = memberLedgerMapper.getMemberLedgerBuilder(dto);
+					memberLedger.setHotel(new Hotel(hotelId));
+					memberLedgerRepository.save(memberLedger);
+					return utils.objectMapperSuccess(memberLedgerMapper.getMemberLedgerDtoBuilder(memberLedger),
+							"Member credit and debit Details Updated");
+				} else {
+					logger.info("Service : member not present");
+					return utils.objectMapperError("Member not present");
+				}
+			}
+			logger.info("Service: member credit and debit details not found with id {} for update operation", id);
+			return utils.objectMapperError("Member credit and debit Details Not Found !");
+		} else {
+			logger.info("Service: hotel not found");
+			return utils.objectMapperError("Hotel not found");
+		}
 
 	}
 
 	@Transactional
-	public Object getMemberBalance(int id) {
+	public Object getMemberBalance(int id, int hotelId) {
 		logger.info("Service: fetching member balance details with id {}", id);
 		Optional<Member> optional = memberRepository.findById(id);
 
 		if (optional.isPresent()) {
 			logger.info("Service: memberdetails found with id {} ", id);
-			Double creditBalance = memberLedgerRepository.sumofCreditBalanceOfMember();
-			Double debitBalance = memberLedgerRepository.sumOfDebitBalanceOfMember();
+			Double creditBalance = memberLedgerRepository.sumofCreditBalanceOfMember(new Hotel(hotelId),
+					new Member(id));
+			Double debitBalance = memberLedgerRepository.sumOfDebitBalanceOfMember(new Hotel(hotelId), new Member(id));
 
 			return utils.objectMapperSuccess(
 					memberMapper.getMemberFundDtoBuilder(optional.get(), creditBalance, debitBalance),

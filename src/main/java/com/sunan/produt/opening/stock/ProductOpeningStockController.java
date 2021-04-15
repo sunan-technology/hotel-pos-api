@@ -50,13 +50,13 @@ public class ProductOpeningStockController {
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody ProductOpeningStockDto productOpeningStockDto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save product opening stock details ");
-		return new ResponseEntity<>(productOpeningStockService.save(productOpeningStockDto), HttpStatus.OK);
+		return new ResponseEntity<>(productOpeningStockService.save(productOpeningStockDto, hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@RequestBody ProductOpeningStockDto productOpeningStockDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update product opening stock details by id: {}", id);
-		return new ResponseEntity<>(productOpeningStockService.update(productOpeningStockDto, id), HttpStatus.OK);
+		return new ResponseEntity<>(productOpeningStockService.update(productOpeningStockDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

@@ -2,18 +2,19 @@ package com.sunan.utils;
 
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class Common {
-	
-	public static final Double defaultValue=0.0;
-	
-	public static final String itemStatus="new";
-	
-	public static final String isActiveFlagYes="yes";
 
-	private String[] monthName = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-	
+
+	public static final Double defaultValue = 0.0;
+
+	public static final String itemStatus = "new";
+
+	public static final String isActiveFlagYes = "yes";
+
+	private String[] monthName = { "January", "February", "March", "April", "May", "June", "July", "August",
+			"September", "October", "November", "December" };
+
 //	public  Map<String, List<SubjectTimetableDto>>  getTimeDays() {
 //		Map<String, List<SubjectTimetableDto>> time = new HashMap<String, List<SubjectTimetableDto>>();
 //		time.put("monday", new ArrayList<>());
@@ -25,11 +26,10 @@ public class Common {
 //		time.put("sunday", new ArrayList<>());
 //		return time;
 //	}
-	
-	
-	public static Double calculateGST(Double amount,Double percentage) {
-		
-		return percentage*amount/100; 
+
+	public static Double calculateGST(Double amount, Double percentage) {
+
+		return percentage * amount / 100;
 	}
 
 }

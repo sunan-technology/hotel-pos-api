@@ -28,7 +28,7 @@ public class WarehousesService implements Serializable {
 
 	@Autowired
 	private WarehousesRepository warehousesRepository;
-	
+
 	@Autowired
 	private WarehouseTypeRepository warehouseTypeRepository;
 
@@ -39,34 +39,39 @@ public class WarehousesService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(WarehousesDto warehousesDto,int hotelId) {
-		if(warehouseTypeRepository.findById(warehousesDto.getWarehouseTypeId()).isPresent()) {
-		Warehouses warehouses = warehousesMapper.getWarehousesBuilder(warehousesDto);
-		warehouses.setHotel(new Hotel(hotelId));
-		warehousesRepository.save(warehouses);
-		logger.info("Service: Save warehouse details");
-		return utils.objectMapperSuccess(warehousesMapper.getWarehousesDtoBuilder(warehouses),
-				"Warehouse Details Saved");
-		}else {
+	public String save(WarehousesDto warehousesDto, int hotelId) {
+		if (warehouseTypeRepository.findById(warehousesDto.getWarehouseTypeId()).isPresent()) {
+			Warehouses warehouses = warehousesMapper.getWarehousesBuilder(warehousesDto);
+			warehouses.setHotel(new Hotel(hotelId));
+			warehousesRepository.save(warehouses);
+			logger.info("Service: Save warehouse details");
+			return utils.objectMapperSuccess(warehousesMapper.getWarehousesDtoBuilder(warehouses),
+					"Warehouse Details Saved");
+		} else {
 			logger.info("Service : Warehouse Type not found");
-		 return	utils.objectMapperError("Warehouse Type not found");
+			return utils.objectMapperError("Warehouse Type not found");
 		}
 	}
 
 	@Transactional
-	public String update(WarehousesDto warehousesDto, int id,int hotelId) {
-		logger.info("Service: Update warehouse details with id {}", id);
-		Optional<Warehouses> optional = warehousesRepository.findById(id);
-		if (optional.isPresent()) {
-			logger.info("Service: warehouse details found with id {} for update operation", id);
-			Warehouses warehouses = warehousesMapper.getWarehousesBuilder(warehousesDto);
-			warehouses.setHotel(new Hotel(hotelId));
-			warehousesRepository.save(warehouses);
-			return utils.objectMapperSuccess(warehousesMapper.getWarehousesDtoBuilder(warehouses),
-					"Warehouse Details Updated");
+	public String update(WarehousesDto warehousesDto, int id, int hotelId) {
+		if (warehouseTypeRepository.findById(warehousesDto.getWarehouseTypeId()).isPresent()) {
+			logger.info("Service: Update warehouse details with id {}", id);
+			Optional<Warehouses> optional = warehousesRepository.findById(id);
+			if (optional.isPresent()) {
+				logger.info("Service: warehouse details found with id {} for update operation", id);
+				Warehouses warehouses = warehousesMapper.getWarehousesBuilder(warehousesDto);
+				warehouses.setHotel(new Hotel(hotelId));
+				warehousesRepository.save(warehouses);
+				return utils.objectMapperSuccess(warehousesMapper.getWarehousesDtoBuilder(warehouses),
+						"Warehouse Details Updated");
+			}
+			logger.info("Service: warehouse details not found with id {} for update operation", id);
+			return utils.objectMapperError("Warehouse Details Not Found !");
+		} else {
+			logger.info("Service : Warehouse Type not found");
+			return utils.objectMapperError("Warehouse Type not found");
 		}
-		logger.info("Service: warehouse details not found with id {} for update operation", id);
-		return utils.objectMapperError("Warehouse Details Not Found !");
 	}
 
 	@Transactional

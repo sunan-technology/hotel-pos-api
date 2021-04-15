@@ -14,7 +14,7 @@ import com.sunan.utils.Common;
 @Component
 public class PurchaseMapper {
 	
-	public Purchase getPerchaseBuilder(PurchaseDto dto) {
+	public Purchase getPerchaseBuilder(PurchaseDto dto,Double roundOff) {
 		
 		return Purchase.builder()
 				.id(dto.getId())
@@ -31,7 +31,7 @@ public class PurchaseMapper {
 				.freightCharges(dto.getFreightCharges())
 				.otherCharges(dto.getOtherCharges())
 				.total(dto.getTotal())
-				.roundOff(dto.getRoundOff())
+				.roundOff(roundOff)
 				.grandTotal(dto.getGrandTotal())
 				.totalPayment(dto.getTotalPayment())
 				.isActive(dto.getIsActive())
@@ -66,7 +66,6 @@ public class PurchaseMapper {
 				.otherCharges(purchase.getOtherCharges())
 				.previousDue(purchase.getPreviousDue())
 				.total(purchase.getTotal())
-				.roundOff(purchase.getRoundOff())
 				.grandTotal(purchase.getGrandTotal())
 				.totalPayment(purchase.getTotalPayment())
 				.build();

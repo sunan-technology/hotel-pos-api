@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import com.sunan.model.Hotel;
+import com.sunan.model.Member;
 import com.sunan.model.MemberLedger;
 
 
@@ -18,11 +20,11 @@ public interface MemberLedgerRepository extends PagingAndSortingRepository<Membe
 	public double getMemberBalance();
 	
 	
-	@Query(value = "SELECT SUM(credit) FROM MemberLedger")
-	public Double sumofCreditBalanceOfMember();
+	@Query(value = "SELECT SUM(credit) FROM MemberLedger WHERE hotel_id = :hotel AND member_id= :member")
+	public Double sumofCreditBalanceOfMember(Hotel hotel,Member member);
 	
-	@Query(value = "SELECT SUM(debit) FROM MemberLedger")
-	public Double sumOfDebitBalanceOfMember();
+	@Query(value = "SELECT SUM(debit) FROM MemberLedger  WHERE hotel_id = :hotel AND member_id= :member")
+	public Double sumOfDebitBalanceOfMember(Hotel hotel,Member member);
 	
 	
 	

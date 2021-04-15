@@ -16,12 +16,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.category.CategoryRepository;
+import com.sunan.exception.BadRequestException;
+import com.sunan.hotel.HotelRepository;
+import com.sunan.model.Category;
 import com.sunan.model.Hotel;
 import com.sunan.model.Product;
 import com.sunan.model.ProductOpeningStock;
+import com.sunan.model.StorageType;
+import com.sunan.model.Warehouses;
+import com.sunan.produt.opening.stock.ProductOpeningStockDto;
 import com.sunan.produt.opening.stock.ProductOpeningStockMapper;
 import com.sunan.produt.opening.stock.ProductOpeningStockRepository;
+import com.sunan.storage.type.StorageTypeRepository;
 import com.sunan.utils.JsonUtils;
+import com.sunan.warehouse.WarehousesRepository;
 
 @Service
 public class ProductService implements Serializable {
@@ -34,40 +43,99 @@ public class ProductService implements Serializable {
 
 	@Autowired
 	ProductMapper productMapper;
+
+	@Autowired
+	private StorageTypeRepository storageTypeRepository;
+
+	@Autowired
+	private WarehousesRepository warehousesRepository;
 	
 	@Autowired
+	private HotelRepository hotelRepository;
+
+	@Autowired
+	private CategoryRepository categoryRepository;
+
+	@Autowired
 	ProductOpeningStockMapper productOpeningStockMapper;
-	
+
 	@Autowired
 	ProductOpeningStockRepository productOpeningStockRepository;
 
 	@Autowired
 	private JsonUtils utils;
 
+	
+	private void validateProductOpeningStockRequest(ProductOpeningStockDto productOpeningStockDto, int hotelId) {
+
+		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+		if (!hotel.isPresent() || hotelId == 0) {
+			throw new BadRequestException("hotel not found");
+		}
+
+		Optional<StorageType> storageType = storageTypeRepository.findById(productOpeningStockDto.getStorageTypeId());
+		if (!storageType.isPresent() || productOpeningStockDto.getStorageTypeId() == 0) {
+			throw new BadRequestException("Storage type not found");
+		}
+
+		Optional<Warehouses> warehouses = warehousesRepository.findById(productOpeningStockDto.getWarehousesId());
+		if (!warehouses.isPresent() || productOpeningStockDto.getWarehousesId() == 0) {
+			throw new BadRequestException("Warehouse not found");
+		}
+
+		Optional<Product> product = productRepository.findById(productOpeningStockDto.getProductId());
+		if (!product.isPresent() || productOpeningStockDto.getProductId() == 0) {
+			throw new BadRequestException("product not found");
+		}
+	}
+	
 	@Transactional
-	public String save(ProductRequestDto productRequestDto,int hotelId) {
-		//todo:// request validation
-		Product product = productMapper.getProductBuilder(productRequestDto);
-		product.setHotel(new Hotel(hotelId));
-		productRepository.save(product);
-		//add product entry in the product opening stock table 
-		List<ProductOpeningStock> list =  productOpeningStockMapper.getProductOpeningStockBuilder(productRequestDto.getOpeningStockDtos(), product.getId(),hotelId);
-		
-		productOpeningStockRepository.saveAll(list);
-		
-		logger.info("Service: Save product details with opening stock");
-		return utils.objectMapperSuccess(productMapper.getProductDtoBuilder(product), "Product Details Saved");
+	public String save(ProductRequestDto productRequestDto, int hotelId) {
+
+		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+		if (hotel.isPresent()) {
+			Optional<Category> category = categoryRepository.findById(productRequestDto.getCategoryId());
+			if (category.isPresent()) {
+
+				Product product = productMapper.getProductBuilder(productRequestDto);
+				product.setHotel(new Hotel(hotelId));
+				productRepository.save(product);
+				// add product entry in the product opening stock table
+				//validateProductOpeningStockRequest(productRequestDto.getOpeningStockDtos(), hotelId);
+				List<ProductOpeningStock> list = productOpeningStockMapper.getProductOpeningStockBuilder(
+						productRequestDto.getOpeningStockDtos(), product.getId(), hotelId);
+
+				productOpeningStockRepository.saveAll(list);
+
+				logger.info("Service: Save product details with opening stock");
+				return utils.objectMapperSuccess(productMapper.getProductDtoBuilder(product), "Product Details Saved");
+			} else {
+				logger.info("Service: Category not found");
+				return utils.objectMapperError("Category not found");
+			}
+		} else {
+			logger.info("Service: hotel not found");
+			return utils.objectMapperError("Hotel not found");
+		}
 	}
 
 	@Transactional
-	public String update(ProductDto productDto, int id) {
+	public String update(ProductDto productDto, int id, int hotelId) {
 		logger.info("Service: Update product details with id {}", id);
 		Optional<Product> optional = productRepository.findById(id);
 		if (optional.isPresent()) {
-			logger.info("Service: product details found with id {} for update operation", id);
-			Product product = productMapper.getProductBuilder(productDto);
-			productRepository.save(product);
-			return utils.objectMapperSuccess(productMapper.getProductDtoBuilder(product), "Product Details Updated");
+			Optional<Category> category = categoryRepository.findById(productDto.getCategoryId());
+			if (category.isPresent()) {
+				logger.info("Service: product details found with id {} for update operation", id);
+				Product product = productMapper.getProductBuilder(productDto);
+				product.setHotel(new Hotel(hotelId));
+				productRepository.save(product);
+				return utils.objectMapperSuccess(productMapper.getProductDtoBuilder(product),
+						"Product Details Updated");
+			} else {
+				logger.info("Service: Category not found");
+				return utils.objectMapperError("Category not found");
+			}
 		}
 		logger.info("Service: product details not found with id {} for update operation", id);
 		return utils.objectMapperError("Product Details Not Found !");

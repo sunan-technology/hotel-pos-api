@@ -15,6 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.sunan.dish.DishRepository;
+import com.sunan.hotel.HotelRepository;
+import com.sunan.model.Dish;
 import com.sunan.model.Hotel;
 import com.sunan.model.StockStore;
 import com.sunan.utils.JsonUtils;
@@ -27,7 +30,12 @@ public class StockStoreService implements Serializable {
 
 	@Autowired
 	private StockStoreRepository stockStoreRepository;
+	
+	@Autowired
+	private HotelRepository hotelRepository;
 
+	@Autowired
+	private DishRepository dishRepository;
 	@Autowired
 	StockStoreMapper stockStoreMapper;
 
@@ -36,11 +44,25 @@ public class StockStoreService implements Serializable {
 
 	@Transactional
 	public String save(StockStoreDto stockStoreDto,int hotelId) {
+		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+		if (hotel.isPresent()) {
+
+			Optional<Dish> dish = dishRepository.findByDishId(stockStoreDto.getDishId());
+			if (dish.isPresent()) {
 		StockStore stockStore = stockStoreMapper.getStock_StoreBuilder(stockStoreDto);
 		stockStore.setHotel(new Hotel(hotelId));
 		stockStoreRepository.save(stockStore);
 		logger.info("Service: Save stock details");
 		return utils.objectMapperSuccess(stockStoreMapper.getStock_StoreDtoBuilder(stockStore), "Stock Details Saved");
+			} else {
+				logger.info("Service: dish not found");
+				return utils.objectMapperError("Dish not found");
+			}
+
+		} else {
+			logger.info("Service: hotel not found");
+			return utils.objectMapperError("Hotel not found");
+		}
 	}
 
 	@Transactional
@@ -48,12 +70,18 @@ public class StockStoreService implements Serializable {
 		logger.info("Service: Update stock details with id {}", id);
 		Optional<StockStore> optional = stockStoreRepository.findById(id);
 		if (optional.isPresent()) {
+			Optional<Dish> dish = dishRepository.findByDishId(stockStoreDto.getDishId());
+			if (dish.isPresent()) {
 			logger.info("Service: stock details found with id {} for update operation", id);
 			StockStore stockStore = stockStoreMapper.getStock_StoreBuilder(stockStoreDto);
 			stockStore.setHotel(new Hotel(hotelId));
 			stockStoreRepository.save(stockStore);
 			return utils.objectMapperSuccess(stockStoreMapper.getStock_StoreDtoBuilder(stockStore),
 					"Stock Details Updated");
+			} else {
+				logger.info("Service: dish not found");
+				return utils.objectMapperError("Dish not found");
+			}
 		}
 		logger.info("Service: Stock details not found with id {} for update operation", id);
 		return utils.objectMapperError("Stock Details Not Found !");
