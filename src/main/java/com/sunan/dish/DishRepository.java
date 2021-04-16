@@ -28,5 +28,7 @@ public interface DishRepository extends PagingAndSortingRepository<Dish, Integer
 	int updateIsActiveStatus(@Param("id") int id);
 	
 	public List<Dish> findByCategoryAndHotelAndIsActive(Category category,Hotel hotel,String active);
+	
+	public Dish findByDishName(String dishName);
 
 }
