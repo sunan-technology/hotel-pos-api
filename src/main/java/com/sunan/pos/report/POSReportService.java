@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.sunan.biling.kot.product.OrderedProductBillKOTRepository;
 import com.sunan.billing.kot.info.BillingInfoKOTRepository;
+import com.sunan.constants.DefaultConstantValues;
 import com.sunan.dish.DishRepository;
 import com.sunan.hotel.HotelRepository;
 import com.sunan.model.BillingInfoKOT;
@@ -44,6 +45,9 @@ public class POSReportService implements Serializable {
 	@Autowired
 	private JsonUtils utils;
 
+	@Autowired
+	private OverAllReportMapper overAllReportMapper;
+	
 	@Transactional
 	public String overAllReport( int hotelId, Date fromDate,
 			Date toDate, String operator) {
@@ -55,30 +59,36 @@ public class POSReportService implements Serializable {
 		if (entity.isPresent()) {
 			Double saleByOprator = billingInfoKotRepository.sumGrandTotalByOperatorAndHotel(operator,
 					new Hotel(hotelId), fromDate, toDate);
-			OverAllReportDto dto = new OverAllReportDto();
-			dto.setHotelName(entity.get().getHotelName());
-			dto.setHotelAddress(entity.get().getAddress1());
-			dto.setContactNo(entity.get().getContactNo());
-			dto.setEmail(entity.get().getEmail());
-			Double cash = billingInfoKotRepository.sumGrandTotalByPaymentMode("cash", fromDate, toDate);
-			Double wallet = billingInfoKotRepository.sumGrandTotalByPaymentMode("wallet", fromDate, toDate);
-			Double card = billingInfoKotRepository.sumGrandTotalByPaymentMode("card", fromDate, toDate);
-			Double dineIn = billingInfoKotRepository.sumGrandTotalByHotel(new Hotel(hotelId), fromDate, toDate);
-			dto.setFromDate(fromDate);
-			dto.setToDate(toDate);
-			dto.setSaleByOprator(saleByOprator);
-			dto.setCash(cash != null ? cash : 0);
-			dto.setCard(card != null ? card : 0);
-			dto.setWallet(wallet != null ? wallet : 0);
-			dto.setDineIn(dineIn !=null ? dineIn:0);
+
+			OverAllReportDto dto = overAllReportMapper.getOverAllReportDtoMapper(entity.get(),
+					getsumGrandTotalByPaymentModeAndDate(DefaultConstantValues.CASH, fromDate, toDate),
+					getsumGrandTotalByPaymentModeAndDate(DefaultConstantValues.WALLET, fromDate, toDate),
+					getsumGrandTotalByPaymentModeAndDate(DefaultConstantValues.CARD, fromDate, toDate),
+					getSumGrandTotalByHotel(hotelId, fromDate, toDate), saleByOprator, fromDate, toDate);
 			return utils.objectMapperSuccess(dto, "Over All billing report list.");
 		} else {
 			logger.info("Service : Hotel not found");
-			return utils.objectMapperSuccess("Hotel not found");
+			return utils.objectMapperError("Hotel not found");
 		}
 
 	}
+	
+	private Double getSumGrandTotalByHotel(int hotelId, Date fromDate, Date toDate) {
+		Double dineInTotal = billingInfoKotRepository.sumGrandTotalByHotel(new Hotel(hotelId), fromDate, toDate);
+		if (dineInTotal != null) {
+			return dineInTotal;
+		}
+		return DefaultConstantValues.DEFAULT_DOUBLE_VALUE;
+	}
 
+	private Double getsumGrandTotalByPaymentModeAndDate(String paymentMode, Date fromDate, Date toDate) {
+		Double grandTotal = billingInfoKotRepository.sumGrandTotalByPaymentMode(paymentMode, fromDate, toDate);
+		if (grandTotal != null) {
+			return grandTotal;
+		}
+		return DefaultConstantValues.DEFAULT_DOUBLE_VALUE;
+	}
+	
 	@Transactional
 	public String overAllReportOne(Integer pageNo, Integer pageSize, String sortBy, int hotelId, Date fromDate,
 			Date toDate) {
@@ -93,7 +103,7 @@ public class POSReportService implements Serializable {
 			dto.setEmail(entity.get().getEmail());
 			dto.setFromDate(fromDate);
 			dto.setToDate(toDate);
-			Double grossTotal=0.0;
+			Double grossTotal= DefaultConstantValues.DEFAULT_DOUBLE_VALUE;
 		List<BillingInfoKOT> billingInfoKot=billingInfoKotRepository.findByBillDate(fromDate, toDate);
 		for (BillingInfoKOT billingInfoKOT2 : billingInfoKot) {
 			
@@ -115,10 +125,8 @@ public class POSReportService implements Serializable {
 
 		}else {
 			logger.info("Service : Hotel not found");
-			return utils.objectMapperSuccess("Hotel not found");
-		}
-		
-		
+			return utils.objectMapperError("Hotel not found");
+		} 
 		return null;
 	}
 	

@@ -10,4 +10,9 @@ public class DefaultConstantValues {
 	public static final String ACTIVE_NO = "no";
 	
 	public static final String PAYMENT = "Payment";
+	
+	//PaymentMode 
+	public static final String CASH = "cash";
+	public static final String WALLET = "wallet";
+	public static final String CARD = "card";
 }

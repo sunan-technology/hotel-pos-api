@@ -16,7 +16,7 @@ public class MemberMapper {
 				.contactNo(dto.getContactNo())
 				.address(dto.getAddress())
 				.registerationDate(dto.getRegisterationDate())
-				.isActive(dto.getIsActive())
+				.isActive(dto.getIsActive())				
 				.build();
 	}
 	
