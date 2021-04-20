@@ -89,48 +89,48 @@ public class POSReportService implements Serializable {
 		return DefaultConstantValues.DEFAULT_DOUBLE_VALUE;
 	}
 	
-	@Transactional
-	public String overAllReportOne(Integer pageNo, Integer pageSize, String sortBy, int hotelId, Date fromDate,
-			Date toDate) {
-		logger.info("Getting over all one report..");
-		Optional<Hotel> entity = hotelRepo.findById(hotelId);
-		if (entity.isPresent()) {
-			
-			OverAllReportOneDto dto=new OverAllReportOneDto();
-			dto.setHotelName(entity.get().getHotelName());
-			dto.setHotelAddress(entity.get().getAddress1());
-			dto.setContactNo(entity.get().getContactNo());
-			dto.setEmail(entity.get().getEmail());
-			dto.setFromDate(fromDate);
-			dto.setToDate(toDate);
-			Double grossTotal= DefaultConstantValues.DEFAULT_DOUBLE_VALUE;
-		List<BillingInfoKOT> billingInfoKot=billingInfoKotRepository.findByBillDate(fromDate, toDate);
-		for (BillingInfoKOT billingInfoKOT2 : billingInfoKot) {
-			
-			List<BillingOrderedProductKOT> billingOrderedProductKot=orderedProductBillKOTRepository.findByBillId(new BillingInfoKOT(billingInfoKOT2.getId()));
-			for (BillingOrderedProductKOT billingOrderedProductKot2 : billingOrderedProductKot) {
-				Dish dish =dishRepository.findByDishName(billingOrderedProductKot2.getDish());
-				List<ProductBillReportDto> list=new ArrayList<>();
-				list.add(ProductBillReportDto.builder()
-						.categoryName(dish.getCategory().getCategoryName())
-						.dishName(billingOrderedProductKot2.getDish())
-						.quantity(billingOrderedProductKot2.getQuantity())
-						.rate(billingOrderedProductKot2.getRate())
-						.amount(billingOrderedProductKot2.getAmount())
-						.build());
-				grossTotal+=billingOrderedProductKot2.getAmount();
-			}
-		}	
-		
-
-		}else {
-			logger.info("Service : Hotel not found");
-			return utils.objectMapperError("Hotel not found");
-		} 
-		return null;
-	}
-	
-	
+//	@Transactional
+//	public String overAllReportOne(Integer pageNo, Integer pageSize, String sortBy, int hotelId, Date fromDate,
+//			Date toDate) {
+//		logger.info("Getting over all one report..");
+//		Optional<Hotel> entity = hotelRepo.findById(hotelId);
+//		if (entity.isPresent()) {
+//			
+//			OverAllReportOneDto dto=new OverAllReportOneDto();
+//			dto.setHotelName(entity.get().getHotelName());
+//			dto.setHotelAddress(entity.get().getAddress1());
+//			dto.setContactNo(entity.get().getContactNo());
+//			dto.setEmail(entity.get().getEmail());
+//			dto.setFromDate(fromDate);
+//			dto.setToDate(toDate);
+//			Double grossTotal= DefaultConstantValues.DEFAULT_DOUBLE_VALUE;
+//		List<BillingInfoKOT> billingInfoKot=billingInfoKotRepository.findByBillDate(fromDate, toDate);
+//		for (BillingInfoKOT billingInfoKOT2 : billingInfoKot) {
+//			
+//			List<BillingOrderedProductKOT> billingOrderedProductKot=orderedProductBillKOTRepository.findByBillId(new BillingInfoKOT(billingInfoKOT2.getId()));
+//			for (BillingOrderedProductKOT billingOrderedProductKot2 : billingOrderedProductKot) {
+//				Dish dish =dishRepository.findByDishName(billingOrderedProductKot2.getDish());
+//				List<ProductBillReportDto> list=new ArrayList<>();
+//				list.add(ProductBillReportDto.builder()
+//						.categoryName(dish.getCategory().getCategoryName())
+//						.dishName(billingOrderedProductKot2.getDish())
+//						.quantity(billingOrderedProductKot2.getQuantity())
+//						.rate(billingOrderedProductKot2.getRate())
+//						.amount(billingOrderedProductKot2.getAmount())
+//						.build());
+//				grossTotal+=billingOrderedProductKot2.getAmount();
+//			}
+//		}	
+//		
+//
+//		}else {
+//			logger.info("Service : Hotel not found");
+//			return utils.objectMapperError("Hotel not found");
+//		} 
+//		return null;
+//	}
+//	
+//	
 	
 
 }

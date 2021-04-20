@@ -39,13 +39,13 @@ public class POSReportController {
 	  
 	  
 
-	  @GetMapping("/get-over-all-report-one") public ResponseEntity<?> getOverAllReportOne(@RequestParam(defaultValue = "0") Integer pageNo,@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "id") String sortBy,
-	   @RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(name = "toDate", required =
-	  false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate, @RequestHeader("hotelId") int hotelId){
-	  
-	  logger.info("Getting over all billing report details"); return new
-	  ResponseEntity<>(posReportService.overAllReportOne(pageNo, pageSize, sortBy,hotelId, fromDate, toDate), HttpStatus.OK); 
-	  }
+//	  @GetMapping("/get-over-all-report-one") public ResponseEntity<?> getOverAllReportOne(@RequestParam(defaultValue = "0") Integer pageNo,@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "id") String sortBy,
+//	   @RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(name = "toDate", required =
+//	  false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate, @RequestHeader("hotelId") int hotelId){
+//	  
+//	  logger.info("Getting over all billing report details"); return new
+//	  ResponseEntity<>(posReportService.overAllReportOne(pageNo, pageSize, sortBy,hotelId, fromDate, toDate), HttpStatus.OK); 
+//	  }
 	   
 	 
 

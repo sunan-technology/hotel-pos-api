@@ -17,12 +17,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sunan.category.CategoryRepository;
+import com.sunan.exception.BadRequestException;
 import com.sunan.hotel.HotelRepository;
 import com.sunan.kitchen.KitchenRepository;
 import com.sunan.model.Category;
 import com.sunan.model.Dish;
 import com.sunan.model.Hotel;
+import com.sunan.model.Kitchen;
+import com.sunan.model.Variation;
 import com.sunan.utils.JsonUtils;
+import com.sunan.variation.VariationRepository;
 
 @Service
 public class DishService implements Serializable {
@@ -43,36 +47,49 @@ public class DishService implements Serializable {
 	private KitchenRepository kitchenRepository;
 
 	@Autowired
+	private VariationRepository variationRepository;
+
+	@Autowired
 	DishMapper dishMapper;
 
 	@Autowired
 	private JsonUtils utils;
 
+	private void validateDishSaveRequest(DishDto dishDto, int hotelId) {
+
+		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+		if (!hotel.isPresent() || hotelId == 0) {
+			throw new BadRequestException("hotel not found");
+		}
+
+		Optional<Category> category = categoryRepository.findById(dishDto.getCategoryId());
+		if (!category.isPresent() || dishDto.getCategoryId() == 0) {
+			throw new BadRequestException("Category not found");
+		}
+
+		Optional<Kitchen> kitchen = kitchenRepository.findById(dishDto.getKitchenId());
+		if (!kitchen.isPresent() || dishDto.getKitchenId() == 0) {
+			throw new BadRequestException("Kitchen not found");
+		}
+
+		Optional<Variation> variation = variationRepository.findById(dishDto.getVariationId());
+		if (!variation.isPresent() || dishDto.getVariationId() == 0) {
+			throw new BadRequestException("Variation not found");
+		}
+
+	}
+
 	@Transactional
 	public String save(DishDto dishDto, int hotelId) {
-		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
-		if (hotel.isPresent()) {
 
-			if (categoryRepository.findById(dishDto.getCategoryId()).isPresent()) {
+		validateDishSaveRequest(dishDto, hotelId);
+		Dish dish = dishMapper.getDishBuilder(dishDto);
+		dish.setHotel(new Hotel(hotelId));
+		logger.info("Service: Save Dish details");
+		dishRepository.save(dish);
+	
+		return utils.objectMapperSuccess(dishMapper.getDishDtoBuilder(dish), "Dish Details Saved");
 
-				if (kitchenRepository.findById(dishDto.getKitchenId()).isPresent()) {
-					Dish dish = dishMapper.getDishBuilder(dishDto);
-					dish.setHotel(new Hotel(hotelId));
-					dishRepository.save(dish);
-					logger.info("Service: Save Dish details");
-					return utils.objectMapperSuccess(dishMapper.getDishDtoBuilder(dish), "Dish Details Saved");
-				} else {
-					logger.info("Service : Kitchen not present");
-					return utils.objectMapperError("Kitchen not present");
-				}
-			} else {
-				logger.info("Service : Category Not Found");
-				return utils.objectMapperError("Category Not Found");
-			}
-		} else {
-			logger.info("Service: hotel not found");
-			return utils.objectMapperError("Hotel not found");
-		}
 	}
 
 	@Transactional

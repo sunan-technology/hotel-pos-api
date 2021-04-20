@@ -60,5 +60,7 @@ public class RequestMappingConstants {
 	public static final String WAITER =RequestMappingConstants.ROOTURL+"/Waiter";
 	
 	public static final String POSREPORTS =RequestMappingConstants.ROOTURL+"/POSReports";
+	
+	public static final String VARIATION =RequestMappingConstants.ROOTURL+"/Variation";
 	 
 }

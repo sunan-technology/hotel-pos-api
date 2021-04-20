@@ -11,6 +11,6 @@ import com.sunan.model.BillingOrderedProductKOT;
 @Repository
 public interface OrderedProductBillKOTRepository extends PagingAndSortingRepository<BillingOrderedProductKOT, Integer> {
 	
-	public List<BillingOrderedProductKOT> findByBillId(BillingInfoKOT billingInfoKOT);
+//	public List<BillingOrderedProductKOT> findByBillId(BillingInfoKOT billingInfoKOT);
 
 }

@@ -27,8 +27,8 @@ public interface BillingInfoKOTRepository extends PagingAndSortingRepository<Bil
 	@Query("SELECT SUM(grandTotal) FROM BillingInfoKOT WHERE hotel_id= :hotel  AND billdate BETWEEN :fromDate AND :toDate")
 	public Double sumGrandTotalByHotel(Hotel hotel,Date fromDate,Date toDate);
 	
-	@Query("SELECT FROM BillingInfoKOT WHERE billdate BETWEEN :fromDate AND :toDate")
-	public List<BillingInfoKOT> findByBillDate(Date fromDate,Date toDate);
+//	@Query("SELECT FROM BillingInfoKOT WHERE billdate BETWEEN :fromDate AND :toDate")
+//	public List<BillingInfoKOT> findByBillDate(Date fromDate,Date toDate);
 	
 	//public void deleteByHotelTableAndHotelId(HotelTable hotelTable, Hotel hotelId);
 }

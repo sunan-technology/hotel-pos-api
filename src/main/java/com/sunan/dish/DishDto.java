@@ -24,7 +24,8 @@ public class DishDto {
 	private double discount;
 	private String barcode;
 	private String isActive;
-	
+	private int variationId;
+	private String variationName;
 	private int categoryId;
 	private String categoryName;
 	
