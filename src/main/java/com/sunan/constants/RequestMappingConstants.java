@@ -62,5 +62,9 @@ public class RequestMappingConstants {
 	public static final String POSREPORTS =RequestMappingConstants.ROOTURL+"/POSReports";
 	
 	public static final String VARIATION =RequestMappingConstants.ROOTURL+"/Variation";
+	
+	public static final String UNITS =RequestMappingConstants.ROOTURL+"/Units";
+	
+	public static final String RAWMATRIAL =RequestMappingConstants.ROOTURL+"/RawMatrial";
 	 
 }
