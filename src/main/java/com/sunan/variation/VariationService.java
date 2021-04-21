@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Hotel;
+import com.sunan.model.HotelTable;
 import com.sunan.model.Variation;
+import com.sunan.table.HotelTableDto;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -68,6 +70,20 @@ public class VariationService implements Serializable {
 		logger.info("Service: variation details not found with id {} for update operation{}", id);
 		return utils.objectMapperError("Variation Details Not Found !");
 	}
+	
+	@Transactional
+	public String getById(int id) {
+		logger.info("Service: Fetching variation details with id {}", id);
+		Optional<Variation> variation = variationRepository.findById(id);
+		if (variation.isPresent()) {
+			logger.info("Service: variation details found with id {}", id);
+			VariationDto dto = variationMapper.getVariationDtoBuilder(variation.get());
+			return utils.objectMapperSuccess(dto, "Variation Details");
+		}
+		logger.info("Service: variation details not found with id {}", id);
+		return utils.objectMapperError("Variation Details Not found, Id :" + id);
+	}
+	
 
 	@Transactional
 	public String findActiveList(String searchTerm, Integer pageNo, Integer pageSize, String sortBy,int hotelId) {

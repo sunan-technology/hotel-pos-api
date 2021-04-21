@@ -40,6 +40,12 @@ public class VariationController {
 		logger.info("Controller: Fetching list variation details");
 		return new ResponseEntity<>(variationService.findActiveList(searchTerm, pageNo, pageSize, sortBy,hotelId), HttpStatus.OK);
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getById(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
+		logger.info("Controller: Fetching variation details with id {}", id);
+		return new ResponseEntity<>(variationService.getById(id), HttpStatus.OK);
+	}
 
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody VariationDto variationDto,@RequestHeader("hotelId") int hotelId) {

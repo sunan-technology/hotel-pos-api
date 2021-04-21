@@ -3,7 +3,6 @@ package com.sunan.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,18 +25,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper=false)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "units")
-public class Units implements Serializable{
-	
+@Table(name = "tax")
+public class Tax implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -45,13 +42,12 @@ public class Units implements Serializable{
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
 	
-	@Column(name = "name")
-	private String name;
+	@Column(name = "calculate_tax_itemwise")
+	private String calculateTaxItemWise;
 	
-	@Column(name = "is_active")
-	private String isActive;
+	@Column(name = "calculate_tax_orderwise")
+	private String calculateTaxOrderWise;
 	
-
 	@JoinColumn(name = "hotel_id")
 	@ManyToOne
 	public Hotel hotel;
@@ -69,11 +65,4 @@ public class Units implements Serializable{
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
 
-	public Units(int id) {
-		super();
-		this.id = id;
-	}
-
-
-	
 }

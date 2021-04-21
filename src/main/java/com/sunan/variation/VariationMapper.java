@@ -25,6 +25,7 @@ public class VariationMapper {
 				.name(variation.getName())
 				.department(variation.getDepartment())
 				.status(variation.getStatus())
+				.createdDate(variation.createdAt)
 				.build();
 	}
 

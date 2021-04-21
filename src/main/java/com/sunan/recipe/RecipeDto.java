@@ -1,5 +1,9 @@
 package com.sunan.recipe;
 
+import java.util.List;
+
+import com.sunan.raw.matrial.RecipeRawMatrialDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +27,6 @@ public class RecipeDto {
 	private Double costPerUnit;
 	private Double totalItemCost;
 	private String isActive;
+	List<RecipeRawMatrialDto> recipeRawMatrialDtos;
 
 }

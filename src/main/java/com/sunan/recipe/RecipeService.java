@@ -1,6 +1,7 @@
 package com.sunan.recipe;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -19,9 +20,12 @@ import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Dish;
 import com.sunan.model.Hotel;
 import com.sunan.model.Product;
+import com.sunan.model.RecipeRawMatrial;
 import com.sunan.model.Recipe;
 import com.sunan.model.RecipeJoin;
 import com.sunan.product.ProductRepository;
+import com.sunan.raw.matrial.RawMatrialMapper;
+import com.sunan.raw.matrial.RawMatrialRequestRepository;
 import com.sunan.recipe.join.RecipeJoinRepository;
 import com.sunan.utils.JsonUtils;
 
@@ -36,6 +40,12 @@ public class RecipeService implements Serializable {
 
 	@Autowired
 	private RecipeJoinRepository recipeJoinRepository;
+	
+	@Autowired
+	private RawMatrialRequestRepository rawMatrialRequestRepository;
+	
+	@Autowired
+	RawMatrialMapper rawMatrialMapper;
 
 	@Autowired
 	private HotelRepository hotelRepository;
@@ -62,7 +72,10 @@ public class RecipeService implements Serializable {
 				Recipe recipe = recipeMapper.getRecipeBuilder(recipeDto);
 				recipe.setHotel(new Hotel(hotelId));
 				recipeRepository.save(recipe);
-
+				
+				List<RecipeRawMatrial> recipeRawMatrial= rawMatrialMapper.getRawMatrialRequest(recipeDto.getRecipeRawMatrialDtos(), recipe.getId(), hotelId);
+				rawMatrialRequestRepository.saveAll(recipeRawMatrial);
+				
 				Optional<Product> product = productRepository.findById(recipeDto.getProductId());
 				if (product.isPresent()) {
 

@@ -2,8 +2,8 @@ package com.sunan.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalTime;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +19,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,26 +32,79 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "units")
-public class Units implements Serializable{
-	
+@Table(name = "discount")
+public class Discount implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
+
+	@Column(name = "discount_on")
+	private String discountOn;
+
+	@Column(name = "title")
+	private String title;
+
+	@Column(name = "type")
+	private String type; // percentage & fixed
+
+	@Column(name = "amount")
+	private Double amount;
+
+	@Column(name = "description")
+	private String description;
+
+	@Column(name = "terms_and_conditons")
+	private String termsAndConditions;
+
+	@Column(name = "ordertype")
+	private String orderType; // delivery ,dineIn ,pickup
+
+	@Column(name = "applicable_on")
+	private String applicableOn; // all,category,items
+
+	@JsonIgnore
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "from_date")
+	private Date fromDate;
+
+	@JsonIgnore
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "to_date")
+	private Date toDate;
+
 	
-	@Column(name = "name")
-	private String name;
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "HH:mm:ss")
+	@Column(name = "time_from")
+	private Date from;
+
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "HH:mm:ss")
+	@Column(name = "time_to")
+	private Date to;
+
+	@Column(name = "validation")
+	private String validation;
+
+	@Column(name = "days")
+	private String days;
+
+	@Column(name = "status")
+	private String status;
+
 	@Column(name = "is_active")
 	private String isActive;
-	
 
 	@JoinColumn(name = "hotel_id")
 	@ManyToOne
@@ -69,11 +123,9 @@ public class Units implements Serializable{
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
 
-	public Units(int id) {
+	public Discount(int id) {
 		super();
 		this.id = id;
 	}
 
-
-	
 }

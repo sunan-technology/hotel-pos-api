@@ -1,6 +1,4 @@
-package com.sunan.variation;
-
-import java.util.Date;
+package com.sunan.raw.matrial;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,15 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class VariationDto {
-	private int id;
+public class RecipeRawMatrialDto {
 
 	private String name;
-
-	private String department;
-
-	private String status;
-	
-	private Date createdDate;
+	private int quantity;
+	private int unitId;
+	private String area;
 
 }

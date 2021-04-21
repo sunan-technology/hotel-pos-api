@@ -1,9 +1,16 @@
 package com.sunan.raw.matrial;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.sunan.model.Category;
+import com.sunan.model.Hotel;
 import com.sunan.model.RawMatrial;
+import com.sunan.model.RecipeRawMatrial;
+import com.sunan.model.Recipe;
+import com.sunan.model.Units;
 
 @Component
 public class RawMatrialMapper {
@@ -76,5 +83,22 @@ public class RawMatrialMapper {
 				.isActive(rawmatrial.getIsActive())
 				.build();
 	}
+	
+	
+public List<RecipeRawMatrial> getRawMatrialRequest(List<RecipeRawMatrialDto> recipeRawMatrialDtos,int recipeId,int hotelId){
+	List<RecipeRawMatrial> list = new ArrayList<RecipeRawMatrial>();
+	for(RecipeRawMatrialDto dto : recipeRawMatrialDtos) {
+		list.add(RecipeRawMatrial.builder()
+				.name(dto.getName())
+				.quantity(dto.getQuantity())
+				.units(new Units(dto.getUnitId()))
+				.area(dto.getArea())
+				.recipe(new Recipe(recipeId))
+				.isActive("yes")
+				.hotel(new Hotel(hotelId))
+				.build());
+	}
+	return list;
+}
 
 }

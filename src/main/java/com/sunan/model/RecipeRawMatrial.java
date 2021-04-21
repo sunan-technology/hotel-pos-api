@@ -3,7 +3,6 @@ package com.sunan.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,11 +34,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "units")
-public class Units implements Serializable{
+@Table(name = "recipe_rawmatrial")
+public class RecipeRawMatrial implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
@@ -48,9 +46,22 @@ public class Units implements Serializable{
 	@Column(name = "name")
 	private String name;
 	
+	@Column(name = "quantity")
+	private int quantity;
+	
+	@JoinColumn(name = "units_id")
+	@ManyToOne
+	private Units units;
+	
+	@Column(name = "area")
+	private String area;
+	
 	@Column(name = "is_active")
 	private String isActive;
 	
+	@JoinColumn(name = "recipe_id")
+	@ManyToOne
+	private Recipe recipe;
 
 	@JoinColumn(name = "hotel_id")
 	@ManyToOne
@@ -69,11 +80,4 @@ public class Units implements Serializable{
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
 
-	public Units(int id) {
-		super();
-		this.id = id;
-	}
-
-
-	
 }

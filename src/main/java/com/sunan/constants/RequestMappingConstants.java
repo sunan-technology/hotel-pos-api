@@ -66,5 +66,7 @@ public class RequestMappingConstants {
 	public static final String UNITS =RequestMappingConstants.ROOTURL+"/Units";
 	
 	public static final String RAWMATRIAL =RequestMappingConstants.ROOTURL+"/RawMatrial";
+	
+	public static final String DISCOUNT =RequestMappingConstants.ROOTURL+"/Discount";
 	 
 }
