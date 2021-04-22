@@ -1,8 +1,13 @@
 package com.sunan.discount;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.sunan.model.Discount;
+import com.sunan.model.DiscountOrderType;
+import com.sunan.model.Hotel;
 
 @Component
 public class DiscountMapper {
@@ -17,7 +22,6 @@ public class DiscountMapper {
 				.amount(dto.getAmount())
 				.description(dto.getDescription())
 				.termsAndConditions(dto.getTermsAndConditions())
-				.orderType(dto.getOrderType())
 				.applicableOn(dto.getApplicableOn())
 				.fromDate(dto.getFromDate())
 				.toDate(dto.getToDate())
@@ -30,7 +34,7 @@ public class DiscountMapper {
 				.build();
 	}
 	
-	public DiscountDto getDiscountDtoBuilder(Discount discount) {
+	public DiscountDto getDiscountDtoBuilder(Discount discount,List<DiscountOrderTypeDto> discountOrderType1) {
 		
 		return DiscountDto.builder()
 				.id(discount.getId())
@@ -40,7 +44,7 @@ public class DiscountMapper {
 				.amount(discount.getAmount())
 				.description(discount.getDescription())
 				.termsAndConditions(discount.getTermsAndConditions())
-				.orderType(discount.getOrderType())
+				.orderType(discountOrderType1)
 				.applicableOn(discount.getApplicableOn())
 				.fromDate(discount.getFromDate())
 				.toDate(discount.getToDate())
@@ -51,6 +55,38 @@ public class DiscountMapper {
 				.status(discount.getStatus())
 				.isActive(discount.getIsActive())
 				.build();
+	}
+	
+	
+	
+	
+	public List<DiscountOrderType> getDiscountOrderTypeBuilder(List<DiscountOrderTypeDto> list2,int discountId,int hotelId) {
+		
+		
+		List<DiscountOrderType> list = new ArrayList<DiscountOrderType>();
+		for(DiscountOrderTypeDto dto : list2) {
+			list.add(DiscountOrderType.builder()
+					.discountOrderType(dto.getDiscountOrderType())
+					.discount(new Discount(discountId))
+					.isActive("yes")
+					.hotel(new Hotel(hotelId))
+					.build());
+			
+		}
+		return list;	
+	}
+	
+	public List<DiscountOrderTypeDto> getDiscountOrderTypeDtoBuilder(List<DiscountOrderType> discountOrderType){
+		
+		List<DiscountOrderTypeDto> list=new ArrayList<DiscountOrderTypeDto>();
+		for(DiscountOrderType dto :discountOrderType) {
+			list.add(DiscountOrderTypeDto.builder()
+					.id(dto.getId())
+					.discountOrderType(dto.getDiscountOrderType())
+					.build());
+		}
+		return list;
+		
 	}
 
 }

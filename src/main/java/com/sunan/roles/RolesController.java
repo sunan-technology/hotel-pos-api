@@ -1,4 +1,4 @@
-package com.sunan.discount;
+package com.sunan.roles;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,48 +23,47 @@ import io.swagger.annotations.Api;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(RequestMappingConstants.DISCOUNT)
-@Api(value = "Discount profile", description = "Operations related to discount")
-public class DiscountController {
+@RequestMapping(RequestMappingConstants.ROLES)
+@Api(value = "Roles profile", description = "Operations related to roles")
+public class RolesController {
 
-	private static final Logger logger = LoggerFactory.getLogger(DiscountController.class);
+	private static final Logger logger = LoggerFactory.getLogger(RolesController.class);
 
 	@Autowired
-	private DiscountService discountService;
+	private RolesService rolesService;
 
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy, @RequestHeader("hotelId") int hotelId) {
-		logger.info("Controller: Fetching list discount details");
-		return new ResponseEntity<>(discountService.findActiveList(searchTerm, pageNo, pageSize, sortBy, hotelId),
+		logger.info("Controller: Fetching list roles details");
+		return new ResponseEntity<>(rolesService.findActiveList(searchTerm, pageNo, pageSize, sortBy, hotelId),
 				HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable int id, @RequestHeader("hotelId") int hotelId) {
-		logger.info("Controller: Fetching discount details with id {}", id);
-		return new ResponseEntity<>(discountService.getById(id), HttpStatus.OK);
+		logger.info("Controller: Fetching roles details with id {}", id);
+		return new ResponseEntity<>(rolesService.getById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody DiscountDto discountDto, @RequestHeader("hotelId") int hotelId) {
-		logger.info("Controller: Save discount details ");
-		return new ResponseEntity<>(discountService.save(discountDto, hotelId), HttpStatus.OK);
+	public ResponseEntity<?> save(@RequestBody RolesDto rolesDto, @RequestHeader("hotelId") int hotelId) {
+		logger.info("Controller: Save roles details ");
+		return new ResponseEntity<>(rolesService.save(rolesDto, hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody DiscountDto discountDto, @PathVariable int id,
+	public ResponseEntity<?> update(@RequestBody RolesDto rolesDto, @PathVariable int id,
 			@RequestHeader("hotelId") int hotelId) {
-		logger.info("Controller: Update discount details by id: {}", id);
-		return new ResponseEntity<>(discountService.update(discountDto, id, hotelId), HttpStatus.OK);
+		logger.info("Controller: Update roles details by id: {}", id);
+		return new ResponseEntity<>(rolesService.update(rolesDto, id, hotelId), HttpStatus.OK);
 	}
-	
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
-		logger.info("Controller: Delete discount details by id: {}", id);
-		return new ResponseEntity<>(discountService.delete(id), HttpStatus.OK);
+	public ResponseEntity<?> delete(@PathVariable int id, @RequestHeader("hotelId") int hotelId) {
+		logger.info("Controller: Delete roles details by id: {}", id);
+		return new ResponseEntity<>(rolesService.delete(id), HttpStatus.OK);
 	}
 
 }

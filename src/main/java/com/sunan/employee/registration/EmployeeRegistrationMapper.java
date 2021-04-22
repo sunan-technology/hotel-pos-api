@@ -3,6 +3,7 @@ package com.sunan.employee.registration;
 import org.springframework.stereotype.Component;
 
 import com.sunan.model.EmployeeRegistration;
+import com.sunan.model.Roles;
 
 @Component
 public class EmployeeRegistrationMapper {
@@ -19,6 +20,7 @@ public class EmployeeRegistrationMapper {
 				.email(dto.getEmail())
 				.dateOfJoining(dto.getDateOfJoining())
 				.photo(dto.getPhoto())
+				.roles(new Roles(dto.getRolesId()))
 				.isActive(dto.getIsActive())
 				.build();
 	}
@@ -36,6 +38,8 @@ public class EmployeeRegistrationMapper {
 				.email(employeeRegistration.getEmail())
 				.dateOfJoining(employeeRegistration.getDateOfJoining())
 				.photo(employeeRegistration.getPhoto())
+				.rolesId(employeeRegistration.getRoles().getId())
+				.role(employeeRegistration.getRoles().getRole())
 				.isActive(employeeRegistration.getIsActive())
 				.build();
 	}

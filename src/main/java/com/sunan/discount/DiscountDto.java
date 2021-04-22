@@ -1,7 +1,7 @@
 package com.sunan.discount;
 
-import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -9,6 +9,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sunan.model.DiscountOrderType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +36,7 @@ public class DiscountDto {
 
 	private String termsAndConditions;
 
-	private String orderType;
+	private List<DiscountOrderTypeDto> orderType;
 
 	private String applicableOn;
 

@@ -68,5 +68,10 @@ public class RequestMappingConstants {
 	public static final String RAWMATRIAL =RequestMappingConstants.ROOTURL+"/RawMatrial";
 	
 	public static final String DISCOUNT =RequestMappingConstants.ROOTURL+"/Discount";
+	
+	public static final String INVENTORYSETTING =RequestMappingConstants.ROOTURL+"/InventorySetting";
+	
+	public static final String ROLES =RequestMappingConstants.ROOTURL+"/Roles";
+	
 	 
 }

@@ -1,6 +1,7 @@
 package com.sunan.discount;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.sunan.dish.DishService;
 import com.sunan.exception.BadRequestException;
 import com.sunan.model.Discount;
+import com.sunan.model.DiscountOrderType;
 import com.sunan.model.Hotel;
 import com.sunan.utils.JsonUtils;
 
@@ -27,6 +29,9 @@ public class DiscountService implements Serializable {
 
 	@Autowired
 	private DiscountRepository discountRepository;
+	
+	@Autowired
+	private DiscountOrderTypeRepository discountOrderTypeRepository;
 
 	@Autowired
 	DiscountMapper discountMapper;
@@ -51,7 +56,14 @@ public class DiscountService implements Serializable {
 		discount.setHotel(new Hotel(hotelId));
 		logger.info("Service : saving discount details");
 		discountRepository.save(discount);
-		return utils.objectMapperSuccess(discountMapper.getDiscountDtoBuilder(discount),
+		
+		List<DiscountOrderType> discountOrderType=discountMapper.getDiscountOrderTypeBuilder(discountDto.getOrderType(), discount.getId(), hotelId);
+		logger.info("Service : saving discount order type details");
+		discountOrderTypeRepository.saveAll(discountOrderType);
+		List<DiscountOrderType> discountOrderType2=(List<DiscountOrderType>) discountOrderTypeRepository.findAll();
+		List<DiscountOrderTypeDto> discountOrderType1=discountMapper.getDiscountOrderTypeDtoBuilder(discountOrderType2);
+		
+		return utils.objectMapperSuccess(discountMapper.getDiscountDtoBuilder(discount,discountOrderType1),
 				"Discount details saved successfully");
 		}else {
 			logger.info("Service :please set proper discount type 'Percentage/Fixed'");
@@ -70,7 +82,7 @@ public class DiscountService implements Serializable {
 			discounts.setHotel(new Hotel(hotelId));
 			logger.info("Service : updating discount details");
 			discountRepository.save(discounts);
-			return utils.objectMapperSuccess(discountMapper.getDiscountDtoBuilder(discounts),
+			return utils.objectMapperSuccess(
 					"Discount details saved successfully");
 
 		} else {
@@ -86,7 +98,10 @@ public class DiscountService implements Serializable {
 		Optional<Discount> discount = discountRepository.findById(id);
 		if (discount.isPresent()) {
 			logger.info("Service: discount details found with id {}", id);
-			DiscountDto dto = discountMapper.getDiscountDtoBuilder(discount.get());
+			List<DiscountOrderType> discountOrderType2=(List<DiscountOrderType>) discountOrderTypeRepository.findAll();
+			List<DiscountOrderTypeDto> discountOrderType1=discountMapper.getDiscountOrderTypeDtoBuilder(discountOrderType2);
+			
+			DiscountDto dto = discountMapper.getDiscountDtoBuilder(discount.get(),discountOrderType1);
 			return utils.objectMapperSuccess(dto, "Discount Details");
 		}
 		logger.info("Service: discount details not found with id {}", id);
@@ -104,11 +119,28 @@ public class DiscountService implements Serializable {
 		Page<DiscountDto> page = pagedResult.map(new Function<Discount, DiscountDto>() {
 			@Override
 			public DiscountDto apply(Discount entity) {
-				DiscountDto dto = discountMapper.getDiscountDtoBuilder(entity);
+				List<DiscountOrderType> discountOrderType2=(List<DiscountOrderType>) discountOrderTypeRepository.findAll();
+				List<DiscountOrderTypeDto> discountOrderType1=discountMapper.getDiscountOrderTypeDtoBuilder(discountOrderType2);
+				
+				DiscountDto dto = discountMapper.getDiscountDtoBuilder(entity,discountOrderType1);
 				return dto;
 			}
 		});
 		logger.info("Service: Fetching list of discount details, total records: {}", page.getTotalElements());
 		return utils.objectMapperSuccess(page, "All Acive discount list.");
+	}
+	
+	
+	@Transactional
+	public String delete(int id) {
+		logger.info("Service: Delete discount details with id {}", id);
+		int isDelete = discountRepository.updateIsActiveStatus(id);
+		int isOrderTypeDelete=discountOrderTypeRepository.updateIsActiveStatus(id);
+		if (isDelete > 0 && isOrderTypeDelete > 0) {
+			logger.info("Service: discount details found with id {} for delete operation{}", id);
+			return utils.objectMapperSuccess("Discount Deleted Successfully");
+		}
+		logger.info("Service: Discount details not found with id {} for delete operation{}", id);
+		return utils.objectMapperError("Discount Deleted Failed");
 	}
 }

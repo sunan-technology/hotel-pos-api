@@ -30,6 +30,10 @@ public class EmployeeRegistrationDto {
 	private Date dateOfJoining;
 
 	private String photo;
+	
+	private int rolesId;
+	
+	private String role;
 
 	private String isActive;
 

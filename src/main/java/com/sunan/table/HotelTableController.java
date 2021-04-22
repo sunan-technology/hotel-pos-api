@@ -1,5 +1,7 @@
 package com.sunan.table;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,17 +49,17 @@ public class HotelTableController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody HotelTableDto tableDto,@RequestHeader("hotelId") int hotelId) {
+	public ResponseEntity<?> save(@RequestBody List<HotelTableDto> dto,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Save table details ");
-		return new ResponseEntity<>(tableService.saveTable(tableDto,hotelId), HttpStatus.OK);
+		return new ResponseEntity<>(tableService.saveTable(dto,hotelId), HttpStatus.OK);
 	}
 
 
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody HotelTableDto tableDto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
+	public ResponseEntity<?> update(@RequestBody List<HotelTableDto> dto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update table details by id: {}", id);
-		return new ResponseEntity<>(tableService.update(tableDto, id,hotelId), HttpStatus.OK);
+		return new ResponseEntity<>(tableService.update(dto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

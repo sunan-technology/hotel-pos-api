@@ -64,8 +64,8 @@ public class Discount implements Serializable {
 	@Column(name = "terms_and_conditons")
 	private String termsAndConditions;
 
-	@Column(name = "ordertype")
-	private String orderType; // delivery ,dineIn ,pickup
+//	@Column(name = "ordertype")
+//	private String orderType; // delivery ,dineIn ,pickup
 
 	@Column(name = "applicable_on")
 	private String applicableOn; // all,category,items

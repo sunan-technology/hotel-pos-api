@@ -44,14 +44,13 @@ public class HotelTableService implements Serializable {
 	
 
 	@Transactional
-	public String saveTable(HotelTableDto dto,int hotelId) {
+	public String saveTable(List<HotelTableDto> dto,int hotelId) {
 		if (tableStatusRequestValidate(dto)) {
 			if (tableTypeRequestValidate(dto)) {
-				HotelTable table = tableMapper.getTableBuilder(dto);
-				table.setHotel(new Hotel(hotelId));
-				tableRepository.save(table);
+				List<HotelTable> table = tableMapper.getHotelTableBuilder(dto,hotelId);
+				tableRepository.saveAll(table);
 				logger.info("Service: Save Table details");
-				return utils.objectMapperSuccess(tableMapper.getTableDtoBuilder(table), "Table Details Saved");
+				return utils.objectMapperSuccess(tableMapper.getHotelTableDtoBuilder(table), "Table Details Saved");
 			} else {
 				logger.info("Service : Table save opration failed ! ");
 				return utils.objectMapperError("Table save opration failed due to wrong tableType(add-AC/NonAc)");
@@ -63,7 +62,7 @@ public class HotelTableService implements Serializable {
 	}
 
 	@Transactional
-	public String update(HotelTableDto tableDto, int id,int hotelId) {
+	public String update(List<HotelTableDto> tableDto, int id,int hotelId) {
 
 		if (tableStatusRequestValidate(tableDto)) {
 			if (tableTypeRequestValidate(tableDto)) {
@@ -71,10 +70,9 @@ public class HotelTableService implements Serializable {
 				Optional<HotelTable> optional = tableRepository.findById(id);
 				if (optional.isPresent()) {
 					logger.info("Service: table details found with id {} for update operation", id);
-					HotelTable table = tableMapper.getTableBuilder(tableDto);
-					table.setHotel(new Hotel(hotelId));
-					tableRepository.save(table);
-					return utils.objectMapperSuccess(tableMapper.getTableDtoBuilder(table), "Table Details Updated");
+					List<HotelTable> table = tableMapper.getHotelTableBuilder(tableDto,hotelId);
+					tableRepository.saveAll(table);
+					return utils.objectMapperSuccess(tableMapper.getHotelTableDtoBuilder(table), "Table Details Updated");
 				} else {
 					logger.info("Service: table details not found with id {} for update operation", id);
 					return utils.objectMapperError("table Details Not Found !");
@@ -120,11 +118,9 @@ public class HotelTableService implements Serializable {
 		logger.info("Service: Fetching list of hotelTable details ");
 		PageRequest pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<HotelTable> pagedResult = null;
-		if (StringUtils.isBlank(searchTerm)) {
+		
 			pagedResult = tableRepository.findByIsActive("yes", pageable);
-		} else {
-			pagedResult = tableRepository.findByStatusContainingIgnoreCaseAndIsActive(searchTerm, "yes", pageable);
-		}
+		
 
 		Page<HotelTableDto> page = pagedResult.map(new Function<HotelTable, HotelTableDto>() {
 			@Override
@@ -137,20 +133,26 @@ public class HotelTableService implements Serializable {
 		return utils.objectMapperSuccess(page, "All Acive Table list.");
 	}
 
-	public boolean tableStatusRequestValidate(HotelTableDto dto) {
-		if (dto.getStatus().equals("active") || dto.getStatus().equals("deactive")) {
+	public boolean tableStatusRequestValidate(List<HotelTableDto> hotelTableDto) {
+		for(HotelTableDto tableDto : hotelTableDto) {
+		if (tableDto.getStatus().equals("active") || tableDto.getStatus().equals("deactive")) {
 			return true;
 		} else {
 			return false;
 		}
+		}
+		return false;
 	}
 
-	public boolean tableTypeRequestValidate(HotelTableDto dto) {
+	public boolean tableTypeRequestValidate(List<HotelTableDto> hotelTableDto) {
+		for(HotelTableDto dto : hotelTableDto) {
 		if (dto.getTableType().equals("AC") || dto.getTableType().equals("NonAc")) {
 			return true;
 		} else {
 			return false;
 		}
+		}
+		return false;
 	}
 
 	public String getAvailableTable(int hotelId) {
