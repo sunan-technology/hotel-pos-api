@@ -36,7 +36,7 @@ public class DiscountDto {
 
 	private String termsAndConditions;
 
-	private List<DiscountOrderTypeDto> orderType;
+	private List<DiscountOrderTypeDto> orderType; // save list order type
 
 	private String applicableOn;
 

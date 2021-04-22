@@ -1,4 +1,4 @@
-package com.sunan.discount;
+package com.sunan.order.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,15 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DiscountOrderTypeDto {
+public class OrderTypeDto {
+
 	private int id;
 
-	private int orderTypeId;
-	
 	private String orderType;
-
-	private int discountId;
-
 
 	private String isActive;
 

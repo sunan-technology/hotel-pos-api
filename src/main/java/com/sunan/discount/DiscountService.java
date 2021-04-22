@@ -83,7 +83,7 @@ public class DiscountService implements Serializable {
 			logger.info("Service : updating discount details");
 			discountRepository.save(discounts);
 			return utils.objectMapperSuccess(
-					"Discount details saved successfully");
+					"Discount details updated successfully");
 
 		} else {
 			logger.info("Service: discount details not found with id {} for update operation", id);

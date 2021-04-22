@@ -27,15 +27,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper=false)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "discount_ordertype")
-public class DiscountOrderType implements Serializable {
+@Table(name = "ordertype")
+public class OrderType implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -44,17 +43,14 @@ public class DiscountOrderType implements Serializable {
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
 	
-	@JoinColumn(name = "ordertype_id")
-	@ManyToOne
-	private OrderType orderType;
+	@Column(name = "ordertype")
+	private String orderType;
 	
-	@JoinColumn(name = "discount_id")
-	@ManyToOne
-	private Discount discount;
 	
 	@Column(name = "is_active")
 	private String isActive;
 
+	
 	@JoinColumn(name = "hotel_id")
 	@ManyToOne
 	public Hotel hotel;
@@ -72,5 +68,11 @@ public class DiscountOrderType implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
 
+	public OrderType(int id) {
+		super();
+		this.id = id;
+	}
+	
+	
 
 }

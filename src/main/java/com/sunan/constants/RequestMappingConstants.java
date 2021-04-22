@@ -73,5 +73,7 @@ public class RequestMappingConstants {
 	
 	public static final String ROLES =RequestMappingConstants.ROOTURL+"/Roles";
 	
+	public static final String ORDERTYPE =RequestMappingConstants.ROOTURL+"/OrderType";
+	
 	 
 }

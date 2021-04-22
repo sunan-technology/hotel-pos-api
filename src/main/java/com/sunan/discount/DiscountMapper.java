@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.sunan.model.Discount;
 import com.sunan.model.DiscountOrderType;
 import com.sunan.model.Hotel;
+import com.sunan.model.OrderType;
 
 @Component
 public class DiscountMapper {
@@ -66,7 +67,7 @@ public class DiscountMapper {
 		List<DiscountOrderType> list = new ArrayList<DiscountOrderType>();
 		for(DiscountOrderTypeDto dto : list2) {
 			list.add(DiscountOrderType.builder()
-					.discountOrderType(dto.getDiscountOrderType())
+					.orderType(new OrderType(dto.getOrderTypeId()))
 					.discount(new Discount(discountId))
 					.isActive("yes")
 					.hotel(new Hotel(hotelId))
@@ -82,7 +83,8 @@ public class DiscountMapper {
 		for(DiscountOrderType dto :discountOrderType) {
 			list.add(DiscountOrderTypeDto.builder()
 					.id(dto.getId())
-					.discountOrderType(dto.getDiscountOrderType())
+					.orderTypeId(dto.getOrderType().getId())
+					.orderType(dto.getOrderType().getOrderType())
 					.build());
 		}
 		return list;
