@@ -19,7 +19,6 @@ import com.sunan.model.PurchaseOrderJoin;
 import com.sunan.model.Supplier;
 import com.sunan.product.ProductRepository;
 import com.sunan.purchaseorder.join.PurchaseOrderJoinRepository;
-import com.sunan.storage.type.StorageTypeRepository;
 import com.sunan.supplier.SupplierRepository;
 import com.sunan.utils.JsonUtils;
 import com.sunan.warehouse.WarehousesRepository;
@@ -39,8 +38,7 @@ public class PurchaseOrderService implements Serializable {
 	@Autowired
 	private HotelRepository hotelRepository;
 
-	@Autowired
-	private StorageTypeRepository storageTypeRepository;
+	
 
 	@Autowired
 	private ProductRepository productRepository;

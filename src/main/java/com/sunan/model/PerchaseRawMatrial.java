@@ -27,19 +27,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper=false)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "storage_type")
-public class StorageType implements Serializable {
-
-	/**
-	 * 
-	 */
+@Table(name = "purchase_rawmatrial")
+public class PerchaseRawMatrial implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -48,9 +44,25 @@ public class StorageType implements Serializable {
 	
 	private String name;
 	
+	private int quantity;
+	
+	private Double price;
+	
+	private Double amount;
+	
+	private Units units;
+	
+	private int cgst;
+	
+	private int sgst;
+	
+	private int igst;
+	
+	private String description;
+	
 	@Column(name = "is_active")
 	private String isActive;
-	
+
 	@JoinColumn(name = "hotel_id")
 	@ManyToOne
 	public Hotel hotel;
@@ -67,10 +79,7 @@ public class StorageType implements Serializable {
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
-
-	public StorageType(int id) {
-		super();
-		this.id = id;
-	}
+	
+	
 
 }

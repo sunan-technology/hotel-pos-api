@@ -47,9 +47,6 @@ public class ProductOpeningStock implements Serializable {
 	@ManyToOne
 	private Product product;
 
-	@JoinColumn(name = "storagetype_id")
-	@ManyToOne
-	private StorageType storageType;
 
 	@JoinColumn(name = "warehouses_id")
 	@ManyToOne

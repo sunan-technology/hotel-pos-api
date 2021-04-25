@@ -67,14 +67,14 @@ public class Purchase  implements Serializable {
 	@Column(name = "discount")
 	private Double discount;
 
-	@Column(name = "previous_due")
-	private Double previousDue;
-
-	@Column(name = "freight_charges")
-	private Double freightCharges;
-
-	@Column(name = "other_charges")
-	private Double otherCharges;
+//	@Column(name = "previous_due")
+//	private Double previousDue;
+//
+//	@Column(name = "freight_charges")
+//	private Double freightCharges;
+//
+//	@Column(name = "other_charges")
+//	private Double otherCharges;
 
 	@Column(name = "total")
 	private Double total;
@@ -85,15 +85,66 @@ public class Purchase  implements Serializable {
 	@Column(name = "grand_total")
 	private Double grandTotal;
 
-	@Column(name = "total_payment")
-	private Double totalPayment;
-
-	@Column(name = "payment_due")
-	private Double paymentDue;
-
-	@Column(name = "remarks")
-	private String remarks;
-
+//	@Column(name = "total_payment")
+//	private Double totalPayment;
+//
+//	@Column(name = "payment_due")
+//	private Double paymentDue;
+//
+//	@Column(name = "remarks")
+//	private String remarks;
+	
+	@Column(name = "update_inventorystock")
+	private String updateInventoryStock;
+	
+	@Column(name = "gstno")
+	private String gstNo;
+	
+	
+	@Column(name = "deliverycharges_ininvoice")
+	private Double deliveryChargesInInvoice;
+	
+	@Column(name = "total_deliverycharges")
+	private Double totalDeliveryCharges;
+	
+	@Column(name = "total_discount")
+	private Double totalDiscount;
+	
+	@Column(name = "discount_type")
+	private String discountType;
+	
+	@Column(name = "payment_type")
+	private String paymentType; //paid,unpaid
+	
+	@Column(name = "payment_mode")
+	private String paymentMode;  //cash,card,cheque,online,other
+	
+	@Column(name = "paidamount")
+	private Double paidAmount;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "paymentdate")
+	private Date paymentDate;
+	
+	@Column(name = "payment_referenceno")
+	private String paymentReferenceNo;
+	
+	@Column(name = "taxcollected_atsource")
+	private Double taxCollectedAtSource;
+	
+	@Column(name = "totaltaxcollected_atsource")
+	private Double totalTaxCollectedAtSource;
+	
+	@Column(name = "cgst")
+	private int cgst;
+	
+	@Column(name = "sgst")
+	private int sgst;
+	
+	@Column(name = "igst")
+	private int igst;
+	
 	@Column(name = "is_active")
 	private String isActive;
 

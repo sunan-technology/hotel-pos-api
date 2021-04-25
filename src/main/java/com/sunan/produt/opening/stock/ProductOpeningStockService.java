@@ -19,10 +19,8 @@ import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Hotel;
 import com.sunan.model.Product;
 import com.sunan.model.ProductOpeningStock;
-import com.sunan.model.StorageType;
 import com.sunan.model.Warehouses;
 import com.sunan.product.ProductRepository;
-import com.sunan.storage.type.StorageTypeRepository;
 import com.sunan.utils.JsonUtils;
 import com.sunan.warehouse.WarehousesRepository;
 
@@ -37,9 +35,6 @@ public class ProductOpeningStockService implements Serializable {
 
 	@Autowired
 	private HotelRepository hotelRepository;
-
-	@Autowired
-	private StorageTypeRepository storageTypeRepository;
 
 	@Autowired
 	private ProductRepository productRepository;
@@ -58,11 +53,6 @@ public class ProductOpeningStockService implements Serializable {
 		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
 		if (!hotel.isPresent() || hotelId == 0) {
 			throw new BadRequestException("hotel not found");
-		}
-
-		Optional<StorageType> storageType = storageTypeRepository.findById(productOpeningStockDto.getStorageTypeId());
-		if (!storageType.isPresent() || productOpeningStockDto.getStorageTypeId() == 0) {
-			throw new BadRequestException("Storage type not found");
 		}
 
 		Optional<Warehouses> warehouses = warehousesRepository.findById(productOpeningStockDto.getWarehousesId());

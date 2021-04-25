@@ -23,12 +23,10 @@ import com.sunan.model.Category;
 import com.sunan.model.Hotel;
 import com.sunan.model.Product;
 import com.sunan.model.ProductOpeningStock;
-import com.sunan.model.StorageType;
 import com.sunan.model.Warehouses;
 import com.sunan.produt.opening.stock.ProductOpeningStockDto;
 import com.sunan.produt.opening.stock.ProductOpeningStockMapper;
 import com.sunan.produt.opening.stock.ProductOpeningStockRepository;
-import com.sunan.storage.type.StorageTypeRepository;
 import com.sunan.utils.JsonUtils;
 import com.sunan.warehouse.WarehousesRepository;
 
@@ -45,11 +43,8 @@ public class ProductService implements Serializable {
 	ProductMapper productMapper;
 
 	@Autowired
-	private StorageTypeRepository storageTypeRepository;
-
-	@Autowired
 	private WarehousesRepository warehousesRepository;
-	
+
 	@Autowired
 	private HotelRepository hotelRepository;
 
@@ -65,17 +60,11 @@ public class ProductService implements Serializable {
 	@Autowired
 	private JsonUtils utils;
 
-	
 	private void validateProductOpeningStockRequest(ProductOpeningStockDto productOpeningStockDto, int hotelId) {
 
 		Optional<Hotel> hotel = hotelRepository.findById(hotelId);
 		if (!hotel.isPresent() || hotelId == 0) {
 			throw new BadRequestException("hotel not found");
-		}
-
-		Optional<StorageType> storageType = storageTypeRepository.findById(productOpeningStockDto.getStorageTypeId());
-		if (!storageType.isPresent() || productOpeningStockDto.getStorageTypeId() == 0) {
-			throw new BadRequestException("Storage type not found");
 		}
 
 		Optional<Warehouses> warehouses = warehousesRepository.findById(productOpeningStockDto.getWarehousesId());
@@ -88,7 +77,7 @@ public class ProductService implements Serializable {
 			throw new BadRequestException("product not found");
 		}
 	}
-	
+
 	@Transactional
 	public String save(ProductRequestDto productRequestDto, int hotelId) {
 
@@ -101,7 +90,8 @@ public class ProductService implements Serializable {
 				product.setHotel(new Hotel(hotelId));
 				productRepository.save(product);
 				// add product entry in the product opening stock table
-				//validateProductOpeningStockRequest(productRequestDto.getOpeningStockDtos(), hotelId);
+				// validateProductOpeningStockRequest(productRequestDto.getOpeningStockDtos(),
+				// hotelId);
 				List<ProductOpeningStock> list = productOpeningStockMapper.getProductOpeningStockBuilder(
 						productRequestDto.getOpeningStockDtos(), product.getId(), hotelId);
 

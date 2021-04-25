@@ -47,9 +47,12 @@ public class PerchaseJoin  implements Serializable {
 	@ManyToOne
 	private Purchase purchase;
 
-	@JoinColumn(name = "product_id")
-	@ManyToOne
-	private Product product;
+//	@JoinColumn(name = "product_id")
+//	@ManyToOne
+//	private Product product;
+	
+	@Column(name = "rawmatrial_name")
+	private String rawMatrialName;
 
 	@Column(name = "quantity")
 	private int quantity;
@@ -60,9 +63,23 @@ public class PerchaseJoin  implements Serializable {
 	@Column(name = "total_amount")
 	private Double totalAmount;
 
-	@JoinColumn(name = "storagetype_id")
+	@JoinColumn(name = "units_id")
 	@ManyToOne
-	private StorageType storageType;
+	private Units units;
+	
+	@Column(name = "cgst")
+	private int cgst;
+	
+	@Column(name = "sgst")
+	private int sgst;
+	
+	
+	@Column(name = "igst")
+	private int igst;
+	
+	
+	@Column(name = "description")
+	private String description;
 
 	@JoinColumn(name = "warehouses_id")
 	@ManyToOne

@@ -1,6 +1,7 @@
 package com.sunan.purchase;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -14,14 +15,10 @@ import com.sunan.exception.BadRequestException;
 import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Hotel;
 import com.sunan.model.PerchaseJoin;
-import com.sunan.model.Product;
 import com.sunan.model.Purchase;
-import com.sunan.model.StorageType;
 import com.sunan.model.Supplier;
-import com.sunan.model.Warehouses;
 import com.sunan.product.ProductRepository;
 import com.sunan.purchase.join.PurchaseJoinRepository;
-import com.sunan.storage.type.StorageTypeRepository;
 import com.sunan.supplier.SupplierRepository;
 import com.sunan.utils.JsonUtils;
 import com.sunan.warehouse.WarehousesRepository;
@@ -40,9 +37,6 @@ public class PurchaseService implements Serializable {
 
 	@Autowired
 	private HotelRepository hotelRepository;
-
-	@Autowired
-	private StorageTypeRepository storageTypeRepository;
 
 	@Autowired
 	private ProductRepository productRepository;
@@ -66,20 +60,15 @@ public class PurchaseService implements Serializable {
 			throw new BadRequestException("hotel not found");
 		}
 
-		Optional<StorageType> storageType = storageTypeRepository.findById(purchaseDto.getStorageTypeId());
-		if (!storageType.isPresent() || purchaseDto.getStorageTypeId() == 0) {
-			throw new BadRequestException("Storage type not found");
-		}
-
-		Optional<Warehouses> warehouses = warehousesRepository.findById(purchaseDto.getWarehousesId());
-		if (!warehouses.isPresent() || purchaseDto.getWarehousesId() == 0) {
-			throw new BadRequestException("Warehouse not found");
-		}
-
-		Optional<Product> product = productRepository.findById(purchaseDto.getProductId());
-		if (!product.isPresent() || purchaseDto.getProductId() == 0) {
-			throw new BadRequestException("product not found");
-		}
+//		Optional<Warehouses> warehouses = warehousesRepository.findById(purchaseDto.getWarehousesId());
+//		if (!warehouses.isPresent() || purchaseDto.getWarehousesId() == 0) {
+//			throw new BadRequestException("Warehouse not found");
+//		}
+//
+//		Optional<Product> product = productRepository.findById(purchaseDto.getProductId());
+//		if (!product.isPresent() || purchaseDto.getProductId() == 0) {
+//			throw new BadRequestException("product not found");
+//		}
 	}
 
 	@Transactional
@@ -90,18 +79,18 @@ public class PurchaseService implements Serializable {
 			Optional<Supplier> supplier = supplierRepository.findById(purchaseDto.getSupplierId());
 			if (supplier.isPresent()) {
 				Double roundOff = (double) Math.round(purchaseDto.getGrandTotal());
-				Purchase purchase = purchaseMapper.getPerchaseBuilder(purchaseDto,roundOff);
+				Purchase purchase = purchaseMapper.getPerchaseBuilder(purchaseDto, roundOff);
 				purchase.setHotel(new Hotel(hotelId));
 				purchaseRepository.save(purchase);
 				logger.info("Service: perchase details saved");
 
 				validateSavePurchaseJoinRequest(purchaseDto, hotelId);
-				PerchaseJoin perchaseJoin = purchaseMapper.getPerchaseJoin(purchaseDto, purchase.getId());
-				perchaseJoin.setHotel(new Hotel(hotelId));
-				purchaseJoinRepository.save(perchaseJoin);
+				List<PerchaseJoin> perchaseJoin = purchaseMapper.getPurchaseJoin(purchaseDto.getPurchaseJoinDtos(), purchase.getId(),hotelId);
+			
+				purchaseJoinRepository.saveAll(perchaseJoin);
 
 				logger.info("Service: purchase details");
-				return utils.objectMapperSuccess(purchaseMapper.getPurchaseDtoBuilder(purchase, perchaseJoin),
+				return utils.objectMapperSuccess(
 						" Purchase Details Saved");
 			} else {
 				logger.info("Service: supplier not found");

@@ -21,10 +21,6 @@ public class ProductOpeningStockDto {
 	private String productName;
 	@NotNull
 	@Min(1)
-	private int storageTypeId;
-	private String storageTypeName;
-	@NotNull
-	@Min(1)
 	private int warehousesId;
 	private String warehousesName;
 	private int quantity;
