@@ -1,7 +1,6 @@
 package com.sunan.pos.report;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +17,15 @@ import com.sunan.billing.kot.info.BillingInfoKOTRepository;
 import com.sunan.constants.DefaultConstantValues;
 import com.sunan.dish.DishRepository;
 import com.sunan.hotel.HotelRepository;
-import com.sunan.model.BillingInfoKOT;
-import com.sunan.model.BillingOrderedProductKOT;
-import com.sunan.model.Dish;
+import com.sunan.internal.transfer.InternalTransferDto;
+import com.sunan.internal.transfer.InternalTransferMapper;
+import com.sunan.internal.transfer.InternalTransferRepository;
 import com.sunan.model.Hotel;
+import com.sunan.model.InternalTransfer;
+import com.sunan.model.Kitchen;
+import com.sunan.model.Purchase;
+import com.sunan.model.Supplier;
+import com.sunan.purchase.PurchaseRepository;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -38,6 +42,15 @@ public class POSReportService implements Serializable {
 	
 	@Autowired
 	private DishRepository dishRepository;
+	
+	@Autowired
+	private InternalTransferRepository internalTransferRepository;
+	
+	@Autowired
+	InternalTransferMapper internalTransferMapper;
+	
+	@Autowired
+	private PurchaseRepository purchaseRepository;
 
 	@Autowired
 	private HotelRepository hotelRepo;
@@ -88,6 +101,26 @@ public class POSReportService implements Serializable {
 		}
 		return DefaultConstantValues.DEFAULT_DOUBLE_VALUE;
 	}
+
+	@Transactional
+	public String purchaseStockReport(Date fromDate, Date toDate, int supplierId, String invoiceNo, String payment,
+			 String purchaseType, int hotelId) {
+		logger.info("Service : fetching purchase stock list");
+		List<Purchase> purchase=purchaseRepository.getPurchaseReport(fromDate, toDate, new Supplier(supplierId), invoiceNo, payment, new Hotel(hotelId));
+		
+		return utils.objectMapperSuccess(purchase, "Purchase stock report list.");
+	}
+
+	@Transactional
+	public String internalTransferReport(Date fromDate, Date toDate, int kitchenId, String invoiceNo, String payment,
+			String purchaseType, int hotelId) {
+		logger.info("Service : fetching internal transfer list");
+		List<InternalTransfer> internalTransfer=internalTransferRepository.getInternalTransferReport(fromDate, toDate, new Kitchen(kitchenId), invoiceNo, payment, new Hotel(hotelId));		
+		return utils.objectMapperSuccess(internalTransfer, "Internal transfer report list.");
+	}
+	
+	
+	
 	
 //	@Transactional
 //	public String overAllReportOne(Integer pageNo, Integer pageSize, String sortBy, int hotelId, Date fromDate,

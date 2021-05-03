@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.sunan.model.Hotel;
 import com.sunan.model.PerchaseJoin;
 import com.sunan.model.Purchase;
+import com.sunan.model.RawMatrial;
 import com.sunan.model.Supplier;
 import com.sunan.model.Units;
 import com.sunan.model.Warehouses;
@@ -27,7 +28,10 @@ public class PurchaseMapper {
 				.subTotal(dto.getSubTotal())
 				.discountPer(Common.defaultValue)
 				.discount(dto.getDiscount())
-				.total(dto.getTotal())
+				.poNumber(dto.getPoNumber())
+				.purchaseType(dto.getPurchaseType())
+				
+				.rawMatrialAmountTotal(dto.getRawMatrialAmountTotal())
 				.roundOff(roundOff)
 				.grandTotal(dto.getGrandTotal())
 				.updateInventoryStock(dto.getUpdateInventoryStock())
@@ -51,35 +55,43 @@ public class PurchaseMapper {
 	}
 	
 	
-//	public PurchaseDto getPurchaseDtoBuilder(Purchase purchase,PerchaseJoin perchaseJoin) {
-//		
-//		
-//		
-//		return PurchaseDto.builder()
-//				.id(purchase.getId())
-//				.invoiceNo(purchase.getInvoiceNo())
-//				.invoiceDate(purchase.getDate())
-//				.remarks(purchase.getRemarks())
-//				.supplierId(purchase.getSupplier().getSupplierId())
-//				.productId(perchaseJoin.getProduct().getId())
-//				.productName(perchaseJoin.getProduct().getProductName())
-//				.warehousesId(perchaseJoin.getWarehouses().getId())
-//				.warehousesName(perchaseJoin.getWarehouses().getWarehouseName())
-//				.quantity(perchaseJoin.getQuantity())
-//				.pricePerUnit(perchaseJoin.getPrice())
-//				.totalAmount(perchaseJoin.getTotalAmount())
-//				.hasExpiryDate(perchaseJoin.getHasExpiryDate())
-//				.expriyDate(perchaseJoin.getExpiryDate())
-//				.subTotal(purchase.getSubTotal())
-//				.discount(purchase.getDiscount())
-//				.freightCharges(purchase.getFreightCharges())
-//				.otherCharges(purchase.getOtherCharges())
-//				.previousDue(purchase.getPreviousDue())
-//				.total(purchase.getTotal())
-//				.grandTotal(purchase.getGrandTotal())
-//				.totalPayment(purchase.getTotalPayment())
-//				.build();
-//	}
+	public PurchaseDto getPurchaseDtoBuilder(Purchase purchase,List<PurchaseJoinDto> purchaseJoinDto) {
+		
+		
+		
+		return PurchaseDto.builder()
+				.id(purchase.getId())
+				.invoiceNo(purchase.getInvoiceNo())
+				.invoiceDate(purchase.getDate())
+				.supplierId(purchase.getSupplier().getSupplierId())
+				.subTotal(purchase.getSubTotal())
+				.discountPer(purchase.getDiscountPer())
+				.poNumber(purchase.getPoNumber())
+				.purchaseType(purchase.getPurchaseType())
+				.discount(purchase.getDiscount())
+				.rawMatrialAmountTotal(purchase.getRawMatrialAmountTotal())
+				.roundOff(purchase.getRoundOff())
+				.grandTotal(purchase.getGrandTotal())
+				.updateInventoryStock(purchase.getUpdateInventoryStock())
+				.gstNo(purchase.getGstNo())
+				.deliveryChargesInInvoice(purchase.getDeliveryChargesInInvoice())
+				.totalDeliveryCharges(purchase.getTotalDeliveryCharges())
+				.totalDiscount(purchase.getTotalDiscount())
+				.discountType(purchase.getDiscountType())
+				.paymentType(purchase.getPaymentType())
+				.paymentMode(purchase.getPaymentMode())
+				.paidAmount(purchase.getPaidAmount())
+				.paymentDate(purchase.getPaymentDate())
+				.paymentReferenceNo(purchase.getPaymentReferenceNo())
+				.taxCollectedAtSource(purchase.getTaxCollectedAtSource())
+				.totalTaxCollectedAtSource(purchase.getTotalTaxCollectedAtSource())
+				.cgst(purchase.getCgst())
+				.sgst(purchase.getSgst())
+				.igst(purchase.getIgst())
+				.isActive(purchase.getIsActive())
+				.purchaseJoinDtos(purchaseJoinDto)
+				.build();
+	}
 	
 //	public PerchaseJoin getPerchaseJoin(PurchaseDto purchaseDto,int purchaseId) {
 //		
@@ -123,6 +135,7 @@ public class PurchaseMapper {
 			list.add(PerchaseJoin.builder()
 					.id(dto.getId())
 					.purchase(new Purchase(purchaseId))
+					.rawMatrial(new RawMatrial(dto.getRawmatrialId()))
 					.rawMatrialName(dto.getRawMatrialName())
 					.quantity(dto.getQuantity())
 					.price(dto.getPrice())
@@ -135,6 +148,7 @@ public class PurchaseMapper {
 					.warehouses(new Warehouses(dto.getWarehousesId()))
 					.hasExpiryDate(dto.getHasExpiryDate())
 					.expiryDate(dto.getExpiryDate())
+					.rawMatrial(new RawMatrial(dto.getRawmatrialId()))
 					.hotel(new Hotel(hotelId))
 					.isActive(dto.getIsActive())
 					.build());
@@ -142,6 +156,59 @@ public class PurchaseMapper {
 		
 		return list;
 		
+	}
+	
+	
+	public List<PurchaseJoinDto> getPurchaseJoinDtoBuilder(List<PerchaseJoin> purchaseJoin){
+		List<PurchaseJoinDto> list=new ArrayList<PurchaseJoinDto>();
+		
+		for(PerchaseJoin dto : purchaseJoin) {
+			list.add(PurchaseJoinDto.builder()
+					.id(dto.getId())
+					.perchaseId(dto.getPurchase().getId())
+					.rawmatrialId(dto.getRawMatrial().getId())
+					.rawMatrialName(dto.getRawMatrialName())
+					.quantity(dto.getQuantity())
+					.price(dto.getPrice())
+					.unitsId(dto.getUnits().getId())
+					.totalAmount(dto.getTotalAmount())
+					.cgst(dto.getCgst())
+					.sgst(dto.getSgst())
+					.igst(dto.getIgst())
+					.description(dto.getDescription())
+				    .warehousesId(dto.getWarehouses().getId())
+					.hasExpiryDate(dto.getHasExpiryDate())
+					.expiryDate(dto.getExpiryDate())
+					.rawmatrialId(dto.getRawMatrial().getId())
+					.isActive(dto.getIsActive())
+					.build());
+			
+		}
+		return list;
+	}
+	
+	public PurchaseJoinDto getPurchaseJoinDto(PerchaseJoin dto) {
+		
+		
+		return PurchaseJoinDto.builder()
+				.id(dto.getId())
+				.perchaseId(dto.getPurchase().getId())
+				.rawmatrialId(dto.getRawMatrial().getId())
+				.rawMatrialName(dto.getRawMatrialName())
+				.quantity(dto.getQuantity())
+				.price(dto.getPrice())
+				.unitsId(dto.getUnits().getId())
+				.totalAmount(dto.getTotalAmount())
+				.cgst(dto.getCgst())
+				.sgst(dto.getSgst())
+				.igst(dto.getIgst())
+				.description(dto.getDescription())
+			    .warehousesId(dto.getWarehouses().getId())
+				.hasExpiryDate(dto.getHasExpiryDate())
+				.expiryDate(dto.getExpiryDate())
+				.rawmatrialId(dto.getRawMatrial().getId())
+				.isActive(dto.getIsActive())
+				.build();
 	}
 
 }

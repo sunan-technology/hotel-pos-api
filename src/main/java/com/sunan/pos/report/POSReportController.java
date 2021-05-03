@@ -30,7 +30,8 @@ public class POSReportController {
 	@Autowired
 	private POSReportService posReportService;
 	
-	  @GetMapping("/get-over-all-report") public ResponseEntity<?> getOverAllReport( @RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(name = "toDate", required =
+	  @GetMapping("/get-over-all-report") 
+	  public ResponseEntity<?> getOverAllReport( @RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(name = "toDate", required =
 	  false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate,@RequestParam(name ="operator") String operator, @RequestHeader("hotelId") int hotelId){
 	  
 	  logger.info("Getting over all billing report details"); return new
@@ -46,6 +47,21 @@ public class POSReportController {
 //	  logger.info("Getting over all billing report details"); return new
 //	  ResponseEntity<>(posReportService.overAllReportOne(pageNo, pageSize, sortBy,hotelId, fromDate, toDate), HttpStatus.OK); 
 //	  }
+	  
+	  @GetMapping("/get-purchase-stock-report") 
+	  public ResponseEntity<?> getPerchaseStockReport(@RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(name = "toDate", required =
+	  false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate,@RequestParam(name ="supplierId") int  supplierId,@RequestParam(name ="invoiceno") String  invoiceNo,@RequestParam(name ="payment") String  payment,@RequestParam(name ="purchasetype") String  purchaseType, @RequestHeader("hotelId") int hotelId){
+		  logger.info("Controller : Getting perchase stock report details");
+		  return new ResponseEntity<>(posReportService.purchaseStockReport(fromDate, toDate,supplierId,invoiceNo,payment,purchaseType,hotelId), HttpStatus.OK); 
+	  }
+	  
+	  @GetMapping("/get-internal-transfer-report") 
+	  public ResponseEntity<?> getInternalTransferReport(@RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(name = "toDate", required =
+			  false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate,@RequestParam(name ="kitchenId") int  kitchenId,@RequestParam(name ="invoiceno") String  invoiceNo,@RequestParam(name ="payment") String  payment,@RequestParam(name ="purchasetype") String  purchaseType, @RequestHeader("hotelId") int hotelId){
+		  logger.info("Controller : Getting internal transfer report details");
+		  return new ResponseEntity<>(posReportService.internalTransferReport(fromDate, toDate,kitchenId,invoiceNo,payment,purchaseType,hotelId), HttpStatus.OK); 
+	  }
+	  
 	   
 	 
 

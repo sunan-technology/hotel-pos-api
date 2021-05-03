@@ -1,4 +1,4 @@
-package com.sunan.purchase.join;
+package com.sunan.internal.transfer.join;
 
 import java.util.Date;
 
@@ -11,12 +11,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PurchaseJoinDto {
+public class InternalTransferJoinDto {
 
 	private int id;
-	private int perchaseId;
+
+//	private int internalTransferId;
+	private int purchaseJoinId;
 	
-	private int rawmatrialId;
+//	private int rawMatrialId;
+	
 	private String rawMatrialName;
 
 	private int quantity;
@@ -34,8 +37,6 @@ public class PurchaseJoinDto {
 	private int igst;
 
 	private String description;
-
-	private int warehousesId;
 
 	private int hasExpiryDate;
 

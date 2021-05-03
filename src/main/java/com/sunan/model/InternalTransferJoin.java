@@ -30,80 +30,69 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper=false)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "rawmatrial")
-public class RawMatrial implements Serializable {
-
+@Table(name = "internaltransfer_join")
+public class InternalTransferJoin implements Serializable {
+	
+	
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
-
-	@Column(name = "name")
-	private String name;
-
-	@Column(name = "purchaseunit")
-	private String purchaseUnit;
-
-	@Column(name = "consumptionunit")
-	private String consumptionUnit;
-
-	@Column(name = "purchaseprice")
-	private Double purchasePrice;
-
-	@Column(name = "saleprice")
-	private Double salePrice;
-
-	@Column(name = "taxtype")
-	private String taxType; // GST/VAT
-
-//	@Column(name = "taxamount")
-//	private Double taxAmount; // GST(%) /ExciseDuty(amount)
 	
-	@Column(name = "gst")
-	private Double gst;
-	
-	@Column(name = "excise_duty")
-	private Double exciseDuty;
-
-	@JoinColumn(name = "category_id")
+	@JoinColumn(name = "internaltransfer_id")
 	@ManyToOne
-	Category category;
+	private InternalTransfer internalTransfer;
+	
+//	@JoinColumn(name = "rawmatrial_id")
+//	@ManyToOne
+//	private RawMatrial rawMatrial;
+	
+	@Column(name = "rawmatrial_name")
+	private String rawMatrialName;
 
-	@Column(name = "normalloss")
-	private Double normallLoss;
+	@Column(name = "quantity")
+	private int quantity;
 
-	@Column(name = "hsncode")
-	private String hsnCode;
+	@Column(name = "price")
+	private Double price;
 
-	@Column(name = "minimum_stocklevel")
-	private Double ministockLevel;
+	@Column(name = "total_amount")
+	private Double totalAmount;
 
-	@Column(name = "minimum_stocklevel_unit")
-	private String ministocklevelUnit;
-
-	@Column(name = "at_per_stocklevel")
-	private Double atperstockLevel;
-
-	@Column(name = "at_per_stocklevel_unit")
-	private String atperstocklevelUnit;
-
+	@JoinColumn(name = "units_id")
+	@ManyToOne
+	private Units units;
+	
+	@Column(name = "cgst")
+	private int cgst;
+	
+	@Column(name = "sgst")
+	private int sgst;
+	
+	
+	@Column(name = "igst")
+	private int igst;
+	
+	
 	@Column(name = "description")
 	private String description;
 
-	@Column(name = "closing_stock_calcuation")
-	private String closingStockCalculation; // daily,weekly
+//	@JoinColumn(name = "warehouses_id")
+//	@ManyToOne
+//	private Warehouses warehouses;
 
-	@Column(name = "isprivate")
-	private String isPrivate; // yes/no
+	@Column(name = "hasexpiry_date")
+	private int hasExpiryDate;
 
-	@Column(name = "is_expiry")
-	private String isExpiry; // yes/no
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "expriy_date")
+	private Date expiryDate;
 
 	@Column(name = "is_active")
 	private String isActive;
@@ -124,12 +113,5 @@ public class RawMatrial implements Serializable {
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
-
-	public RawMatrial(int id) {
-		super();
-		this.id = id;
-	}
-	
-	
 
 }

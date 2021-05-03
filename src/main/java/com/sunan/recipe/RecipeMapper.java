@@ -1,11 +1,14 @@
 package com.sunan.recipe;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.sunan.model.Dish;
 import com.sunan.model.Product;
 import com.sunan.model.Recipe;
 import com.sunan.model.RecipeJoin;
+import com.sunan.raw.matrial.RecipeRawMatrialDto;
 
 @Component
 public class RecipeMapper {
@@ -48,7 +51,7 @@ public class RecipeMapper {
 			}
 			
 	
-	public RecipeDto getRecipeDtoBuilder(Recipe recipe,RecipeJoin recipeJoin) {
+	public RecipeDto getRecipeDtoBuilder(Recipe recipe,RecipeJoin recipeJoin,List<RecipeRawMatrialDto> RecipeRawMatrial) {
 		
 		return RecipeDto.builder()
 				.id(recipe.getId())
@@ -63,11 +66,12 @@ public class RecipeMapper {
 				.quantity(recipeJoin.getQuantity())
 				.costPerUnit(recipeJoin.getCostPerUnit())
 				.totalItemCost(recipeJoin.getTotalItemCost())
+				.recipeRawMatrialDtos(RecipeRawMatrial)
 				.build();
 	}
 	
 	
-	public RecipeDto getRecipeJoinDtoBuilder(RecipeJoin recipeJoin) {
+	public RecipeDto getRecipeJoinDtoBuilder(RecipeJoin recipeJoin,List<RecipeRawMatrialDto> recipeRawMatrial) {
 		
 		return RecipeDto.builder()
 				
@@ -83,6 +87,7 @@ public class RecipeMapper {
 				.totalItemCost(recipeJoin.getTotalItemCost())
 				.quantity(recipeJoin.getQuantity())
 				.isActive(recipeJoin.getIsActive())
+				.recipeRawMatrialDtos(recipeRawMatrial)
 				.build();
 	}
 

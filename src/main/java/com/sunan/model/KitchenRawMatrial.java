@@ -30,83 +30,42 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper=false)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "rawmatrial")
-public class RawMatrial implements Serializable {
-
+@Table(name = "kitchen_rawmatrial")
+public class KitchenRawMatrial implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
-
-	@Column(name = "name")
-	private String name;
-
-	@Column(name = "purchaseunit")
-	private String purchaseUnit;
-
-	@Column(name = "consumptionunit")
-	private String consumptionUnit;
-
-	@Column(name = "purchaseprice")
-	private Double purchasePrice;
-
-	@Column(name = "saleprice")
-	private Double salePrice;
-
-	@Column(name = "taxtype")
-	private String taxType; // GST/VAT
-
-//	@Column(name = "taxamount")
-//	private Double taxAmount; // GST(%) /ExciseDuty(amount)
 	
-	@Column(name = "gst")
-	private Double gst;
+	@Column(name = "rawmatrialname")
+	private String rawMatrialName;
 	
-	@Column(name = "excise_duty")
-	private Double exciseDuty;
-
-	@JoinColumn(name = "category_id")
+	@Column(name = "quantity")
+	private int quantity;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "transferdate")
+	private Date transferDate;
+	
+	@JoinColumn(name = "units_id")
 	@ManyToOne
-	Category category;
+	private Units units;
+	
 
-	@Column(name = "normalloss")
-	private Double normallLoss;
-
-	@Column(name = "hsncode")
-	private String hsnCode;
-
-	@Column(name = "minimum_stocklevel")
-	private Double ministockLevel;
-
-	@Column(name = "minimum_stocklevel_unit")
-	private String ministocklevelUnit;
-
-	@Column(name = "at_per_stocklevel")
-	private Double atperstockLevel;
-
-	@Column(name = "at_per_stocklevel_unit")
-	private String atperstocklevelUnit;
-
-	@Column(name = "description")
-	private String description;
-
-	@Column(name = "closing_stock_calcuation")
-	private String closingStockCalculation; // daily,weekly
-
-	@Column(name = "isprivate")
-	private String isPrivate; // yes/no
-
-	@Column(name = "is_expiry")
-	private String isExpiry; // yes/no
-
+	@JoinColumn(name = "kitchen_id")
+	@ManyToOne
+	private Kitchen kitchen;
+	
 	@Column(name = "is_active")
 	private String isActive;
+
 
 	@JoinColumn(name = "hotel_id")
 	@ManyToOne
@@ -124,12 +83,5 @@ public class RawMatrial implements Serializable {
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
-
-	public RawMatrial(int id) {
-		super();
-		this.id = id;
-	}
-	
-	
 
 }

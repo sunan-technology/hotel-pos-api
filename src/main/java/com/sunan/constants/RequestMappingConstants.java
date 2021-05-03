@@ -75,5 +75,7 @@ public class RequestMappingConstants {
 	
 	public static final String ORDERTYPE =RequestMappingConstants.ROOTURL+"/OrderType";
 	
+	public static final String INTERNALTRANSFER =RequestMappingConstants.ROOTURL+"/InternalTransfer";
+	
 	 
 }

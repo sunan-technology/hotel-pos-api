@@ -27,70 +27,65 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 @Entity
 @Data
 @EqualsAndHashCode(callSuper=false)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "purchase")
-public class Purchase  implements Serializable {
-
+@Table(name = "internaltransfer")
+public class InternalTransfer implements Serializable{
+	
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
-
-	@Column(name = "invoice_no")
-	private String invoiceNo;
-
+	
+	@JoinColumn(name = "kitchen_id")
+	@ManyToOne
+	private Kitchen kitchen;
+	
+	@Column(name = "mrn_no")
+	private String mrnNo;
+	
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
-	@Column(name = "date")
-	private Date date;
-
-//	@Column(name = "purchase_type")
-//	private String purchaseType;
-
-	@JoinColumn(name = "supplier_id")
-	@ManyToOne
-	private Supplier supplier;
-
-	@Column(name = "subtotal")
-	private Double subTotal;
-
-	@Column(name = "discount_per")
-	private Double discountPer;
-
-	@Column(name = "discount")
-	private Double discount;
+	@Column(name = "invoice_date")
+	private Date invoiceDate;
 	
-	@Column(name = "ponumber")
-	private String poNumber;
-
-	@Column(name = "rawmatrial_amounttotal")
-	private Double rawMatrialAmountTotal;
-
-	@Column(name = "round_off")
-	private Double roundOff;
-
-	@Column(name = "grand_total")
-	private Double grandTotal;
-
-	
-	@Column(name = "update_inventorystock")
-	private String updateInventoryStock;
-	
-	@Column(name = "gstno")
-	private String gstNo;
-	
-	@Column(name = "purchasetype")
-	private String purchaseType;
+	@Column(name = "invoiceno")
+	private String invoiceNo;
 	
 	@Column(name = "deliverycharges_ininvoice")
 	private Double deliveryChargesInInvoice;
+	
+	@Column(name = "rawmatrial_amounttotal")
+	private Double rawMatrialAmountTotal;
+	
+	@Column(name = "cgst")
+	private int cgst;
+	
+	@Column(name = "sgst")
+	private int sgst;
+	
+	@Column(name = "igst")
+	private int igst;
+	
+	@Column(name = "subtotal")
+	private Double subTotal;
+	
+	@Column(name = "grand_total")
+	private Double grandTotal;
+	
+	@Column(name = "discounttype")
+	private String discountType;
+	
+	@Column(name = "discount_ininvoice")
+	private Double discountInInvoice;
+	
+	@Column(name = "discountper")
+	private int discountPer;
 	
 	@Column(name = "total_deliverycharges")
 	private Double totalDeliveryCharges;
@@ -98,14 +93,17 @@ public class Purchase  implements Serializable {
 	@Column(name = "total_discount")
 	private Double totalDiscount;
 	
-	@Column(name = "discount_type")
-	private String discountType;
+	@Column(name = "taxcollected_atsource")
+	private Double taxCollectedAtSource;
+	
+	@Column(name = "totaltaxcollected_atsource")
+	private Double totalTaxCollectedAtSource;
 	
 	@Column(name = "payment_type")
 	private String paymentType; //paid,unpaid
 	
-	@Column(name = "payment_mode")
-	private String paymentMode;  //cash,card,cheque,online,other
+	@Column(name = "taxpayable_underreversecharge")
+	private String taxPayableUnderReverseCharge;  //yes,no
 	
 	@Column(name = "paidamount")
 	private Double paidAmount;
@@ -118,20 +116,32 @@ public class Purchase  implements Serializable {
 	@Column(name = "payment_referenceno")
 	private String paymentReferenceNo;
 	
-	@Column(name = "taxcollected_atsource")
-	private Double taxCollectedAtSource;
+	@Column(name = "payment_mode")
+	private String paymentMode;  //cash,card,cheque,online,other
+
+	@Column(name = "bankname")
+	private String bankName;
 	
-	@Column(name = "totaltaxcollected_atsource")
-	private Double totalTaxCollectedAtSource;
+	@Column(name = "bankbranch")
+	private String bankBranch;
 	
-	@Column(name = "cgst")
-	private int cgst;
+	@Column(name = "ifsc_code")
+	private String ifscCode;
 	
-	@Column(name = "sgst")
-	private int sgst;
+	@Column(name = "accountno")
+	private String accountNo;
 	
-	@Column(name = "igst")
-	private int igst;
+	@Column(name = "address")
+	private String address;
+	
+	@Column(name = "termsandconditions")
+	private String termsAndConditions;
+	
+	@Column(name = "update_inventorystock")
+	private String updateInventoryStock;
+	
+	@Column(name = "editable")
+	private String editable;
 	
 	@Column(name = "is_active")
 	private String isActive;
@@ -154,9 +164,12 @@ public class Purchase  implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
 
-	public Purchase(int id) {
+	public InternalTransfer(int id) {
 		super();
 		this.id = id;
 	}
+
 	
+	
+
 }

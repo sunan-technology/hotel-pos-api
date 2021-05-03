@@ -101,4 +101,17 @@ public List<RecipeRawMatrial> getRawMatrialRequest(List<RecipeRawMatrialDto> rec
 	return list;
 }
 
+public List<RecipeRawMatrialDto> getRawMatrialRequestDto(List<RecipeRawMatrial> recipeRawMatrial){
+	List<RecipeRawMatrialDto> list = new ArrayList<RecipeRawMatrialDto>();
+	for(RecipeRawMatrial dto :recipeRawMatrial) {
+		list.add(RecipeRawMatrialDto.builder()
+				.name(dto.getName())
+				.quantity(dto.getQuantity())
+				.unitId(dto.getUnits().getId())
+				.area(dto.getArea())
+				.build());
+	}
+	return list;
+}
+
 }

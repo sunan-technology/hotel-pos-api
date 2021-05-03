@@ -52,8 +52,11 @@ public class PurchaseDto {
 	private Double discountPer;
 
 	private Double discount;
+	
+	private String poNumber;
 
-	private Double total;
+
+	private Double rawMatrialAmountTotal;
 
 	private Double roundOff;
 

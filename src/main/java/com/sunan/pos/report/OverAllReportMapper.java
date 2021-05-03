@@ -15,4 +15,7 @@ public class OverAllReportMapper {
 				.email(hotel.getEmail()).fromDate(fromDate).hotelAddress(hotel.getAddress1())
 				.hotelName(hotel.getHotelName()).saleByOprator(saleByOprator).toDate(toDate).wallet(wallet).build();
 	}
+	
+	
+	
 }

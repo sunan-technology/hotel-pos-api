@@ -3,12 +3,16 @@ package com.sunan.purchase;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.sunan.exception.BadRequestException;
@@ -18,6 +22,7 @@ import com.sunan.model.PerchaseJoin;
 import com.sunan.model.Purchase;
 import com.sunan.model.Supplier;
 import com.sunan.product.ProductRepository;
+import com.sunan.purchase.join.PurchaseJoinDto;
 import com.sunan.purchase.join.PurchaseJoinRepository;
 import com.sunan.supplier.SupplierRepository;
 import com.sunan.utils.JsonUtils;
@@ -101,5 +106,51 @@ public class PurchaseService implements Serializable {
 			return utils.objectMapperError("Hotel not found");
 		}
 
+	}
+	
+	
+	@Transactional
+	public String findActiveList(String searchTerm, Integer pageNo, Integer pageSize, String sortBy,int hotelId) {
+		logger.info("Service: Fetching list of stock purchase details ");
+		PageRequest pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Page<Purchase> pagedResult = null;
+	
+			pagedResult = purchaseRepository.findByIsActiveAndHotel("yes", pageable,new Hotel(hotelId));
+		
+
+		Page<PurchaseDto> page = pagedResult.map(new Function<Purchase, PurchaseDto>() {
+			@Override
+			public PurchaseDto apply(Purchase entity) {
+				List<PerchaseJoin> perchaseJoin=purchaseJoinRepository.findByPurchase(new Purchase(entity.getId()));
+				
+				List<PurchaseJoinDto> purchaseJoinDto=purchaseMapper.getPurchaseJoinDtoBuilder(perchaseJoin);
+				
+				PurchaseDto dto = purchaseMapper.getPurchaseDtoBuilder(entity, purchaseJoinDto);
+				return dto;
+			}
+		});
+		logger.info("Service: Fetching list of stock purchase details details, total records: {}", page.getTotalElements());
+		return utils.objectMapperSuccess(page, "All Acive Purchase Join list.");
+	}
+
+	@Transactional
+	public String findAllPurchaseJoinList(String searchTerm, Integer pageNo, Integer pageSize, String sortBy,
+			int hotelId) {
+		
+		logger.info("Service: Fetching list of stock purchase details ");
+		PageRequest pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Page<PerchaseJoin> pagedResult = null;
+	
+			pagedResult = purchaseJoinRepository.findByIsActiveAndHotel("yes", pageable,new Hotel(hotelId));
+			Page<PurchaseJoinDto> page = pagedResult.map(new Function<PerchaseJoin, PurchaseJoinDto>() {
+				@Override
+				public PurchaseJoinDto apply(PerchaseJoin entity) {
+					
+					PurchaseJoinDto dto = purchaseMapper.getPurchaseJoinDto(entity);
+					return dto;
+				}
+			});
+			logger.info("Service: Fetching list of stock purchase join details details, total records: {}", page.getTotalElements());
+			return utils.objectMapperSuccess(page, "All Acive Purchase  join list.");
 	}
 }

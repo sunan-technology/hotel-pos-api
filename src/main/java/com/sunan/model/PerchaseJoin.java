@@ -88,8 +88,14 @@ public class PerchaseJoin  implements Serializable {
 	@Column(name = "hasexpiry_date")
 	private int hasExpiryDate;
 
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
 	@Column(name = "expriy_date")
 	private Date expiryDate;
+	
+	@JoinColumn(name = "rawmatrial_id")
+	@ManyToOne
+	private RawMatrial rawMatrial;
 
 	@Column(name = "is_active")
 	private String isActive;
