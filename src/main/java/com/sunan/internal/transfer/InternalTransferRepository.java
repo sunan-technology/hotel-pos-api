@@ -21,4 +21,8 @@ public interface InternalTransferRepository extends PagingAndSortingRepository<I
 	@Query("SELECT i FROM InternalTransfer i WHERE kitchen_id= :kitchen AND invoiceno= :invoiceNo AND payment_type = :paymentType AND hotel_id= :hotel AND invoice_date BETWEEN :fromDate AND :toDate")
 	List<InternalTransfer> getInternalTransferReport(Date fromDate,Date toDate,Kitchen kitchen,String invoiceNo,String paymentType,Hotel hotel);
 	
+	
+	@Query("SELECT i FROM InternalTransfer i WHERE kitchen_id= :kitchen AND hotel_id= :hotel AND invoice_date BETWEEN :fromDate AND :toDate")
+	List<InternalTransfer> getInternalTransferReportList(Date fromDate,Date toDate,Kitchen kitchen,Hotel hotel);
+	
 }

@@ -17,5 +17,13 @@ public class OverAllReportMapper {
 	}
 	
 	
+	public CurrentStockDto getCurrentStockDto(int quantity,String rawMatrialName) {
+		return CurrentStockDto.builder()
+				.rawMatrialName(rawMatrialName)
+				.quantity(quantity)
+				.build();
+	}
+	
+	
 	
 }

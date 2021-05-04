@@ -23,5 +23,10 @@ public interface PurchaseRepository extends PagingAndSortingRepository<Purchase,
 	
 	@Query("SELECT p FROM Purchase p WHERE supplier_id= :supplier AND invoice_no= :invoiceNo AND payment_type = :paymentType AND hotel_id= :hotel AND date BETWEEN :fromDate AND :toDate")
 	List<Purchase> getPurchaseReport(Date fromDate,Date toDate,Supplier supplier,String invoiceNo,String paymentType,Hotel hotel);
+	
+	
+	
+	@Query("SELECT p FROM Purchase p WHERE supplier_id= :supplier AND purchasetype = :purchaseType AND hotel_id= :hotel AND date BETWEEN :fromDate AND :toDate")
+	List<Purchase> getSupplierReport(Date fromDate,Date toDate,Supplier supplier,String purchaseType,Hotel hotel);
 
 }

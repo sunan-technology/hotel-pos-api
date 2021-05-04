@@ -28,6 +28,9 @@ public interface InternalTransferJoinRepository extends PagingAndSortingReposito
 	@Modifying
 	@Query("UPDATE InternalTransferJoin SET isActive='no' WHERE id= :id ")
 	int updateIsActiveStatus(@Param("id") int id);
+	
+	
+	public InternalTransferJoin findByRawMatrialNameAndInternalTransfer(String rawMatrialName,InternalTransfer internalTranfer);
 
 
 }

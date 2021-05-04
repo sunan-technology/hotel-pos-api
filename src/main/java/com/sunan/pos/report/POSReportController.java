@@ -62,6 +62,35 @@ public class POSReportController {
 		  return new ResponseEntity<>(posReportService.internalTransferReport(fromDate, toDate,kitchenId,invoiceNo,payment,purchaseType,hotelId), HttpStatus.OK); 
 	  }
 	  
+	  
+	  @GetMapping("/get-supplier-report") 
+	  public ResponseEntity<?> getSupplierrReport(@RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(name = "toDate", required =
+			  false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate,@RequestParam(name ="supplierId") int  supplierId,@RequestParam(name ="purchasetype") String  purchaseType, @RequestHeader("hotelId") int hotelId){
+		  logger.info("Controller : Getting supplier report details");
+		  return new ResponseEntity<>(posReportService.internalSupplierReport(fromDate, toDate,supplierId,purchaseType,hotelId), HttpStatus.OK); 
+	  }
+	  
+	  //TODO :item wise internal transfer report
+	  @GetMapping("/get-item-wise-internal-transfer-report") 
+	  public ResponseEntity<?> getItemWiseInternalTransferReport(@RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(name = "toDate", required =
+			  false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate,@RequestParam(name ="kitchenId") int  kitchenId,@RequestParam(name ="rawmatrialname") String  rawMatrialName, @RequestHeader("hotelId") int hotelId){
+		  logger.info("Controller : Getting item wise internal transfer report details");
+		  return new ResponseEntity<>(posReportService.getItemWiseinternalTransferReport(fromDate, toDate,kitchenId,rawMatrialName,hotelId), HttpStatus.OK); 
+	  }
+	  
+	  @GetMapping("/get-current-stock") 
+	  public ResponseEntity<?> getCurrentStock(@RequestParam(name ="rawmatrialname") String  rawMatrialName, @RequestHeader("hotelId") int hotelId){
+		  logger.info("Controller : Getting current stock details");
+		  return new ResponseEntity<>(posReportService.getCurrentStock(rawMatrialName,hotelId), HttpStatus.OK); 
+	  }
+	  
+	  
+	  @GetMapping("/internal-transfer-report-list") 
+	  public ResponseEntity<?> internalTransferReportList(@RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(name = "toDate", required =
+			  false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate,@RequestParam(name ="kitchenId") int  kitchenId, @RequestHeader("hotelId") int hotelId){
+		  logger.info("Controller : Getting internal transfer report details");
+		  return new ResponseEntity<>(posReportService.internalTransferReportList(fromDate, toDate,kitchenId,hotelId), HttpStatus.OK); 
+	  }
 	   
 	 
 

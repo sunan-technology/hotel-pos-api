@@ -1,6 +1,7 @@
 package com.sunan.pos.report;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -17,15 +18,17 @@ import com.sunan.billing.kot.info.BillingInfoKOTRepository;
 import com.sunan.constants.DefaultConstantValues;
 import com.sunan.dish.DishRepository;
 import com.sunan.hotel.HotelRepository;
-import com.sunan.internal.transfer.InternalTransferDto;
 import com.sunan.internal.transfer.InternalTransferMapper;
 import com.sunan.internal.transfer.InternalTransferRepository;
+import com.sunan.internal.transfer.join.InternalTransferJoinRepository;
 import com.sunan.model.Hotel;
 import com.sunan.model.InternalTransfer;
+import com.sunan.model.InternalTransferJoin;
 import com.sunan.model.Kitchen;
 import com.sunan.model.Purchase;
 import com.sunan.model.Supplier;
 import com.sunan.purchase.PurchaseRepository;
+import com.sunan.purchase.join.PurchaseJoinRepository;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -44,7 +47,13 @@ public class POSReportService implements Serializable {
 	private DishRepository dishRepository;
 	
 	@Autowired
+	private PurchaseJoinRepository purchaseJoinRepository;
+	
+	@Autowired
 	private InternalTransferRepository internalTransferRepository;
+	
+	@Autowired
+	private InternalTransferJoinRepository internalTransferJoinRepository;
 	
 	@Autowired
 	InternalTransferMapper internalTransferMapper;
@@ -116,6 +125,49 @@ public class POSReportService implements Serializable {
 			String purchaseType, int hotelId) {
 		logger.info("Service : fetching internal transfer list");
 		List<InternalTransfer> internalTransfer=internalTransferRepository.getInternalTransferReport(fromDate, toDate, new Kitchen(kitchenId), invoiceNo, payment, new Hotel(hotelId));		
+		return utils.objectMapperSuccess(internalTransfer, "Internal transfer report list.");
+	}
+
+	@Transactional
+	public String internalSupplierReport(Date fromDate, Date toDate, int supplierId, String purchaseType, int hotelId) {
+		logger.info("Service : fetching supplier list");
+		
+		
+	List<Purchase> supplier=purchaseRepository.getSupplierReport(fromDate, toDate, new Supplier(supplierId), purchaseType, new Hotel(hotelId));
+		
+		return utils.objectMapperSuccess(supplier, "Supplier report list.");
+	}
+
+	@Transactional
+	public String getItemWiseinternalTransferReport(Date fromDate, Date toDate, int kitchenId, String rawMatrialName,
+			int hotelId) {
+		logger.info("Service : fetching item wise internal transfer list");
+		
+		List<InternalTransfer> internalTransfer=internalTransferRepository.getInternalTransferReportList(fromDate, toDate, new Kitchen(kitchenId), new Hotel(hotelId));
+		List<InternalTransferJoin> list=new ArrayList<InternalTransferJoin >();
+		for (InternalTransfer internalTransfer2 : internalTransfer) {
+		InternalTransferJoin internaltransferjoin=	internalTransferJoinRepository.findByRawMatrialNameAndInternalTransfer(rawMatrialName, new InternalTransfer(internalTransfer2.getId()));
+		if(internaltransferjoin != null)	
+		list.add(internaltransferjoin);
+		}
+		
+		return utils.objectMapperSuccess(list, "Item Wise Internal Tansfer list");
+	}
+
+	
+	@Transactional
+	public String getCurrentStock(String rawMatrialName, int hotelId) {
+		logger.info("Service : fetching current Stock details");
+		int quantity=purchaseJoinRepository.sumQuantityByHotelAndRawMatrialName(new Hotel(hotelId), rawMatrialName);
+		
+		CurrentStockDto dto =overAllReportMapper.getCurrentStockDto(quantity, rawMatrialName);
+		return utils.objectMapperSuccess(dto, "Current Stock details");
+	}
+
+	@Transactional
+	public String internalTransferReportList(Date fromDate, Date toDate, int kitchenId, int hotelId) {
+		logger.info("Service : fetching internal transfer list");
+		List<InternalTransfer> internalTransfer=internalTransferRepository.getInternalTransferReportList(fromDate, toDate, new Kitchen(kitchenId), new Hotel(hotelId));
 		return utils.objectMapperSuccess(internalTransfer, "Internal transfer report list.");
 	}
 	
