@@ -77,5 +77,9 @@ public class RequestMappingConstants {
 	
 	public static final String INTERNALTRANSFER =RequestMappingConstants.ROOTURL+"/InternalTransfer";
 	
+	public static final String SUBORDERTYPE =RequestMappingConstants.ROOTURL+"/SubOrderType";
+	
+	public static final String DELIVERYDISTANCE =RequestMappingConstants.ROOTURL+"/DeliveryDistance";
+	 
 	 
 }
