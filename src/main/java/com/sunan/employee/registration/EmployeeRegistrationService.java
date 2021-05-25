@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.sunan.hotel.HotelRepository;
 import com.sunan.model.EmployeeRegistration;
 import com.sunan.model.Hotel;
+import com.sunan.utils.EmailUtil;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -33,6 +34,9 @@ public class EmployeeRegistrationService implements Serializable {
 	
 	@Autowired
 	private HotelRepository hotelRepository;
+	
+	@Autowired
+	EmailUtil emailUtil;
 
 	@Autowired
 	private JsonUtils utils;
@@ -45,6 +49,7 @@ public class EmployeeRegistrationService implements Serializable {
 				.getEmployeeRegistrationBuilder(employeeRegistrationDto);
 		employeeRegistration.setHotel(new Hotel(hotelId));
 		employeeRegistrationRepository.save(employeeRegistration);
+		emailUtil.sendEmail(employeeRegistration.getEmail(), emailUtil.getEmailMsg());
 		logger.info("Service: Save employee details");
 		return utils.objectMapperSuccess(
 				employeeRegistrationMapper.getEmployeeRegistrationDtoBuilder(employeeRegistration),
@@ -118,6 +123,21 @@ public class EmployeeRegistrationService implements Serializable {
 				});
 		logger.info("Service: Fetching list of employee details, total records: {}", page.getTotalElements());
 		return utils.objectMapperSuccess(page, "All Acive employee list.");
+	}
+
+	@Transactional
+	public String checkEmployeeExist(String employeeId, int hotelId) {
+		logger.info("Service : checking employee is present or not");
+		
+	
+		if(employeeRegistrationRepository.existsByEmployeeIdAndHotel(employeeId, new Hotel(hotelId))) {
+			logger.info("Service : employee is already present");
+			return utils.objectMapperSuccess("Employee is already present");
+		}else {
+			logger.info("Service : employee is not present");
+			return utils.objectMapperSuccess("Employee is not present");
+		}
+		
 	}
 
 }

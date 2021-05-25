@@ -11,5 +11,6 @@ import com.sunan.model.RecipeRawMatrial;
 public interface RecipeRawMatrialRepository extends PagingAndSortingRepository<RecipeRawMatrial, Integer> {
 
 	List<RecipeRawMatrial> findByRecipe(Recipe recipe);
+//	Optional<RecipeRawMatrial> findByRecipe(Recipe recipe);
 	
 }

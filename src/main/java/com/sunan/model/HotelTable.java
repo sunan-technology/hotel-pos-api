@@ -45,7 +45,10 @@ public class HotelTable implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
-	private int tableNo;
+	private int id;
+	
+	@Column(name = "tableno ")
+	private String tableNo;
 	
 	@Column(name = "status")
 	private String status;  //active, deactive
@@ -75,9 +78,14 @@ public class HotelTable implements Serializable {
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
-	public HotelTable( int tableNo) {
-		
-		this.tableNo = tableNo;
+	
+	
+	
+
+
+	public HotelTable(int id) {
+		super();
+		this.id = id;
 	}
 
 	

@@ -65,5 +65,13 @@ public class EmployeeRegistrationController {
 		logger.info("Controller: Delete employee details by id: {}", id);
 		return new ResponseEntity<>(employeeRegistrationService.delete(id), HttpStatus.OK);
 	}
+	
+	@GetMapping("/check-employee-isexists")
+	public ResponseEntity<?> checkEmployeeExists(@RequestParam(defaultValue = "employeeid") String employeeId,@RequestHeader("hotelId") int hotelId){
+		logger.info("Controller: checking employee details");
+		
+		return new ResponseEntity<>(employeeRegistrationService.checkEmployeeExist(employeeId, hotelId),
+				HttpStatus.OK);
+	}
 
 }

@@ -19,11 +19,9 @@ import com.sunan.dish.DishRepository;
 import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Dish;
 import com.sunan.model.Hotel;
-import com.sunan.model.Product;
 import com.sunan.model.Recipe;
 import com.sunan.model.RecipeJoin;
 import com.sunan.model.RecipeRawMatrial;
-import com.sunan.product.ProductRepository;
 import com.sunan.raw.matrial.RawMatrialMapper;
 import com.sunan.raw.matrial.RecipeRawMatrialDto;
 import com.sunan.raw.matrial.RecipeRawMatrialRepository;
@@ -54,8 +52,6 @@ public class RecipeService implements Serializable {
 	@Autowired
 	private DishRepository dishRepository;
 
-	@Autowired
-	private ProductRepository productRepository;
 
 	@Autowired
 	RecipeMapper recipeMapper;
@@ -78,9 +74,7 @@ public class RecipeService implements Serializable {
 						.getRawMatrialRequest(recipeDto.getRecipeRawMatrialDtos(), recipe.getId(), hotelId);
 				recipeRawMatrialRepository.saveAll(recipeRawMatrial);
 
-				Optional<Product> product = productRepository.findById(recipeDto.getProductId());
-				if (product.isPresent()) {
-
+				
 					RecipeJoin recipeJoin = recipeMapper.getRecipeJoinBuilder(recipeDto, recipe.getId());
 					recipeJoin.setHotel(new Hotel(hotelId));
 					recipeJoinRepository.save(recipeJoin);
@@ -92,10 +86,7 @@ public class RecipeService implements Serializable {
 					return utils.objectMapperSuccess(
 							recipeMapper.getRecipeDtoBuilder(recipe, recipeJoin, RecipeRawMatrial),
 							" Recipe Details Saved");
-				} else {
-					logger.info("Service: product not found");
-					return utils.objectMapperError("Product not found");
-				}
+				
 			} else {
 				logger.info("Service: dish not found");
 				return utils.objectMapperError("Dish not found");
@@ -120,27 +111,28 @@ public class RecipeService implements Serializable {
 				recipe.setHotel(new Hotel(hotelId));
 				recipeRepository.save(recipe);
 
+				//update recipe join
 				Optional<RecipeJoin> optionalRecipe_Join = recipeJoinRepository.findByRecipe(optional.get());
 				if (optionalRecipe_Join.isPresent()) {
-					Optional<Product> product = productRepository.findById(recipeDto.getProductId());
-					if (product.isPresent()) {
-
+					
+					
 						RecipeJoin recipeJoin = recipeMapper.getRecipeJoinBuilder(optionalRecipe_Join.get(), recipeDto);
 						recipeJoin.setHotel(new Hotel(hotelId));
 						recipeJoinRepository.save(recipeJoin);
-						List<RecipeRawMatrial> recipeRawMatrial = recipeRawMatrialRepository
-								.findByRecipe(new Recipe(id));
-						List<RecipeRawMatrialDto> RecipeRawMatrial = rawMatrialMapper
-								.getRawMatrialRequestDto(recipeRawMatrial);
+						
+						//updating recipe raw matrial
+						List<RecipeRawMatrial> recipeRawMatrial1=null;
+						List<RecipeRawMatrial> recipeRawMatrial = recipeRawMatrialRepository.findByRecipe(new Recipe(id));
+						if(!recipeRawMatrial.isEmpty()){
+							
+						 recipeRawMatrial1 = rawMatrialMapper
+									.getRawMatrialRequest(recipeDto.getRecipeRawMatrialDtos(), id, hotelId);
+							recipeRawMatrialRepository.saveAll(recipeRawMatrial1);
+						}
+						List<RecipeRawMatrialDto> RecipeRawMatrial = rawMatrialMapper.getRawMatrialRequestDto(recipeRawMatrial1);
 						logger.info("Service: recipe details");
-						return utils.objectMapperSuccess(
-								recipeMapper.getRecipeDtoBuilder(recipe, recipeJoin, RecipeRawMatrial),
-								" Recipe Details updated");
+						return utils.objectMapperSuccess(recipeMapper.getRecipeDtoBuilder(recipe, recipeJoin, RecipeRawMatrial)," Recipe Details updated");
 
-					} else {
-						logger.info("Service: product not found");
-						return utils.objectMapperError("Product not found");
-					}
 				}
 			} else {
 				logger.info("Service: dish not found");
@@ -172,15 +164,12 @@ public class RecipeService implements Serializable {
 		logger.info("Service: Fetching recipe details with id {}", id);
 		Optional<Recipe> recipe = recipeRepository.findById(id);
 
-		
 		if (recipe.isPresent()) {
 			logger.info("Service: recipe details found with id {}", id);
 			Optional<RecipeJoin> optionalRecipe_Join = recipeJoinRepository.findByRecipe(recipe.get());
-			List<RecipeRawMatrial> recipeRawMatrial = recipeRawMatrialRepository
-					.findByRecipe(new Recipe(id));
-			List<RecipeRawMatrialDto> RecipeRawMatrial = rawMatrialMapper
-					.getRawMatrialRequestDto(recipeRawMatrial);
-			RecipeDto dto = recipeMapper.getRecipeDtoBuilder(recipe.get(), optionalRecipe_Join.get(),RecipeRawMatrial);
+			List<RecipeRawMatrial> recipeRawMatrial = recipeRawMatrialRepository.findByRecipe(new Recipe(id));
+			List<RecipeRawMatrialDto> RecipeRawMatrial = rawMatrialMapper.getRawMatrialRequestDto(recipeRawMatrial);
+			RecipeDto dto = recipeMapper.getRecipeDtoBuilder(recipe.get(), optionalRecipe_Join.get(), RecipeRawMatrial);
 			return utils.objectMapperSuccess(dto, "Recipe Details");
 		}
 		logger.info("Service: recipe details not found with id {}", id);
@@ -193,20 +182,19 @@ public class RecipeService implements Serializable {
 		PageRequest pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<RecipeJoin> pagedResult = null;
 
-	//	 pagedResult = recipeRepository.findByIsActive("yes", pageable);
+		// pagedResult = recipeRepository.findByIsActive("yes", pageable);
 
 		pagedResult = recipeJoinRepository.findByIsActive("yes", pageable);
 
 		Page<RecipeDto> page = pagedResult.map(new Function<RecipeJoin, RecipeDto>() {
 			@Override
 			public RecipeDto apply(RecipeJoin entity) {
-				
+
 				List<RecipeRawMatrial> recipeRawMatrial = recipeRawMatrialRepository
 						.findByRecipe(new Recipe(entity.getRecipe().getId()));
-				List<RecipeRawMatrialDto> RecipeRawMatrial = rawMatrialMapper
-						.getRawMatrialRequestDto(recipeRawMatrial);
-				
-				RecipeDto dto = recipeMapper.getRecipeJoinDtoBuilder(entity,RecipeRawMatrial);
+				List<RecipeRawMatrialDto> RecipeRawMatrial = rawMatrialMapper.getRawMatrialRequestDto(recipeRawMatrial);
+
+				RecipeDto dto = recipeMapper.getRecipeJoinDtoBuilder(entity, RecipeRawMatrial);
 				return dto;
 			}
 		});

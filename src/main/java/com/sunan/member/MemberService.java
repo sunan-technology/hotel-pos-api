@@ -22,6 +22,7 @@ import com.sunan.member.ledger.MemberLedgerRepository;
 import com.sunan.model.Hotel;
 import com.sunan.model.Member;
 import com.sunan.model.MemberLedger;
+import com.sunan.utils.EmailUtil;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -41,6 +42,9 @@ public class MemberService implements Serializable {
 
 	@Autowired
 	private JsonUtils utils;
+	
+	@Autowired
+	EmailUtil emailUtil;
 
 	@Autowired
 	private MemberLedgerRepository memberLedgerRepository;
@@ -55,6 +59,7 @@ public class MemberService implements Serializable {
 			Member member = memberMapper.getMemberBuilder(memberDto);
 			member.setHotel(new Hotel(hotelId));
 			memberRepository.save(member);
+			emailUtil.sendEmail(member.getEmail(), emailUtil.getEmailMsg());
 			logger.info("Service: Save member details");
 			return utils.objectMapperSuccess(memberMapper.getMemberDtoBulider(member), "Member Details Saved");
 		} else {

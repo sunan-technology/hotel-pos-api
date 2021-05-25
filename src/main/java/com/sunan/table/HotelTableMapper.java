@@ -15,6 +15,7 @@ public class HotelTableMapper {
 	public HotelTable getTableBuilder(HotelTableDto dto) {
 		
 		return HotelTable.builder()
+				.id(dto.getId())
 				.tableNo(dto.getTableNo())
 				.status(dto.getStatus())
 				.tableType(dto.getTableType())
@@ -27,6 +28,7 @@ public class HotelTableMapper {
 	public HotelTableDto getTableDtoBuilder(HotelTable table) {
 		
 		return HotelTableDto.builder()
+				.id(table.getId())
 				.tableNo(table.getTableNo())
 				.status(table.getStatus())
 				.tableType(table.getTableType())
@@ -41,6 +43,7 @@ public class HotelTableMapper {
 		List<HotelTable> list=new ArrayList<HotelTable>();
 		for(HotelTableDto dto : hotelTableDto) {
 			list.add(HotelTable.builder()
+					.id(dto.getId())
 					.tableNo(dto.getTableNo())
 					.status(dto.getStatus())
 					.tableType(dto.getTableType())

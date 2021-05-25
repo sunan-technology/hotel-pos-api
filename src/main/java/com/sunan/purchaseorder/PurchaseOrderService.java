@@ -13,11 +13,9 @@ import org.springframework.stereotype.Service;
 import com.sunan.exception.BadRequestException;
 import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Hotel;
-import com.sunan.model.Product;
 import com.sunan.model.PurchaseOrder;
 import com.sunan.model.PurchaseOrderJoin;
 import com.sunan.model.Supplier;
-import com.sunan.product.ProductRepository;
 import com.sunan.purchaseorder.join.PurchaseOrderJoinRepository;
 import com.sunan.supplier.SupplierRepository;
 import com.sunan.utils.JsonUtils;
@@ -40,8 +38,6 @@ public class PurchaseOrderService implements Serializable {
 
 	
 
-	@Autowired
-	private ProductRepository productRepository;
 
 	@Autowired
 	private WarehousesRepository warehousesRepository;
@@ -62,10 +58,6 @@ public class PurchaseOrderService implements Serializable {
 			throw new BadRequestException("hotel not found");
 		}
 
-		Optional<Product> product = productRepository.findById(productId);
-		if (!product.isPresent() || productId == 0) {
-			throw new BadRequestException("product not found");
-		}
 	}
 
 	@Transactional

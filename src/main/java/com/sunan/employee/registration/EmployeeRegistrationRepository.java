@@ -10,6 +10,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import com.sunan.model.EmployeeRegistration;
+import com.sunan.model.Hotel;
 
 @Repository
 public interface EmployeeRegistrationRepository extends PagingAndSortingRepository<EmployeeRegistration, Integer> {
@@ -25,5 +26,8 @@ public interface EmployeeRegistrationRepository extends PagingAndSortingReposito
 	@Modifying
 	@Query("UPDATE EmployeeRegistration SET isActive='no' WHERE id= :id")
 	int updateActiveStatus(int id);
+
+	
+	boolean existsByEmployeeIdAndHotel(String employeeId,Hotel hotel);
 
 }

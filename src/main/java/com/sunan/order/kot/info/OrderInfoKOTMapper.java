@@ -34,7 +34,7 @@ public class OrderInfoKOTMapper {
 				.ticketNo(dto.getTicketNo())
 				.billDate(dto.getBillDate())
 				.grandTotal(dto.getGrandTotal())
-				.hotelTable(new HotelTable(dto.getHotelTable().getTableNo()))
+				.hotelTable(new HotelTable(dto.getHotelTable().getId()))
 				.groupName(dto.getGroupName())
 				.operator(dto.getOperator())
 				.ticketNote(dto.getTicketNote())

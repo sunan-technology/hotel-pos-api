@@ -50,10 +50,7 @@ public class Roles implements Serializable {
 	@Column(name = "is_active")
 	private String isActive;
 
-	@JoinColumn(name = "hotel_id")
-	@ManyToOne
-	public Hotel hotel;
-
+	
 	@JsonIgnore
 	@Column(name = "created_at", nullable = false, updatable = false)
 	@CreationTimestamp
@@ -71,6 +68,19 @@ public class Roles implements Serializable {
 		super();
 		this.id = id;
 	}
+
+	public Roles(int id, String role, String isActive) {
+		super();
+		this.id = id;
+		this.role = role;
+		this.isActive = isActive;
+	}
+
+
+
+	
+
+	
 	
 	
 

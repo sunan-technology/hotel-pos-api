@@ -163,7 +163,7 @@ public class BillingInfoKOTService implements Serializable {
 				orderedProductBillKOTRepository.save(posOrderedProductBillKOT);
 
 				// remove the record from the temp table
-				tempOrderRemoveMethod(posOrderedProductBillKOT.getHotelTable().getTableNo(), hotelId);
+				tempOrderRemoveMethod(posOrderedProductBillKOT.getHotelTable().getId(), hotelId);
 			}
 		}
 		logger.info(" restaurant order bill info saved");

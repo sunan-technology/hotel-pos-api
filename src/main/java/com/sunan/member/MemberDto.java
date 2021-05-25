@@ -16,10 +16,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberDto {
+	
 
 	private int memberId;
 
 	private String name;
+	
+	private String email;
 
 	private int cardNo;
 

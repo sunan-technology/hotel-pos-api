@@ -162,7 +162,7 @@ public class HotelTableService implements Serializable {
 		for (HotelTable hotelTable : Tablelist) {
 			
 			AvailableTableDto availableTableDto = new AvailableTableDto();
-			availableTableDto.setId(hotelTable.getTableNo());
+			availableTableDto.setId(hotelTable.getId());
 			availableTableDto.setTableName(String.valueOf(hotelTable.getTableNo()));
 			
 			TempOrderInfoKOT optional = tempOrderInfoKOTRepository.findByHotelTableAndHotel(hotelTable, new Hotel(hotelId));

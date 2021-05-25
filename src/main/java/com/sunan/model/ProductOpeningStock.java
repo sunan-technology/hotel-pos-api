@@ -43,9 +43,7 @@ public class ProductOpeningStock implements Serializable {
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
 
-	@JoinColumn(name = "product_id")
-	@ManyToOne
-	private Product product;
+	
 
 
 	@JoinColumn(name = "warehouses_id")

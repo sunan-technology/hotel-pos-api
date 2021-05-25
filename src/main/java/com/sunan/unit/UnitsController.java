@@ -34,29 +34,29 @@ public class UnitsController {
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
-			@RequestParam(defaultValue = "id") String sortBy, @RequestHeader("hotelId") int hotelId) {
+			@RequestParam(defaultValue = "id") String sortBy) {
 		logger.info("Controller: Fetching list Units details");
-		return new ResponseEntity<>(unitsService.findActiveList(searchTerm, pageNo, pageSize, sortBy, hotelId),
+		return new ResponseEntity<>(unitsService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
 				HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable int id, @RequestHeader("hotelId") int hotelId) {
+	public ResponseEntity<?> getById(@PathVariable int id) {
 		logger.info("Controller: Fetching category details with id {}", id);
 		return new ResponseEntity<>(unitsService.getById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody UnitsDto unitsDto, @RequestHeader("hotelId") int hotelId) {
+	public ResponseEntity<?> save(@RequestBody UnitsDto unitsDto) {
 		logger.info("Controller: Save category details ");
-		return new ResponseEntity<>(unitsService.save(unitsDto, hotelId), HttpStatus.OK);
+		return new ResponseEntity<>(unitsService.save(unitsDto), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody UnitsDto unitsDto, @PathVariable int id,
-			@RequestHeader("hotelId") int hotelId) {
+	public ResponseEntity<?> update(@RequestBody UnitsDto unitsDto, @PathVariable int id
+			) {
 		logger.info("Controller: Update category details by id: {}", id);
-		return new ResponseEntity<>(unitsService.update(unitsDto, id, hotelId), HttpStatus.OK);
+		return new ResponseEntity<>(unitsService.update(unitsDto, id), HttpStatus.OK);
 	}
 
 }

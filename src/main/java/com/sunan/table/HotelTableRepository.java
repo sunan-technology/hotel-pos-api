@@ -17,7 +17,7 @@ import com.sunan.model.HotelTable;
 @Repository
 public interface HotelTableRepository extends PagingAndSortingRepository<HotelTable, Integer> {
 
-	public Optional<HotelTable> findByTableNo(int id);
+	public Optional<HotelTable> findById(int id);
 	
 	List<HotelTable> findByHotel(Hotel hotel);
 
@@ -26,7 +26,7 @@ public interface HotelTableRepository extends PagingAndSortingRepository<HotelTa
 	public Page<HotelTable> findByIsActive(String active, Pageable pageable);
 
 	@Modifying
-	@Query("UPDATE HotelTable SET isActive='no' WHERE tableNo= :id ")
+	@Query("UPDATE HotelTable SET isActive='no' WHERE id= :id ")
 	int updateIsActiveStatus(@Param("id") int id);
 	
 

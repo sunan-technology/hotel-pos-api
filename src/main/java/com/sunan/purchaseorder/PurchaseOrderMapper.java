@@ -2,7 +2,6 @@ package com.sunan.purchaseorder;
 
 import org.springframework.stereotype.Component;
 
-import com.sunan.model.Product;
 import com.sunan.model.PurchaseOrder;
 import com.sunan.model.PurchaseOrderJoin;
 import com.sunan.model.Supplier;
@@ -35,7 +34,6 @@ public class PurchaseOrderMapper {
 		
 		return PurchaseOrderJoin.builder()
 				.purchaseOrder(new PurchaseOrder(PurchaseOrderId))
-				.product(new Product(dto.getProductId()))
 				.quantity(dto.getQuantity())
 				.pricePerUnit(dto.getPricePerUnit())
 				.amount(dto.getTotalAmount())
@@ -71,8 +69,6 @@ public class PurchaseOrderMapper {
 				.taxType(purchaseOrder.getTaxType())
 				.grandTotal(purchaseOrder.getGrandTotal())
 				.isActive(purchaseOrder.getIsActive())
-				.productId(purchaseOrderJoin.getProduct().getId())
-				.productName(purchaseOrderJoin.getProduct().getProductName())
 				.quantity(purchaseOrderJoin.getQuantity())
 				.pricePerUnit(purchaseOrderJoin.getPricePerUnit())
 				.totalAmount(purchaseOrderJoin.getAmount())

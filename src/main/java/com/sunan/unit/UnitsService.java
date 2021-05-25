@@ -36,17 +36,17 @@ public class UnitsService implements Serializable {
 	private JsonUtils utils;
 
 	@Transactional
-	public String save(UnitsDto unitsDto, int hotelId) {
+	public String save(UnitsDto unitsDto  ) {
 
 		Units units = unitsMapper.getUnitBuilder(unitsDto);
 		logger.info("Service : Saving units deatils");
-		units.setHotel(new Hotel(hotelId));
+		
 		unitsRepository.save(units);
 		return utils.objectMapperSuccess(unitsMapper.getUnitDtoBuilder(units), "Units Details Saved");
 	}
 
 	@Transactional
-	public String update(UnitsDto unitsDto, int id, int hotelId) {
+	public String update(UnitsDto unitsDto, int id ) {
 		logger.info("Service: Update units details with id {}", id);
 		Optional<Units> units = unitsRepository.findById(id);
 		if (units.isPresent()) {
@@ -54,7 +54,6 @@ public class UnitsService implements Serializable {
 			logger.info("Service: units details found with id {} for update operation", id);
 			Units unit = unitsMapper.getUnitBuilder(unitsDto);
 			logger.info("Service : updating units deatils");
-			unit.setHotel(new Hotel(hotelId));
 			unitsRepository.save(unit);
 			return utils.objectMapperSuccess(unitsMapper.getUnitDtoBuilder(unit), "Units Details Updated");
 		} else {
@@ -79,12 +78,12 @@ public class UnitsService implements Serializable {
 	}
 
 	@Transactional
-	public String findActiveList(String searchTerm, Integer pageNo, Integer pageSize, String sortBy,int hotelId) {
+	public String findActiveList(String searchTerm, Integer pageNo, Integer pageSize, String sortBy ) {
 		logger.info("Service: Fetching list of category details ");
 		PageRequest pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Units> pagedResult = null;
 
-		pagedResult = unitsRepository.findByIsActiveAndHotel("yes", pageable,new Hotel(hotelId));
+		pagedResult = unitsRepository.findByIsActive("yes", pageable);
 
 		Page<UnitsDto> page = pagedResult.map(new Function<Units, UnitsDto>() {
 			@Override

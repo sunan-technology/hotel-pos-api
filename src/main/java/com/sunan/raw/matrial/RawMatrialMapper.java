@@ -89,6 +89,7 @@ public List<RecipeRawMatrial> getRawMatrialRequest(List<RecipeRawMatrialDto> rec
 	List<RecipeRawMatrial> list = new ArrayList<RecipeRawMatrial>();
 	for(RecipeRawMatrialDto dto : recipeRawMatrialDtos) {
 		list.add(RecipeRawMatrial.builder()
+				.id(dto.getId())
 				.name(dto.getName())
 				.quantity(dto.getQuantity())
 				.units(new Units(dto.getUnitId()))
@@ -105,6 +106,7 @@ public List<RecipeRawMatrialDto> getRawMatrialRequestDto(List<RecipeRawMatrial> 
 	List<RecipeRawMatrialDto> list = new ArrayList<RecipeRawMatrialDto>();
 	for(RecipeRawMatrial dto :recipeRawMatrial) {
 		list.add(RecipeRawMatrialDto.builder()
+				.id(dto.getId())
 				.name(dto.getName())
 				.quantity(dto.getQuantity())
 				.unitId(dto.getUnits().getId())

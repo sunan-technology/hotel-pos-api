@@ -35,9 +35,9 @@ public class RolesService implements Serializable {
 	
 	
 	@Transactional
-	public String save(RolesDto rolesDto, int hotelId) {
+	public String save(RolesDto rolesDto) {
 		Roles roles = rolesMapper.getRolesBuilder(rolesDto);
-		roles.setHotel(new Hotel(hotelId));
+		
 		rolesRepository.save(roles);
 		logger.info("Service: Save roles details");
 		return utils.objectMapperSuccess(rolesMapper.getRolesDtoBuilder(roles), "Roles Details Saved");
@@ -45,13 +45,12 @@ public class RolesService implements Serializable {
 	
 	
 	@Transactional
-	public String update(RolesDto rolesDto, int id, int hotelId) {
+	public String update(RolesDto rolesDto, int id) {
 		logger.info("Service: Update roles type details with id {}", id);
 		Optional<Roles> optional = rolesRepository.findById(id);
 		if (optional.isPresent()) {
 			logger.info("Service: roles details found with id {} for update operation", id);
 			Roles roles = rolesMapper.getRolesBuilder(rolesDto);
-			roles.setHotel(new Hotel(hotelId));
 			rolesRepository.save(roles);
 			return utils.objectMapperSuccess(rolesMapper.getRolesDtoBuilder(roles), "Roles Details Updated");
 		}
@@ -85,12 +84,12 @@ public class RolesService implements Serializable {
 	}
 	
 	@Transactional
-	public String findActiveList(String searchTerm, Integer pageNo, Integer pageSize, String sortBy,int hotelId) {
+	public String findActiveList(String searchTerm, Integer pageNo, Integer pageSize, String sortBy) {
 		logger.info("Service: Fetching list of roles details ");
 		PageRequest pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Roles> pagedResult = null;
 
-		pagedResult = rolesRepository.findByIsActiveAndHotel("yes", pageable,new Hotel(hotelId));
+		pagedResult = rolesRepository.findByIsActive("yes", pageable);
 
 		Page<RolesDto> page = pagedResult.map(new Function<Roles, RolesDto>() {
 			@Override

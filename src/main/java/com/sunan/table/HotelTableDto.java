@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class HotelTableDto {
 	
-	private int tableNo;
+	private int id;
+	private String  tableNo;
 	private String status;  //active, deactive
 	private String tableType; //Ac, nonAc
 	private String floorNo;

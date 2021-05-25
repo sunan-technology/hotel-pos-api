@@ -21,8 +21,6 @@ public class RecipeDto {
 	private String dishName;
 	private Double fixedCost;
 	private String description;
-	private int productId;
-	private String productName;
 	private int quantity;
 	private Double costPerUnit;
 	private Double totalItemCost;

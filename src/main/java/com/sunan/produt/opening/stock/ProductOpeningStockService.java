@@ -17,10 +17,8 @@ import org.springframework.stereotype.Service;
 import com.sunan.exception.BadRequestException;
 import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Hotel;
-import com.sunan.model.Product;
 import com.sunan.model.ProductOpeningStock;
 import com.sunan.model.Warehouses;
-import com.sunan.product.ProductRepository;
 import com.sunan.utils.JsonUtils;
 import com.sunan.warehouse.WarehousesRepository;
 
@@ -36,8 +34,7 @@ public class ProductOpeningStockService implements Serializable {
 	@Autowired
 	private HotelRepository hotelRepository;
 
-	@Autowired
-	private ProductRepository productRepository;
+	
 
 	@Autowired
 	private WarehousesRepository warehousesRepository;
@@ -60,10 +57,7 @@ public class ProductOpeningStockService implements Serializable {
 			throw new BadRequestException("Warehouse not found");
 		}
 
-		Optional<Product> product = productRepository.findById(productOpeningStockDto.getProductId());
-		if (!product.isPresent() || productOpeningStockDto.getProductId() == 0) {
-			throw new BadRequestException("product not found");
-		}
+		
 	}
 
 	@Transactional

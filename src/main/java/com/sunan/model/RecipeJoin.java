@@ -48,9 +48,7 @@ public class RecipeJoin implements Serializable {
 	@ManyToOne
 	private Recipe recipe;
 
-	@JoinColumn(name = "product_id")
-	@ManyToOne
-	private Product product;
+	
 
 	@Column(name = "quantity")
 	private int quantity;

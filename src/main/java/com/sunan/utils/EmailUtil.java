@@ -1,29 +1,35 @@
 package com.sunan.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmailUtil {
-	
-	/*
-	 * @Autowired private JavaMailSender javaMailSender;
-	 * 
-	 * public void sendEmail(String emailID, String text) {
-	 * 
-	 * try { SimpleMailMessage msg = new SimpleMailMessage(); msg.setTo(emailID);
-	 * 
-	 * msg.setSubject("Vision School ERP Credentials"); msg.setText(text);
-	 * 
-	 * javaMailSender.send(msg); } catch (Exception e) { e.printStackTrace(); }
-	 * 
-	 * }
-	 */
-	
-	public String getEmailMsg(String userName, String PWD) {
-		return "Welcome, \nYou are in the process of signing in to your account.\nSchool ERP Credentials,\n"
-        		+ "UserName: "+ userName +"\nPassword: "+ PWD +"\nTo protect your account, do not disclose it to anyone.";
+
+	@Autowired
+	private JavaMailSender javaMailSender;
+
+	public void sendEmail(String emailID, String text) {
+
+		try {
+			SimpleMailMessage msg = new SimpleMailMessage();
+			msg.setTo(emailID);
+
+			msg.setSubject("Hotel Test Mail");
+			msg.setText(text);
+
+			javaMailSender.send(msg);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
-	
+
+	public String getEmailMsg() {
+		return "Welcome, \nYour Registration to hotel is successful";
+	}
 
 //	public static void main(String[] args) {
 //

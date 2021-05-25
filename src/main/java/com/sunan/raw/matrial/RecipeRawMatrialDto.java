@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RecipeRawMatrialDto {
 
+	private int id;
 	private String name;
 	private int quantity;
 	private int unitId;

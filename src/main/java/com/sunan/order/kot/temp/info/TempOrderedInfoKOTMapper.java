@@ -40,7 +40,7 @@ public class TempOrderedInfoKOTMapper {
 				.ticketNo(tempOrderInfoKOT.getTicketNo())
 				.billDate(tempOrderInfoKOT.getBillDate())
 				.grandTotal(tempOrderInfoKOT.getGrandTotal())
-				.tableNo(tempOrderInfoKOT.getHotelTable().getTableNo())
+				.tableNo(tempOrderInfoKOT.getHotelTable().getId())
 				.groupName(tempOrderInfoKOT.getGroupName())
 				.operator(tempOrderInfoKOT.getOperator())
 				.ticketNote(tempOrderInfoKOT.getTicketNote())

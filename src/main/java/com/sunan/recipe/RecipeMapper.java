@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.sunan.model.Dish;
-import com.sunan.model.Product;
 import com.sunan.model.Recipe;
 import com.sunan.model.RecipeJoin;
 import com.sunan.raw.matrial.RecipeRawMatrialDto;
@@ -29,7 +28,7 @@ public class RecipeMapper {
 	public RecipeJoin getRecipeJoinBuilder(RecipeDto dto,int recipeId) {
 		
 		return RecipeJoin.builder()
-				.product(new Product(dto.getProductId()))
+				
 				.quantity(dto.getQuantity())
 				.costPerUnit(dto.getCostPerUnit())
 				.totalItemCost(dto.getTotalItemCost())
@@ -41,7 +40,7 @@ public class RecipeMapper {
 		public RecipeJoin getRecipeJoinBuilder(RecipeJoin recipeJoin, RecipeDto dto) {
 				
 		
-			recipeJoin.setProduct(new Product(dto.getProductId()));
+			
 			recipeJoin.setQuantity(dto.getQuantity());
 			recipeJoin.setCostPerUnit(dto.getCostPerUnit());
 			recipeJoin.setTotalItemCost(dto.getTotalItemCost());
@@ -61,8 +60,6 @@ public class RecipeMapper {
 				.fixedCost(recipe.getFixedCost())
 				.description(recipe.getDiscription())
 				.isActive(recipe.getIsActive())
-				.productId(recipeJoin.getProduct().getId())
-				.productName(recipeJoin.getProduct().getProductName())
 				.quantity(recipeJoin.getQuantity())
 				.costPerUnit(recipeJoin.getCostPerUnit())
 				.totalItemCost(recipeJoin.getTotalItemCost())
@@ -81,8 +78,6 @@ public class RecipeMapper {
 				.dishName(recipeJoin.getRecipe().getDish().getDishName())
 				.fixedCost(recipeJoin.getRecipe().getFixedCost())
 				.description(recipeJoin.getRecipe().getDiscription())
-				.productId(recipeJoin.getProduct().getId())
-				.productName(recipeJoin.getProduct().getProductName())
 				.costPerUnit(recipeJoin.getCostPerUnit())
 				.totalItemCost(recipeJoin.getTotalItemCost())
 				.quantity(recipeJoin.getQuantity())

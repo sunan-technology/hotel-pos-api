@@ -1,5 +1,6 @@
 package com.sunan.roles;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,7 +17,9 @@ import com.sunan.model.Roles;
 public interface RolesRepository extends PagingAndSortingRepository<Roles, Integer> {
 	public Optional<Roles> findById(int id);
 
-	public Page<Roles> findByIsActiveAndHotel(String active, Pageable pageable,Hotel hotel);
+	public Page<Roles> findByIsActive(String active, Pageable pageable);
+	
+	List<Roles> findByIsActive(String isActive);
 
 	@Modifying
 	@Query("UPDATE Roles SET isActive='no' WHERE id= :id ")

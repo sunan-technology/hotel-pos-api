@@ -52,9 +52,7 @@ public class Units implements Serializable{
 	private String isActive;
 	
 
-	@JoinColumn(name = "hotel_id")
-	@ManyToOne
-	public Hotel hotel;
+	
 
 	@JsonIgnore
 	@Column(name = "created_at", nullable = false, updatable = false)
@@ -72,6 +70,13 @@ public class Units implements Serializable{
 	public Units(int id) {
 		super();
 		this.id = id;
+	}
+
+	public Units(int id, String name, String isActive) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.isActive = isActive;
 	}
 
 

@@ -1,5 +1,6 @@
 package com.sunan.unit;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -9,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import com.sunan.model.Hotel;
 import com.sunan.model.Units;
 
 @Repository
@@ -17,7 +17,9 @@ public interface UnitsRepository extends PagingAndSortingRepository<Units, Integ
 
 	public Optional<Units> findById(int id);
 
-	public Page<Units> findByIsActiveAndHotel(String active, Pageable pageable,Hotel hotel);
+	public Page<Units> findByIsActive(String active, Pageable pageable);
+	
+	List<Units>findByIsActive(String active);
 
 	@Modifying
 	@Query("UPDATE Units SET isActive='no' WHERE id= :id")

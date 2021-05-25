@@ -21,7 +21,6 @@ import com.sunan.model.Hotel;
 import com.sunan.model.PerchaseJoin;
 import com.sunan.model.Purchase;
 import com.sunan.model.Supplier;
-import com.sunan.product.ProductRepository;
 import com.sunan.purchase.join.PurchaseJoinDto;
 import com.sunan.purchase.join.PurchaseJoinRepository;
 import com.sunan.supplier.SupplierRepository;
@@ -43,8 +42,6 @@ public class PurchaseService implements Serializable {
 	@Autowired
 	private HotelRepository hotelRepository;
 
-	@Autowired
-	private ProductRepository productRepository;
 
 	@Autowired
 	private WarehousesRepository warehousesRepository;

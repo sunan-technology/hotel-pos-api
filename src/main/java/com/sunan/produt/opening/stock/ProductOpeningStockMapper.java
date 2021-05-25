@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.sunan.model.Hotel;
-import com.sunan.model.Product;
 import com.sunan.model.ProductOpeningStock;
 import com.sunan.model.Warehouses;
 
@@ -17,7 +16,6 @@ public class ProductOpeningStockMapper {
 
 		return ProductOpeningStock.builder(
 				).id(dto.getId())
-				.product(new Product(dto.getProductId()))
 				.warehouses(new Warehouses(dto.getWarehousesId()))
 				.quantity(dto.getQuantity())
 				.hasExpiryDate(dto.getHasExpriyDate()).expiryDate(dto.getExpiryDate())
@@ -29,7 +27,6 @@ public class ProductOpeningStockMapper {
 		for (ProductOpeningStockDto dto : openingStockDtos) {
 			list.add(ProductOpeningStock.builder()
 					.id(dto.getId())
-					.product(new Product(productId))
 					.warehouses(new Warehouses(dto.getWarehousesId()))
 					.quantity(dto.getQuantity())
 					.hasExpiryDate(dto.getHasExpriyDate())
@@ -44,8 +41,6 @@ public class ProductOpeningStockMapper {
 	public ProductOpeningStockDto getProductOpeningStockDtoBuilder(ProductOpeningStock productOpeningStock) {
 
 		return ProductOpeningStockDto.builder().id(productOpeningStock.getId())
-				.productId(productOpeningStock.getProduct().getId())
-				.productName(productOpeningStock.getProduct().getProductName())
 				.warehousesId(productOpeningStock.getWarehouses().getId())
 				.warehousesName(productOpeningStock.getWarehouses().getWarehouseName())
 				.quantity(productOpeningStock.getQuantity()).hasExpriyDate(productOpeningStock.getHasExpiryDate())
