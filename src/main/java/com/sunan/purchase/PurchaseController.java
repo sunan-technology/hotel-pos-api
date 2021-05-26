@@ -51,4 +51,10 @@ public class PurchaseController {
 		logger.info("Controller: Fetching list purchase join details");
 		return new ResponseEntity<>(purchaseService.findAllPurchaseJoinList(searchTerm, pageNo, pageSize, sortBy,hotelId), HttpStatus.OK);
 	}
+	
+	@GetMapping("/get-available-rawmatrial")
+	public ResponseEntity<?> getAllAvailableRawMatrialList(@RequestParam(defaultValue = "warehouseId") int warehouseId,@RequestHeader("hotelId") int hotelId){
+		logger.info("Controller: Fetching list available raw matrial details");
+		return new ResponseEntity<>(purchaseService.getAllAvailablePurchaseRawMatrial( warehouseId,hotelId), HttpStatus.OK);
+	}
 }

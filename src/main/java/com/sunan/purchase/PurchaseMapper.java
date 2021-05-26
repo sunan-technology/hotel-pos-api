@@ -12,6 +12,8 @@ import com.sunan.model.RawMatrial;
 import com.sunan.model.Supplier;
 import com.sunan.model.Units;
 import com.sunan.model.Warehouses;
+import com.sunan.purchase.join.AvailableRawMatrialDto;
+import com.sunan.purchase.join.PurchaseDetailsDto;
 import com.sunan.purchase.join.PurchaseJoinDto;
 import com.sunan.utils.Common;
 
@@ -210,5 +212,59 @@ public class PurchaseMapper {
 				.isActive(dto.getIsActive())
 				.build();
 	}
-
+	
+	
+	public List<PurchaseDetailsDto> getPurchaseDetailsDtoBuilder(List<PerchaseJoin> perchaseJoin){
+		List<PurchaseDetailsDto> list=new ArrayList<PurchaseDetailsDto>();
+		
+		for(PerchaseJoin dto :perchaseJoin) {
+			list.add(PurchaseDetailsDto.builder()
+					.purchaseId(dto.getPurchase().getId())
+					.purchaseDate(dto.getPurchase().getDate())
+					.quantity(dto.getQuantity())
+					.build());
+		}
+		
+		return list;
+	}
+	
+	
+	List<AvailableRawMatrialDto> getAvailableRawMatrialDto(List<PerchaseJoin> perchaseJoin,List<PurchaseDetailsDto> purchaseDetailsDto){
+		List<AvailableRawMatrialDto> list=new ArrayList<AvailableRawMatrialDto>();
+		for(PerchaseJoin dto :perchaseJoin) {
+			list.add(AvailableRawMatrialDto.builder()
+					.rawMatrialId(dto.getId())
+					.rawMatrialName(dto.getRawMatrialName())
+					.purchaseDetailsDto(purchaseDetailsDto)
+					.build());
+		}
+		return list;
+	}
+	
+	
+	List<AvailableRawMatrialDto> getAvailableRawMatrialDtoBulder(List<PerchaseJoin> perchaseJoin){
+        List<PurchaseDetailsDto> list1=new ArrayList<PurchaseDetailsDto>();
+		
+//		for(PerchaseJoin dto :perchaseJoin) {
+//			list1.add(PurchaseDetailsDto.builder()
+//					.purchaseId(dto.getPurchase().getId())
+//					.purchaseDate(dto.getPurchase().getDate())
+//					.quantity(dto.getQuantity())
+//					.build());
+//		}
+		
+		
+		
+		List<AvailableRawMatrialDto> list=new ArrayList<AvailableRawMatrialDto>();
+		for(PerchaseJoin dto :perchaseJoin) {
+			
+			list.add(AvailableRawMatrialDto.builder()
+					.rawMatrialId(dto.getId())
+					.rawMatrialName(dto.getRawMatrialName())
+					.purchaseDetailsDto(list1)
+					.build());
+		}
+		return list;
+	}
+	
 }

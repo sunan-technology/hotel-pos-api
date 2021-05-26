@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.sunan.model.Hotel;
 import com.sunan.model.PerchaseJoin;
 import com.sunan.model.Purchase;
+import com.sunan.model.Warehouses;
 
 @Repository
 public interface PurchaseJoinRepository extends PagingAndSortingRepository<PerchaseJoin, Integer> {
@@ -26,5 +27,8 @@ public interface PurchaseJoinRepository extends PagingAndSortingRepository<Perch
 
 	@Query("SELECT SUM(quantity) FROM PerchaseJoin WHERE hotel_id= :hotel  AND rawmatrial_name = :rawMatrialName")
 	public int sumQuantityByHotelAndRawMatrialName(Hotel hotel, String rawMatrialName);
+	
+	@Query("SELECT p FROM PerchaseJoin p WHERE p.quantity > 0 AND  hotel_id= :hotel AND warehouses_id = :warehouses GROUP BY rawmatrial_name")
+	List<PerchaseJoin> getAvailableRawMatrial(Warehouses warehouses,Hotel hotel);
 
 }

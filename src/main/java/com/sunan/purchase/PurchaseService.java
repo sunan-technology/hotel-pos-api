@@ -21,6 +21,9 @@ import com.sunan.model.Hotel;
 import com.sunan.model.PerchaseJoin;
 import com.sunan.model.Purchase;
 import com.sunan.model.Supplier;
+import com.sunan.model.Warehouses;
+import com.sunan.purchase.join.AvailableRawMatrialDto;
+import com.sunan.purchase.join.PurchaseDetailsDto;
 import com.sunan.purchase.join.PurchaseJoinDto;
 import com.sunan.purchase.join.PurchaseJoinRepository;
 import com.sunan.supplier.SupplierRepository;
@@ -149,5 +152,16 @@ public class PurchaseService implements Serializable {
 			});
 			logger.info("Service: Fetching list of stock purchase join details details, total records: {}", page.getTotalElements());
 			return utils.objectMapperSuccess(page, "All Acive Purchase  join list.");
+	}
+	
+	@Transactional
+	public String getAllAvailablePurchaseRawMatrial(int warehouseId,int hotelId) {
+		logger.info("Service : fetching list of available raw matrial ");
+		List<PerchaseJoin> perchaseJoin=purchaseJoinRepository.getAvailableRawMatrial(new Warehouses(warehouseId), new Hotel(hotelId));
+		List<PurchaseDetailsDto> purchaseDetails=purchaseMapper.getPurchaseDetailsDtoBuilder(perchaseJoin);
+		List<AvailableRawMatrialDto> availableRawMatrialDto =purchaseMapper.getAvailableRawMatrialDto(perchaseJoin, purchaseDetails);
+	//	List<AvailableRawMatrialDto> availableRawMatrialDto =purchaseMapper.getAvailableRawMatrialDtoBulder(perchaseJoin);
+		logger.info("Service : All Available raw matrial list");
+		return utils.objectMapperSuccess(availableRawMatrialDto, " All Available raw matrial list");
 	}
 }
