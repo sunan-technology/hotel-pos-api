@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -15,7 +16,7 @@ import com.sunan.model.Purchase;
 import com.sunan.model.Warehouses;
 
 @Repository
-public interface PurchaseJoinRepository extends PagingAndSortingRepository<PerchaseJoin, Integer> {
+public interface PurchaseJoinRepository extends PagingAndSortingRepository<PerchaseJoin, Integer>,JpaSpecificationExecutor<PerchaseJoin> {
 
 	@Modifying
 	@Query("UPDATE PerchaseJoin  SET quantity = :quantity ,total_amount = :totalAmount WHERE  hotel_id = :hotel AND id = :purchasejoinId")

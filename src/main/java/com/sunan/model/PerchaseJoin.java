@@ -90,6 +90,11 @@ public class PerchaseJoin  implements Serializable {
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
+	@Column(name = "purchase_date")
+	private Date purchaseDate;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
 	@Column(name = "expriy_date")
 	private Date expiryDate;
 	

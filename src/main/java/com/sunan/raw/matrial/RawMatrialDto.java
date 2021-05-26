@@ -3,12 +3,14 @@ package com.sunan.raw.matrial;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class RawMatrialDto {
 
 	private int id;
@@ -56,5 +58,7 @@ public class RawMatrialDto {
 	private String isExpiry; // yes/no
 
 	private String isActive;
+	
+	
 
 }

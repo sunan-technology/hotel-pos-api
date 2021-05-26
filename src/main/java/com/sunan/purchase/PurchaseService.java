@@ -1,24 +1,34 @@
 package com.sunan.purchase;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Predicates;
 import com.sunan.exception.BadRequestException;
 import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Hotel;
 import com.sunan.model.PerchaseJoin;
+import com.sunan.model.PerchaseJoin_;
 import com.sunan.model.Purchase;
 import com.sunan.model.Supplier;
 import com.sunan.model.Warehouses;
@@ -157,11 +167,59 @@ public class PurchaseService implements Serializable {
 	@Transactional
 	public String getAllAvailablePurchaseRawMatrial(int warehouseId,int hotelId) {
 		logger.info("Service : fetching list of available raw matrial ");
-		List<PerchaseJoin> perchaseJoin=purchaseJoinRepository.getAvailableRawMatrial(new Warehouses(warehouseId), new Hotel(hotelId));
-		List<PurchaseDetailsDto> purchaseDetails=purchaseMapper.getPurchaseDetailsDtoBuilder(perchaseJoin);
-		List<AvailableRawMatrialDto> availableRawMatrialDto =purchaseMapper.getAvailableRawMatrialDto(perchaseJoin, purchaseDetails);
+		Specification<PerchaseJoin> specification = new Specification<PerchaseJoin>() {
+			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Predicate toPredicate(Root<PerchaseJoin> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<Predicate>();
+				if (warehouseId>0) {
+					Predicate predicate = criteriaBuilder.equal(root.get(PerchaseJoin_.WAREHOUSES), new Warehouses(warehouseId));
+					predicates.add(predicate);
+				}
+				
+				Predicate quantityPredicate = criteriaBuilder.greaterThan(root.get(PerchaseJoin_.QUANTITY), 0);
+				predicates.add(quantityPredicate);
+				
+				Predicate hotelPredicate = criteriaBuilder.equal(root.get(PerchaseJoin_.HOTEL), new Hotel(hotelId));
+				predicates.add(hotelPredicate);
+				
+				query.where(criteriaBuilder.and(predicates.toArray(new Predicate[] {}))/* .IN(INCLAUSE) */)
+
+				.orderBy(criteriaBuilder.desc(root.get("id")));
+					return query.getRestriction();
+			}
+		};
+		List<PerchaseJoin> purchaseDetailList = purchaseJoinRepository.findAll(specification);
+		HashMap<RawMatrialDto, List<PurchaseDetail>> result = new HashMap<>();
+		for (PerchaseJoin perchaseJoin : purchaseDetailList) {
+			RawMatrialDto rawMatrialDto = new RawMatrialDto();
+			rawMatrialDto.setId(perchaseJoin.getRawMatrial().getId());
+			rawMatrialDto.setName(perchaseJoin.getRawMatrial().getName());
+			PurchaseDetail detail = new PurchaseDetail();
+			detail.setExpiryDate(perchaseJoin.getPurchaseDate());
+			detail.setId(perchaseJoin.getId());
+			detail.setPurchaseDate(perchaseJoin.getPurchaseDate());
+			detail.setQuantity(perchaseJoin.getQuantity());
+			if(result.containsKey(rawMatrialDto)) {
+				result.get(rawMatrialDto).add(detail);
+			}else {
+				List<PurchaseDetail> data = new ArrayList<>();
+				data.add(detail);
+				result.put(rawMatrialDto, data);
+			}
+			
+		}
+		
+//		List<PerchaseJoin> perchaseJoin=purchaseJoinRepository.getAvailableRawMatrial(new Warehouses(warehouseId), new Hotel(hotelId));
+//		List<PurchaseDetailsDto> purchaseDetails=purchaseMapper.getPurchaseDetailsDtoBuilder(perchaseJoin);
+//		List<AvailableRawMatrialDto> availableRawMatrialDto =purchaseMapper.getAvailableRawMatrialDto(perchaseJoin, purchaseDetails);
 	//	List<AvailableRawMatrialDto> availableRawMatrialDto =purchaseMapper.getAvailableRawMatrialDtoBulder(perchaseJoin);
 		logger.info("Service : All Available raw matrial list");
-		return utils.objectMapperSuccess(availableRawMatrialDto, " All Available raw matrial list");
+		return utils.objectMapperSuccess(result, " All Available raw matrial list");
 	}
 }
