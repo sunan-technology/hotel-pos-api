@@ -2,7 +2,9 @@ package com.sunan.purchase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sunan.model.Hotel;
@@ -12,13 +14,16 @@ import com.sunan.model.RawMatrial;
 import com.sunan.model.Supplier;
 import com.sunan.model.Units;
 import com.sunan.model.Warehouses;
-import com.sunan.purchase.join.AvailableRawMatrialDto;
-import com.sunan.purchase.join.PurchaseDetailsDto;
 import com.sunan.purchase.join.PurchaseJoinDto;
+import com.sunan.purchase.join.RawatrialDto;
+import com.sunan.raw.matrial.RawMatrialRepository;
 import com.sunan.utils.Common;
 
 @Component
 public class PurchaseMapper {
+	
+	@Autowired
+	private RawMatrialRepository repo;
 	
 	public Purchase getPerchaseBuilder(PurchaseDto dto,Double roundOff) {
 		
@@ -133,13 +138,14 @@ public class PurchaseMapper {
 		
 		List<PerchaseJoin> list=new ArrayList<PerchaseJoin>();
 		for(PurchaseJoinDto dto : purchaseJoinDto) {
-			
+			Optional<RawMatrial> rawmatrial=repo.findById(dto.getRawmatrialId());
 			list.add(PerchaseJoin.builder()
 					.id(dto.getId())
 					.purchase(new Purchase(purchaseId))
-					.rawMatrial(new RawMatrial(dto.getRawmatrialId()))
-					.rawMatrialName(dto.getRawMatrialName())
+					.rawMatrial(new RawMatrial(dto.getRawmatrialId()))	
+					.rawMatrialName(rawmatrial.get().getName())
 					.quantity(dto.getQuantity())
+					.purchaseQuantity(dto.getQuantity())
 					.price(dto.getPrice())
 					.units(new Units(dto.getUnitsId()))
 					.totalAmount(dto.getTotalAmount())
@@ -214,13 +220,15 @@ public class PurchaseMapper {
 	}
 	
 	
-	public List<PurchaseDetailsDto> getPurchaseDetailsDtoBuilder(List<PerchaseJoin> perchaseJoin){
-		List<PurchaseDetailsDto> list=new ArrayList<PurchaseDetailsDto>();
+	public List<RawatrialDto> getRawmatrialDtoBuilder(List<PerchaseJoin> perchaseJoin){
+		List<RawatrialDto> list=new ArrayList<RawatrialDto>();
 		
 		for(PerchaseJoin dto :perchaseJoin) {
-			list.add(PurchaseDetailsDto.builder()
-					.purchaseId(dto.getPurchase().getId())
+			list.add(RawatrialDto.builder()
+					.purchaseJoinId(dto.getId())
+					.rawmatrialName(dto.getRawMatrialName())
 					.purchaseDate(dto.getPurchase().getDate())
+					.expriryDate(dto.getExpiryDate())
 					.quantity(dto.getQuantity())
 					.build());
 		}
@@ -229,42 +237,9 @@ public class PurchaseMapper {
 	}
 	
 	
-	List<AvailableRawMatrialDto> getAvailableRawMatrialDto(List<PerchaseJoin> perchaseJoin,List<PurchaseDetailsDto> purchaseDetailsDto){
-		List<AvailableRawMatrialDto> list=new ArrayList<AvailableRawMatrialDto>();
-		for(PerchaseJoin dto :perchaseJoin) {
-			list.add(AvailableRawMatrialDto.builder()
-					.rawMatrialId(dto.getId())
-					.rawMatrialName(dto.getRawMatrialName())
-					.purchaseDetailsDto(purchaseDetailsDto)
-					.build());
-		}
-		return list;
-	}
 	
 	
-	List<AvailableRawMatrialDto> getAvailableRawMatrialDtoBulder(List<PerchaseJoin> perchaseJoin){
-        List<PurchaseDetailsDto> list1=new ArrayList<PurchaseDetailsDto>();
-		
-//		for(PerchaseJoin dto :perchaseJoin) {
-//			list1.add(PurchaseDetailsDto.builder()
-//					.purchaseId(dto.getPurchase().getId())
-//					.purchaseDate(dto.getPurchase().getDate())
-//					.quantity(dto.getQuantity())
-//					.build());
-//		}
-		
-		
-		
-		List<AvailableRawMatrialDto> list=new ArrayList<AvailableRawMatrialDto>();
-		for(PerchaseJoin dto :perchaseJoin) {
-			
-			list.add(AvailableRawMatrialDto.builder()
-					.rawMatrialId(dto.getId())
-					.rawMatrialName(dto.getRawMatrialName())
-					.purchaseDetailsDto(list1)
-					.build());
-		}
-		return list;
-	}
+	
+	
 	
 }

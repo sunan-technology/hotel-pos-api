@@ -13,7 +13,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
-import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +23,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.google.common.base.Predicates;
 import com.sunan.exception.BadRequestException;
 import com.sunan.hotel.HotelRepository;
 import com.sunan.model.Hotel;
 import com.sunan.model.PerchaseJoin;
 import com.sunan.model.PerchaseJoin_;
 import com.sunan.model.Purchase;
+import com.sunan.model.RawMatrial;
 import com.sunan.model.Supplier;
 import com.sunan.model.Warehouses;
 import com.sunan.purchase.join.AvailableRawMatrialDto;
-import com.sunan.purchase.join.PurchaseDetailsDto;
 import com.sunan.purchase.join.PurchaseJoinDto;
 import com.sunan.purchase.join.PurchaseJoinRepository;
+import com.sunan.purchase.join.RawatrialDto;
 import com.sunan.supplier.SupplierRepository;
 import com.sunan.utils.JsonUtils;
 import com.sunan.warehouse.WarehousesRepository;
@@ -64,6 +64,9 @@ public class PurchaseService implements Serializable {
 
 	@Autowired
 	PurchaseMapper purchaseMapper;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Autowired
 	private JsonUtils utils;
@@ -201,9 +204,9 @@ public class PurchaseService implements Serializable {
 			rawMatrialDto.setId(perchaseJoin.getRawMatrial().getId());
 			rawMatrialDto.setName(perchaseJoin.getRawMatrial().getName());
 			PurchaseDetail detail = new PurchaseDetail();
-			detail.setExpiryDate(perchaseJoin.getPurchaseDate());
+			detail.setExpiryDate(perchaseJoin.getExpiryDate());
 			detail.setId(perchaseJoin.getId());
-			detail.setPurchaseDate(perchaseJoin.getPurchaseDate());
+			detail.setPurchaseDate(perchaseJoin.getPurchase().getDate());
 			detail.setQuantity(perchaseJoin.getQuantity());
 			if(result.containsKey(rawMatrialDto)) {
 				result.get(rawMatrialDto).add(detail);
@@ -221,5 +224,26 @@ public class PurchaseService implements Serializable {
 	//	List<AvailableRawMatrialDto> availableRawMatrialDto =purchaseMapper.getAvailableRawMatrialDtoBulder(perchaseJoin);
 		logger.info("Service : All Available raw matrial list");
 		return utils.objectMapperSuccess(result, " All Available raw matrial list");
+	}
+
+	@Transactional
+	public String getTotalQuantityByRawMatrial(int hotelId, int warehouseId) {
+		logger.info("Service : fetcing raw matrial details");
+		
+		List<AvailableRawMatrialDto> availableRawMatrial=purchaseJoinRepository.getAvailableRawMatrial(new Hotel(hotelId),new Warehouses(warehouseId));
+		
+		
+		logger.info("Service : All Available raw matrial list");
+		return utils.objectMapperSuccess(availableRawMatrial, " All Available raw matrial list");
+	}
+
+	@Transactional
+	public String getRawMatrialList(int rawmatrialId, int hotelId) {
+		logger.info("Service : fetcing raw matrial list");
+		
+		List<PerchaseJoin> rawMatrialList=purchaseJoinRepository.getRawmatrialList(new RawMatrial(rawmatrialId), new Hotel(hotelId));
+		List<RawatrialDto> dto=purchaseMapper.getRawmatrialDtoBuilder(rawMatrialList);
+		logger.info("Service : All Available raw matrial list");
+		return utils.objectMapperSuccess(dto, " All Available raw matrial list");
 	}
 }

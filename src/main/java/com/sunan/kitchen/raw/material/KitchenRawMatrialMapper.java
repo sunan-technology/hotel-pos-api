@@ -39,6 +39,7 @@ public class KitchenRawMatrialMapper {
 					.id(dto.getId())
 					.rawMatrialName(dto.getRawMatrialName())
 					.quantity(dto.getQuantity())
+					.transferedQuantity(dto.getQuantity())
 					.transferDate(new Date())
 					.units(new Units(dto.getUnitsId()))
 					.kitchen(new Kitchen(kitchenId))

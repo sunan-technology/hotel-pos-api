@@ -1,5 +1,6 @@
 package com.sunan.purchase;
 
+import org.aspectj.weaver.reflect.DeferredResolvedPointcutDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +57,17 @@ public class PurchaseController {
 	public ResponseEntity<?> getAllAvailableRawMatrialList(@RequestParam(defaultValue = "warehouseId") int warehouseId,@RequestHeader("hotelId") int hotelId){
 		logger.info("Controller: Fetching list available raw matrial details");
 		return new ResponseEntity<>(purchaseService.getAllAvailablePurchaseRawMatrial( warehouseId,hotelId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/get-total-quantity-by-rawmatrial")
+	public ResponseEntity<?> getTotalQuantityByRawMatrial(@RequestHeader("hotelId") int hotelId,@RequestParam(defaultValue = "warehouseId") int warehouseId){
+		logger.info("Controller: Fetching list available raw matrial details");
+		return new ResponseEntity<>(purchaseService.getTotalQuantityByRawMatrial(hotelId,warehouseId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/get-rawmatrial-list-by-rawmatrial-id")
+	public ResponseEntity<?> getRawMatrialList(@RequestParam(defaultValue = "rawmatrialId") int rawmatrialId,@RequestHeader("hotelId") int hotelId){
+		logger.info("Controller: Fetching list available raw matrial details");
+		return new ResponseEntity<>(purchaseService.getRawMatrialList(rawmatrialId,hotelId), HttpStatus.OK);
 	}
 }

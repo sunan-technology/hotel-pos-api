@@ -56,6 +56,9 @@ public class PerchaseJoin  implements Serializable {
 
 	@Column(name = "quantity")
 	private int quantity;
+	
+	@Column(name = "purchase_quantity")
+	private int purchaseQuantity;
 
 	@Column(name = "price")
 	private Double price;
@@ -88,10 +91,10 @@ public class PerchaseJoin  implements Serializable {
 	@Column(name = "hasexpiry_date")
 	private int hasExpiryDate;
 
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	@Temporal(TemporalType.DATE)
-	@Column(name = "purchase_date")
-	private Date purchaseDate;
+//	@JsonFormat(pattern = "yyyy-MM-dd")
+//	@Temporal(TemporalType.DATE)
+//	@Column(name = "purchase_date")
+//	private Date purchaseDate;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)

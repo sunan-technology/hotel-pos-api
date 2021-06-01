@@ -49,6 +49,9 @@ public class KitchenRawMatrial implements Serializable {
 	@Column(name = "quantity")
 	private int quantity;
 	
+	@Column(name = "transfered_quantity")
+	private int transferedQuantity;
+	
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	@Column(name = "transferdate")
