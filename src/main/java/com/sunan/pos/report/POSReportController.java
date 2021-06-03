@@ -50,9 +50,9 @@ public class POSReportController {
 	  
 	  @GetMapping("/get-purchase-stock-report") 
 	  public ResponseEntity<?> getPerchaseStockReport(@RequestParam(name = "fromDate", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate, @RequestParam(name = "toDate", required =
-	  false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate,@RequestParam(name ="supplierId") int  supplierId,@RequestParam(name ="invoiceno") String  invoiceNo,@RequestParam(name ="payment") String  payment,@RequestParam(name ="purchasetype") String  purchaseType, @RequestHeader("hotelId") int hotelId){
+	  false) @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate,@RequestParam(name ="supplierId") int  supplierId, @RequestHeader("hotelId") int hotelId){
 		  logger.info("Controller : Getting perchase stock report details");
-		  return new ResponseEntity<>(posReportService.purchaseStockReport(fromDate, toDate,supplierId,invoiceNo,payment,purchaseType,hotelId), HttpStatus.OK); 
+		  return new ResponseEntity<>(posReportService.purchaseStockReport(fromDate, toDate,supplierId,hotelId), HttpStatus.OK); 
 	  }
 	  
 	  @GetMapping("/get-internal-transfer-report") 

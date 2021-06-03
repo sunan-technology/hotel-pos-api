@@ -15,6 +15,7 @@ public class DishDto {
 	private String dishName;
 	private double rate;
 	private double nonAcRate;
+	private String status;
 	private double hdRate;
 	private double taRate;
 	private double ebRate;

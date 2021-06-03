@@ -13,7 +13,7 @@ public class MemberMapper {
 				.memberId(dto.getMemberId())
 				.name(dto.getName())
 				.email(dto.getEmail())
-				.cardNo(dto.getCardNo())
+				//.cardNo(dto.getCardNo())
 				.contactNo(dto.getContactNo())
 				.address(dto.getAddress())
 				.registerationDate(dto.getRegisterationDate())
@@ -29,7 +29,7 @@ public class MemberMapper {
 				.memberId(member.getMemberId())
 				.name(member.getName())
 				.email(member.getEmail() )
-				.cardNo(member.getCardNo())
+				//.cardNo(member.getCardNo())
 				.contactNo(member.getContactNo())
 				.address(member.getAddress())
 				.registerationDate(member.getRegisterationDate())
@@ -43,7 +43,7 @@ public class MemberMapper {
 		return MemberFundDto.builder()
 				.memberId(member.getMemberId())
 				.name(member.getName())
-				.cardNo(member.getCardNo())
+			//	.cardNo(member.getCardNo())
 				.balance(balance)
 				.build();
 	}

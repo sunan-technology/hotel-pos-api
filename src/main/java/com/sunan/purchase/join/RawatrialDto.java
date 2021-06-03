@@ -18,5 +18,7 @@ public class RawatrialDto {
 	private Date purchaseDate;
 	private Date expriryDate;
 	private int quantity;
+	private int unitId;
+	private String unitName;
 
 }

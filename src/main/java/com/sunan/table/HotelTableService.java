@@ -45,6 +45,8 @@ public class HotelTableService implements Serializable {
 
 	@Transactional
 	public String saveTable(List<HotelTableDto> dto,int hotelId) {
+		
+		
 		if (tableStatusRequestValidate(dto)) {
 			if (tableTypeRequestValidate(dto)) {
 				List<HotelTable> table = tableMapper.getHotelTableBuilder(dto,hotelId);

@@ -58,25 +58,25 @@ public class InternalTransferJoin implements Serializable {
 	@Column(name = "quantity")
 	private int quantity;
 
-	@Column(name = "price")
-	private Double price;
+//	@Column(name = "price")
+//	private Double price;
 
-	@Column(name = "total_amount")
-	private Double totalAmount;
+//	@Column(name = "total_amount")
+//	private Double totalAmount;
 
 	@JoinColumn(name = "units_id")
 	@ManyToOne
 	private Units units;
 	
-	@Column(name = "cgst")
-	private int cgst;
-	
-	@Column(name = "sgst")
-	private int sgst;
-	
-	
-	@Column(name = "igst")
-	private int igst;
+//	@Column(name = "cgst")
+//	private int cgst;
+//	
+//	@Column(name = "sgst")
+//	private int sgst;
+//	
+//	
+//	@Column(name = "igst")
+//	private int igst;
 	
 	
 	@Column(name = "description")
@@ -86,8 +86,8 @@ public class InternalTransferJoin implements Serializable {
 //	@ManyToOne
 //	private Warehouses warehouses;
 
-	@Column(name = "hasexpiry_date")
-	private int hasExpiryDate;
+//	@Column(name = "hasexpiry_date")
+//	private int hasExpiryDate;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)

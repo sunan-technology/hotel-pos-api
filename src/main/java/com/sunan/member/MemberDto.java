@@ -24,7 +24,7 @@ public class MemberDto {
 	
 	private String email;
 
-	private int cardNo;
+//	private int cardNo;
 
 	private String contactNo;
 

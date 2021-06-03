@@ -31,6 +31,8 @@ public class DiscountDto {
 	private String type;
 
 	private Double amount;
+	
+	private Double discountPer;
 
 	private String description;
 

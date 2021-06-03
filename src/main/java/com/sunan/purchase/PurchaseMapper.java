@@ -230,6 +230,8 @@ public class PurchaseMapper {
 					.purchaseDate(dto.getPurchase().getDate())
 					.expriryDate(dto.getExpiryDate())
 					.quantity(dto.getQuantity())
+					.unitId(dto.getUnits().getId())
+					.unitName(dto.getUnits().getName())
 					.build());
 		}
 		

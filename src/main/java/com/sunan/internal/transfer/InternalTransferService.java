@@ -67,6 +67,22 @@ public class InternalTransferService implements Serializable{
 		
 		Optional<Kitchen> kitchen =kitchenRepository.findById(internalTransferDto.getKitchenId());
 		if(kitchen.isPresent()) {
+			
+			
+			//running for loop for updating raw materail quantity
+			for(InternalTransferJoinDto dto : internalTransferDto.internalTransferJoinDtos ) {
+				//getting purchase join object by purchaseJoin Id
+				Optional<PerchaseJoin> purchaseJoin=purchaseJoinRepository.findById(dto.getPurchaseJoinId());
+				if(dto.getQuantity() == 0 || dto.getQuantity() > purchaseJoin.get().getQuantity()) {
+					return utils.objectMapperError("please provide proper quantity");
+					
+				}
+				int quantity=purchaseJoin.get().getQuantity() -dto.getQuantity();
+				Double totalAmount=quantity*purchaseJoin.get().getPrice();
+				//updating raw matrial quantity
+				purchaseJoinRepository.updateQuantity(new Hotel(hotelId), quantity, dto.getPurchaseJoinId(),totalAmount);
+			}
+			
 			InternalTransfer internalTransfer=internalTransferMapper.getInternalTransferBuilder(internalTransferDto);
 			internalTransfer.setHotel(new Hotel(hotelId));
 			logger.info("Service : saving internal transfer details");
@@ -75,19 +91,6 @@ public class InternalTransferService implements Serializable{
 			List<InternalTransferJoin> internalTranferJoinDto=internalTransferMapper.getInternalTransferJoinBuilder(internalTransferDto.getInternalTransferJoinDtos(), internalTransfer.getId(), hotelId);
 			logger.info("Service : saving internal transfer join details");
 			internalTransferJoinRepository.saveAll(internalTranferJoinDto);
-			
-			//running for loop for updating raw materail quantity
-			for(InternalTransferJoinDto dto : internalTransferDto.internalTransferJoinDtos ) {
-				//getting purchase join object by purchaseJoin Id
-				Optional<PerchaseJoin> purchaseJoin=purchaseJoinRepository.findById(dto.getPurchaseJoinId());
-				if(dto.getQuantity() == 0 || dto.getQuantity() > purchaseJoin.get().getQuantity()) {
-					throw new BadRequestException("Please provide proper quantity ");
-				}
-				int quantity=purchaseJoin.get().getQuantity() -dto.getQuantity();
-				Double totalAmount=quantity*purchaseJoin.get().getPrice();
-				//updating raw matrial quantity
-				purchaseJoinRepository.updateQuantity(new Hotel(hotelId), quantity, dto.getPurchaseJoinId(),totalAmount);
-			}
 			//save raw matrial to kitchen
 			List<KitchenRawMatrial> kitchenRawMatrial=kitchenRawMatrialMapper.getKitchenRawMatrial(internalTransferDto.getInternalTransferJoinDtos(), hotelId, internalTransferDto.getKitchenId());
 			kitchenRawMatrialRepository.saveAll(kitchenRawMatrial);

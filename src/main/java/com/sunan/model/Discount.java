@@ -57,6 +57,9 @@ public class Discount implements Serializable {
 
 	@Column(name = "amount")
 	private Double amount;
+	
+	@Column(name = "discountper")
+	private Double discountPer;
 
 	@Column(name = "description")
 	private String description;

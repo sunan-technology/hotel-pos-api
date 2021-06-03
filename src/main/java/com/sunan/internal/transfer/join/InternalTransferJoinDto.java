@@ -24,21 +24,21 @@ public class InternalTransferJoinDto {
 
 	private int quantity;
 
-	private Double price;
-
-	private Double totalAmount;
-
+//	private Double price;
+//
+//	private Double totalAmount;
+//
 	private int unitsId;
 
-	private int cgst;
+//	private int cgst;
+//
+//	private int sgst;
+//
+//	private int igst;
+//
+//	private String description;
 
-	private int sgst;
-
-	private int igst;
-
-	private String description;
-
-	private int hasExpiryDate;
+//	private int hasExpiryDate;
 
 	private Date expiryDate;
 

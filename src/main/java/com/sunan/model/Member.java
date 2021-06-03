@@ -52,8 +52,8 @@ public class Member implements Serializable {
 	@Column(name = "email")
 	private String email;
 
-	@Column(name = "card_no")
-	private int cardNo;
+//	@Column(name = "card_no")
+//	private int cardNo;
 
 	@Column(name = "contact_no")
 	private String contactNo;

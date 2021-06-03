@@ -112,10 +112,10 @@ public class POSReportService implements Serializable {
 	}
 
 	@Transactional
-	public String purchaseStockReport(Date fromDate, Date toDate, int supplierId, String invoiceNo, String payment,
-			 String purchaseType, int hotelId) {
+	public String purchaseStockReport(Date fromDate, Date toDate, int supplierId, 
+			  int hotelId) {
 		logger.info("Service : fetching purchase stock list");
-		List<Purchase> purchase=purchaseRepository.getPurchaseReport(fromDate, toDate, new Supplier(supplierId), invoiceNo, payment, new Hotel(hotelId));
+		List<Purchase> purchase=purchaseRepository.getPurchaseReport(fromDate, toDate, new Supplier(supplierId) , new Hotel(hotelId));
 		
 		return utils.objectMapperSuccess(purchase, "Purchase stock report list.");
 	}

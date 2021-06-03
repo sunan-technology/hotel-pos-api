@@ -80,6 +80,9 @@ public class Dish implements Serializable {
 
 	@Column(name = "barcode")
 	private String barcode;
+	
+	@Column(name = "status")
+	private String status; //active ,inActive
 
 	@Column(name = "is_active")
 	private String isActive;

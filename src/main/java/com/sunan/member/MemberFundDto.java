@@ -13,7 +13,7 @@ public class MemberFundDto {
 	
 	private int memberId;
 	private String name;
-	private int cardNo;
+	//private int cardNo;
 	private Double balance;
 
 }
