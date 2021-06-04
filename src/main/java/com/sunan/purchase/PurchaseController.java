@@ -66,7 +66,7 @@ public class PurchaseController {
 	}
 	
 	@GetMapping("/get-rawmatrial-list-by-rawmatrial-id")
-	public ResponseEntity<?> getRawMatrialList(@RequestParam(defaultValue = "rawmatrialId") int rawmatrialId,@RequestHeader("hotelId") int hotelId){
+	public ResponseEntity<?> getRawMatrialList(@RequestParam(defaultValue = "0", required = false) int rawmatrialId,@RequestHeader("hotelId") int hotelId){
 		logger.info("Controller: Fetching list available raw matrial details");
 		return new ResponseEntity<>(purchaseService.getRawMatrialList(rawmatrialId,hotelId), HttpStatus.OK);
 	}
