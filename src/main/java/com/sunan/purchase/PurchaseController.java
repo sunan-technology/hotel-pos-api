@@ -1,6 +1,5 @@
 package com.sunan.purchase;
 
-import org.aspectj.weaver.reflect.DeferredResolvedPointcutDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -45,6 +45,21 @@ public class PurchaseController {
 		return new ResponseEntity<>(purchaseService.findActiveList(searchTerm, pageNo, pageSize, sortBy,hotelId), HttpStatus.OK);
 	}
 	
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getById(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
+		logger.info("Controller: Fetching purchase details with id {}", id);
+		return new ResponseEntity<>(purchaseService.getById(id), HttpStatus.OK);
+	}
+	
+	@GetMapping("/get-purchasejoin-by-purchaseid")
+	public ResponseEntity<?> getPurchaseJoinByPurchaseId(@RequestParam(defaultValue = "purchaseid") int purchaseid,@RequestHeader("hotelId") int hotelId) {
+		logger.info("Controller: Fetching purchase join details with id {}", purchaseid);
+		return new ResponseEntity<>(purchaseService.getPurchaseJoinByPurchaseId(purchaseid), HttpStatus.OK);
+	}
+	
+	
+	
 	@GetMapping("/get-all-purchase-join")
 	public ResponseEntity<?> getAllPurchaseJoinList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
@@ -66,8 +81,8 @@ public class PurchaseController {
 	}
 	
 	@GetMapping("/get-rawmatrial-list-by-rawmatrial-id")
-	public ResponseEntity<?> getRawMatrialList(@RequestParam(defaultValue = "0", required = false) int rawmatrialId,@RequestHeader("hotelId") int hotelId){
+	public ResponseEntity<?> getRawMatrialList(@RequestParam(defaultValue = "0", required = false) int rawmatrialId,@RequestParam(defaultValue = "warehouseId") int warehouseId,@RequestHeader("hotelId") int hotelId){
 		logger.info("Controller: Fetching list available raw matrial details");
-		return new ResponseEntity<>(purchaseService.getRawMatrialList(rawmatrialId,hotelId), HttpStatus.OK);
+		return new ResponseEntity<>(purchaseService.getRawMatrialList(rawmatrialId,hotelId,warehouseId), HttpStatus.OK);
 	}
 }

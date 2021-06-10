@@ -36,6 +36,7 @@ import com.sunan.purchase.join.AvailableRawMatrialDto;
 import com.sunan.purchase.join.PurchaseJoinDto;
 import com.sunan.purchase.join.PurchaseJoinRepository;
 import com.sunan.purchase.join.RawatrialDto;
+import com.sunan.raw.matrial.RawMatrialDto;
 import com.sunan.supplier.SupplierRepository;
 import com.sunan.utils.JsonUtils;
 import com.sunan.warehouse.WarehousesRepository;
@@ -119,6 +120,20 @@ public class PurchaseService implements Serializable {
 			return utils.objectMapperError("Hotel not found");
 		}
 
+	}
+	
+	
+	@Transactional
+	public String getById(int id) {
+		logger.info("Service: Fetching purchase details with id {}", id);
+		Optional<Purchase> optional = purchaseRepository.findById(id);
+		if (optional.isPresent()) {
+			logger.info("Service: purchase details found with id {}", id);
+			PurchaseDto dto = purchaseMapper.getPurchaseDto(optional.get());
+			return utils.objectMapperSuccess(dto, "Purchase Details");
+		}
+		logger.info("Service: purchase details not found with id {}", id);
+		return utils.objectMapperError("Purchase Details Not found, Id :" + id);
 	}
 	
 	
@@ -238,17 +253,31 @@ public class PurchaseService implements Serializable {
 	}
 
 	@Transactional
-	public String getRawMatrialList(int rawmatrialId, int hotelId) {
+	public String getRawMatrialList(int rawmatrialId, int hotelId,int warehouseId) {
 		logger.info("Service : fetcing raw matrial list");
 		List<PerchaseJoin> rawMatrialList = new ArrayList<>();
 		if (rawmatrialId > 0) {
 			rawMatrialList
-					.addAll(purchaseJoinRepository.getRawmatrialList(new RawMatrial(rawmatrialId), new Hotel(hotelId)));
+					.addAll(purchaseJoinRepository.getRawmatrialList(new RawMatrial(rawmatrialId),new Warehouses(warehouseId), new Hotel(hotelId)));
 		} else {
 			rawMatrialList.addAll(purchaseJoinRepository.findByQuantityGreaterThanAndHotel(0, new Hotel(hotelId)));
 		}
 		List<RawatrialDto> dto = purchaseMapper.getRawmatrialDtoBuilder(rawMatrialList);
 		logger.info("Service : All Available raw matrial list");
 		return utils.objectMapperSuccess(dto, " All Available raw matrial list");
+	}
+
+	@Transactional
+	public String getPurchaseJoinByPurchaseId(int purchaseid) {
+		logger.info("Service : fetching purchase join details");
+		Optional<Purchase> optional = purchaseRepository.findById(purchaseid);
+		if(optional.isPresent()) {
+			List<PerchaseJoin> purchaseJoin=purchaseJoinRepository.findByPurchase(new Purchase(purchaseid));
+			List<PurchaseJoinDto> dto =purchaseMapper.getPurchaseJoinDtoBuilder(purchaseJoin);
+			return utils.objectMapperSuccess(dto, "Purchase join Details");
+		}
+		
+		logger.info("Service: purchase details not found with id {}", purchaseid);
+		return utils.objectMapperError("Purchase Details Not found, Id :" + purchaseid);
 	}
 }

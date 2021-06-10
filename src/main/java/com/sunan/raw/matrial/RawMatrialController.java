@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sunan.constants.RequestMappingConstants;
-import com.sunan.customer.CustomerContoller;
-import com.sunan.customer.CustomerDto;
 
 import io.swagger.annotations.Api;
 

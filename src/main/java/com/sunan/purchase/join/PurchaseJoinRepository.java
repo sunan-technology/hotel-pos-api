@@ -20,8 +20,8 @@ import com.sunan.model.Warehouses;
 public interface PurchaseJoinRepository extends PagingAndSortingRepository<PerchaseJoin, Integer>,JpaSpecificationExecutor<PerchaseJoin> {
 
 	@Modifying
-	@Query("UPDATE PerchaseJoin  SET quantity = :quantity ,total_amount = :totalAmount WHERE  hotel_id = :hotel AND id = :purchasejoinId")
-	void updateQuantity(Hotel hotel, int quantity, int purchasejoinId, Double totalAmount);
+	@Query("UPDATE PerchaseJoin  SET quantity = :quantity  WHERE  hotel_id = :hotel AND id = :purchasejoinId")
+	void updateQuantity(Hotel hotel, int quantity, int purchasejoinId);
 
 	List<PerchaseJoin> findByPurchase(Purchase purchase);
 
@@ -33,10 +33,13 @@ public interface PurchaseJoinRepository extends PagingAndSortingRepository<Perch
 	@Query("SELECT new com.sunan.purchase.join.AvailableRawMatrialDto( SUM(quantity) ,rawMatrialName,rawMatrial.id ) FROM PerchaseJoin  WHERE   hotel_id= :hotel AND warehouses_id= :warehouses GROUP BY rawMatrialName, rawmatrial_id ORDER BY SUM(quantity) desc")
 	List<AvailableRawMatrialDto> getAvailableRawMatrial(Hotel hotel, Warehouses warehouses);
 	
-	@Query("SELECT p FROM PerchaseJoin p WHERE quantity > 0 AND rawmatrial_id = :rawmatrial AND hotel_id= :hotel")
-	List<PerchaseJoin> getRawmatrialList(RawMatrial rawmatrial,Hotel hotel);
+	@Query("SELECT p FROM PerchaseJoin p WHERE quantity > 0 AND rawmatrial_id = :rawmatrial AND warehouses_id= :warehouses AND hotel_id= :hotel")
+	List<PerchaseJoin> getRawmatrialList(RawMatrial rawmatrial,Warehouses warehouses,Hotel hotel);
 	
 	List<PerchaseJoin> findByQuantityGreaterThanAndHotel(int quantity, Hotel hotel);
+	
+	
+	
 	
 	
 

@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,7 @@ import com.sunan.model.Purchase;
 import com.sunan.model.Supplier;
 
 @Repository
-public interface PurchaseRepository extends PagingAndSortingRepository<Purchase, Integer> {
+public interface PurchaseRepository extends PagingAndSortingRepository<Purchase, Integer>,JpaSpecificationExecutor<Purchase> {
 	
 	public Optional<Purchase> findById(int id);
 	

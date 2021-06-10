@@ -16,8 +16,6 @@ public class VariationDto {
 
 	private String name;
 
-	private String department;
-
 	private String status;
 	
 	private Date createdDate;

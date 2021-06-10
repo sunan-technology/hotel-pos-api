@@ -13,7 +13,6 @@ public class VariationMapper {
 		return Variation.builder()
 				.id(dto.getId())
 				.name(dto.getName())
-				.department(dto.getDepartment())
 				.status(dto.getStatus())
 				.hotel(new Hotel(hotelId))
 				.build();
@@ -23,7 +22,6 @@ public class VariationMapper {
 		return VariationDto.builder()
 				.id(variation.getId())
 				.name(variation.getName())
-				.department(variation.getDepartment())
 				.status(variation.getStatus())
 				.createdDate(variation.createdAt)
 				.build();

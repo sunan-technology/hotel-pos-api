@@ -80,9 +80,6 @@ public class Purchase  implements Serializable {
 	private Double grandTotal;
 
 	
-	@Column(name = "update_inventorystock")
-	private String updateInventoryStock;
-	
 	@Column(name = "gstno")
 	private String gstNo;
 	

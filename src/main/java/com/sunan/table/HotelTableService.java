@@ -2,13 +2,14 @@ package com.sunan.table;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 
 import javax.transaction.Transactional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,25 @@ public class HotelTableService implements Serializable {
 		
 		if (tableStatusRequestValidate(dto)) {
 			if (tableTypeRequestValidate(dto)) {
+				Set<HotelTableDto> set=new HashSet<HotelTableDto>();
+				set.addAll(dto);
+				List<HotelTable> hotelTable=(List<HotelTable>) tableRepository.findAll();
+				for (HotelTable table : hotelTable) {
+					
+					for(HotelTableDto table2 : dto) {
+						if(table.getTableNo().equals(table2.getTableNo())) {
+							logger.info("Service: Table already present "+table2.getTableNo());
+							return utils.objectMapperError("Table already present :"+table2.getTableNo());
+						}
+						
+					}
+				}
+				if(set.size()!=dto.size()) {
+					logger.info("Service :Duplicate table not allowed ");
+					return utils.objectMapperError("Duplicate table not allowed");
+				}
+				dto=new ArrayList<HotelTableDto>();
+				dto.addAll(set);
 				List<HotelTable> table = tableMapper.getHotelTableBuilder(dto,hotelId);
 				tableRepository.saveAll(table);
 				logger.info("Service: Save Table details");
@@ -64,17 +84,28 @@ public class HotelTableService implements Serializable {
 	}
 
 	@Transactional
-	public String update(List<HotelTableDto> tableDto, int id,int hotelId) {
+	public String update(HotelTableDto tableDto, int id,int hotelId) {
 
-		if (tableStatusRequestValidate(tableDto)) {
-			if (tableTypeRequestValidate(tableDto)) {
+		if (tableDto.getStatus().equals("active") || tableDto.getStatus().equals("deactive")) {
+			if (tableDto.getTableType().equals("AC") || tableDto.getTableType().equals("NonAc")) {
 				logger.info("Service: Update table details with id {}", id);
 				Optional<HotelTable> optional = tableRepository.findById(id);
+				List<HotelTable> hotelTable=(List<HotelTable>) tableRepository.findAll();
+				for (HotelTable table : hotelTable) {
+					if(tableDto.getTableNo().equals(table.getTableNo())) {
+						if(tableDto.getFloorNo().equals(table.getFloorNo()))
+						return utils.objectMapperError("Table already present :"+tableDto.getTableNo());
+						
+					}
+					
+				}
+	
 				if (optional.isPresent()) {
 					logger.info("Service: table details found with id {} for update operation", id);
-					List<HotelTable> table = tableMapper.getHotelTableBuilder(tableDto,hotelId);
-					tableRepository.saveAll(table);
-					return utils.objectMapperSuccess(tableMapper.getHotelTableDtoBuilder(table), "Table Details Updated");
+					HotelTable table = tableMapper.getTableBuilder(tableDto);
+					table.setHotel(new Hotel(hotelId));
+					tableRepository.save(table);
+					return utils.objectMapperSuccess(tableMapper.getTableDtoBuilder(table), "Table Details Updated");
 				} else {
 					logger.info("Service: table details not found with id {} for update operation", id);
 					return utils.objectMapperError("table Details Not Found !");

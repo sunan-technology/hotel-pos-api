@@ -25,37 +25,39 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper=false)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "variation")
-public class Variation implements Serializable{
+@Table(name = "taxes")
+public class Taxes implements Serializable {
 	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
 	
-	@Column(name = "name")
-	private String name;
+	@Column(name = "taxname")
+	private String taxName;
 	
-	@Column(name = "status")
-	private String status;
+	@Column(name = "taxper")
+	private Double taxPer;
 	
-
+	@Column(name = "is_active")
+	private String isActive;
+	
+	
 	@JoinColumn(name = "hotel_id")
 	@ManyToOne
 	public Hotel hotel;
 
-	
 	@JsonIgnore
 	@Column(name = "created_at", nullable = false, updatable = false)
 	@CreationTimestamp
@@ -68,12 +70,5 @@ public class Variation implements Serializable{
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
-
-	public Variation(int id) {
-		super();
-		this.id = id;
-	}
-	
-	
 
 }

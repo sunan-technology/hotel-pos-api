@@ -57,7 +57,7 @@ public class HotelTableController {
 
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody List<HotelTableDto> dto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
+	public ResponseEntity<?> update(@RequestBody HotelTableDto dto, @PathVariable int id,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Update table details by id: {}", id);
 		return new ResponseEntity<>(tableService.update(dto, id,hotelId), HttpStatus.OK);
 	}

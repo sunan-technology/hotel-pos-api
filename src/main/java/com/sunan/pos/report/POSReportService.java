@@ -6,11 +6,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.sunan.biling.kot.product.OrderedProductBillKOTRepository;
@@ -26,7 +31,10 @@ import com.sunan.model.InternalTransfer;
 import com.sunan.model.InternalTransferJoin;
 import com.sunan.model.Kitchen;
 import com.sunan.model.Purchase;
+import com.sunan.model.Purchase_;
 import com.sunan.model.Supplier;
+import com.sunan.purchase.PurchaseDto;
+import com.sunan.purchase.PurchaseMapper;
 import com.sunan.purchase.PurchaseRepository;
 import com.sunan.purchase.join.PurchaseJoinRepository;
 import com.sunan.utils.JsonUtils;
@@ -66,6 +74,9 @@ public class POSReportService implements Serializable {
 
 	@Autowired
 	private JsonUtils utils;
+	
+	@Autowired
+	PurchaseMapper purchaseMapper;
 
 	@Autowired
 	private OverAllReportMapper overAllReportMapper;
@@ -117,14 +128,16 @@ public class POSReportService implements Serializable {
 		logger.info("Service : fetching purchase stock list");
 		List<Purchase> purchase=purchaseRepository.getPurchaseReport(fromDate, toDate, new Supplier(supplierId) , new Hotel(hotelId));
 		
-		return utils.objectMapperSuccess(purchase, "Purchase stock report list.");
+		List<PurchaseDto> dto= purchaseMapper.getPurchaseDtoList(purchase);
+		
+		return utils.objectMapperSuccess(dto, "Purchase stock report list.");
 	}
 
 	@Transactional
-	public String internalTransferReport(Date fromDate, Date toDate, int kitchenId, String invoiceNo, String payment,
-			String purchaseType, int hotelId) {
+	public String internalTransferReport(Date fromDate, Date toDate, int kitchenId,
+		 int hotelId) {
 		logger.info("Service : fetching internal transfer list");
-		List<InternalTransfer> internalTransfer=internalTransferRepository.getInternalTransferReport(fromDate, toDate, new Kitchen(kitchenId), invoiceNo, payment, new Hotel(hotelId));		
+		List<InternalTransfer> internalTransfer=internalTransferRepository.getInternalTransferReport(fromDate, toDate, new Kitchen(kitchenId), new Hotel(hotelId));		
 		return utils.objectMapperSuccess(internalTransfer, "Internal transfer report list.");
 	}
 
@@ -133,7 +146,42 @@ public class POSReportService implements Serializable {
 		logger.info("Service : fetching supplier list");
 		
 		
-	List<Purchase> supplier=purchaseRepository.getSupplierReport(fromDate, toDate, new Supplier(supplierId), purchaseType, new Hotel(hotelId));
+		Specification<Purchase> specificationSupplier = new Specification<Purchase>() {			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Predicate toPredicate(Root<Purchase> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<Predicate>(); 	
+				Predicate predicate1 =    criteriaBuilder.equal(root.get(Purchase_.IS_ACTIVE),"yes");
+				predicates.add(predicate1);
+				if (supplierId > 0) {
+//					Join<StudentAttendence, StudentSession> joinStudentSession = root.join(StudentAttendence_.STUDENT_SESSION,
+//							JoinType.LEFT);
+					Predicate predicate = criteriaBuilder.equal(root.get(Purchase_.SUPPLIER), new Supplier(supplierId));
+					predicates.add(predicate);
+				}
+				
+				if (fromDate != null && toDate != null) {
+//					Join<StudentSession, Student> join = root.join(StudentSession_.STUDENT,JoinType.LEFT);
+					Predicate date = criteriaBuilder.between(root.get(Purchase_.DATE), fromDate, toDate);
+					predicates.add(date);
+				}
+				
+				query.where(criteriaBuilder.and(predicates.toArray(new Predicate[] {}))/* .IN(INCLAUSE) */)
+
+				.orderBy(criteriaBuilder.desc(root.get("id")));
+					return query.getRestriction();
+			}
+			
+		};
+		
+		List<Purchase> supplier=purchaseRepository.findAll(specificationSupplier);	
+//	List<Purchase> supplier=purchaseRepository.getSupplierReport(fromDate, toDate, new Supplier(supplierId), purchaseType, new Hotel(hotelId));
+		
 		
 		return utils.objectMapperSuccess(supplier, "Supplier report list.");
 	}

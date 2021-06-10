@@ -46,6 +46,8 @@ public class PurchaseDto {
 	private String purchaseType;
 
 	private int supplierId;
+	
+	private String supplierName;
 
 	private Double subTotal;
 
@@ -62,7 +64,7 @@ public class PurchaseDto {
 
 	private Double grandTotal;
 
-	private String updateInventoryStock;
+	
 
 	private String gstNo;
 

@@ -80,6 +80,8 @@ public class RequestMappingConstants {
 	public static final String SUBORDERTYPE =RequestMappingConstants.ROOTURL+"/SubOrderType";
 	
 	public static final String DELIVERYDISTANCE =RequestMappingConstants.ROOTURL+"/DeliveryDistance";
+	
+	public static final String TAXES =RequestMappingConstants.ROOTURL+"/Taxes";
 	 
 	 
 }

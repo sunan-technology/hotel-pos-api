@@ -41,7 +41,6 @@ public class PurchaseMapper {
 				.rawMatrialAmountTotal(dto.getRawMatrialAmountTotal())
 				.roundOff(roundOff)
 				.grandTotal(dto.getGrandTotal())
-				.updateInventoryStock(dto.getUpdateInventoryStock())
 				.gstNo(dto.getGstNo())
 				.deliveryChargesInInvoice(dto.getDeliveryChargesInInvoice())
 				.totalDeliveryCharges(dto.getTotalDeliveryCharges())
@@ -71,6 +70,7 @@ public class PurchaseMapper {
 				.invoiceNo(purchase.getInvoiceNo())
 				.invoiceDate(purchase.getDate())
 				.supplierId(purchase.getSupplier().getSupplierId())
+				.supplierName(purchase.getSupplier().getSupplierName())
 				.subTotal(purchase.getSubTotal())
 				.discountPer(purchase.getDiscountPer())
 				.poNumber(purchase.getPoNumber())
@@ -79,7 +79,6 @@ public class PurchaseMapper {
 				.rawMatrialAmountTotal(purchase.getRawMatrialAmountTotal())
 				.roundOff(purchase.getRoundOff())
 				.grandTotal(purchase.getGrandTotal())
-				.updateInventoryStock(purchase.getUpdateInventoryStock())
 				.gstNo(purchase.getGstNo())
 				.deliveryChargesInInvoice(purchase.getDeliveryChargesInInvoice())
 				.totalDeliveryCharges(purchase.getTotalDeliveryCharges())
@@ -99,6 +98,86 @@ public class PurchaseMapper {
 				.purchaseJoinDtos(purchaseJoinDto)
 				.build();
 	}
+	
+public PurchaseDto getPurchaseDto(Purchase purchase) {
+		
+		
+		
+		return PurchaseDto.builder()
+				.id(purchase.getId())
+				.invoiceNo(purchase.getInvoiceNo())
+				.invoiceDate(purchase.getDate())
+				.supplierId(purchase.getSupplier().getSupplierId())
+				.supplierName(purchase.getSupplier().getSupplierName())
+				.subTotal(purchase.getSubTotal())
+				.discountPer(purchase.getDiscountPer())
+				.poNumber(purchase.getPoNumber())
+				.purchaseType(purchase.getPurchaseType())
+				.discount(purchase.getDiscount())
+				.rawMatrialAmountTotal(purchase.getRawMatrialAmountTotal())
+				.roundOff(purchase.getRoundOff())
+				.grandTotal(purchase.getGrandTotal())
+				.gstNo(purchase.getGstNo())
+				.deliveryChargesInInvoice(purchase.getDeliveryChargesInInvoice())
+				.totalDeliveryCharges(purchase.getTotalDeliveryCharges())
+				.totalDiscount(purchase.getTotalDiscount())
+				.discountType(purchase.getDiscountType())
+				.paymentType(purchase.getPaymentType())
+				.paymentMode(purchase.getPaymentMode())
+				.paidAmount(purchase.getPaidAmount())
+				.paymentDate(purchase.getPaymentDate())
+				.paymentReferenceNo(purchase.getPaymentReferenceNo())
+				.taxCollectedAtSource(purchase.getTaxCollectedAtSource())
+				.totalTaxCollectedAtSource(purchase.getTotalTaxCollectedAtSource())
+				.cgst(purchase.getCgst())
+				.sgst(purchase.getSgst())
+				.igst(purchase.getIgst())
+				.isActive(purchase.getIsActive())
+				.build();
+	}
+
+
+public List<PurchaseDto> getPurchaseDtoList(List<Purchase> purchase1){
+	
+	List<PurchaseDto> list=new ArrayList<PurchaseDto>();
+	
+	for(Purchase purchase: purchase1) {
+		list.add(PurchaseDto.builder()
+				.id(purchase.getId())
+				.invoiceNo(purchase.getInvoiceNo())
+				.invoiceDate(purchase.getDate())
+				.supplierId(purchase.getSupplier().getSupplierId())
+				.supplierName(purchase.getSupplier().getSupplierName())
+				.subTotal(purchase.getSubTotal())
+				.discountPer(purchase.getDiscountPer())
+				.poNumber(purchase.getPoNumber())
+				.purchaseType(purchase.getPurchaseType())
+				.discount(purchase.getDiscount())
+				.rawMatrialAmountTotal(purchase.getRawMatrialAmountTotal())
+				.roundOff(purchase.getRoundOff())
+				.grandTotal(purchase.getGrandTotal())
+				.gstNo(purchase.getGstNo())
+				.deliveryChargesInInvoice(purchase.getDeliveryChargesInInvoice())
+				.totalDeliveryCharges(purchase.getTotalDeliveryCharges())
+				.totalDiscount(purchase.getTotalDiscount())
+				.discountType(purchase.getDiscountType())
+				.paymentType(purchase.getPaymentType())
+				.paymentMode(purchase.getPaymentMode())
+				.paidAmount(purchase.getPaidAmount())
+				.paymentDate(purchase.getPaymentDate())
+				.paymentReferenceNo(purchase.getPaymentReferenceNo())
+				.taxCollectedAtSource(purchase.getTaxCollectedAtSource())
+				.totalTaxCollectedAtSource(purchase.getTotalTaxCollectedAtSource())
+				.cgst(purchase.getCgst())
+				.sgst(purchase.getSgst())
+				.igst(purchase.getIgst())
+				.isActive(purchase.getIsActive())
+				.build());
+	}
+	
+	return list;
+	
+}
 	
 //	public PerchaseJoin getPerchaseJoin(PurchaseDto purchaseDto,int purchaseId) {
 //		
