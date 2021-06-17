@@ -36,7 +36,11 @@ public interface PurchaseJoinRepository extends PagingAndSortingRepository<Perch
 	@Query("SELECT p FROM PerchaseJoin p WHERE quantity > 0 AND rawmatrial_id = :rawmatrial AND warehouses_id= :warehouses AND hotel_id= :hotel")
 	List<PerchaseJoin> getRawmatrialList(RawMatrial rawmatrial,Warehouses warehouses,Hotel hotel);
 	
-	List<PerchaseJoin> findByQuantityGreaterThanAndHotel(int quantity, Hotel hotel);
+	
+	@Query("SELECT p FROM PerchaseJoin p WHERE rawmatrial_id = :rawmatrial AND warehouses_id= :warehouses AND hotel_id= :hotel")
+	List<PerchaseJoin> getRawmatrial(RawMatrial rawmatrial,Warehouses warehouses,Hotel hotel);
+	
+	List<PerchaseJoin> findByQuantityGreaterThanAndHotelAndWarehouses(int quantity, Hotel hotel,Warehouses warehouses);
 	
 	
 	

@@ -19,6 +19,8 @@ public class RequestMappingConstants {
 	
 	public static final String EXPENSE_TYPE =RequestMappingConstants.ROOTURL+"/ExpenseType";
 	
+	public static final String EXPENSE =RequestMappingConstants.ROOTURL+"/Expense";
+	
 	public static final String TABLE =RequestMappingConstants.ROOTURL+"/Table";
 	
 	public static final String DISH =RequestMappingConstants.ROOTURL+"/Dish";

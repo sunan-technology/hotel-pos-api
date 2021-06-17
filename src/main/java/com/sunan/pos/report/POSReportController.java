@@ -78,11 +78,11 @@ public class POSReportController {
 		  return new ResponseEntity<>(posReportService.getItemWiseinternalTransferReport(fromDate, toDate,kitchenId,rawMatrialName,hotelId), HttpStatus.OK); 
 	  }
 	  
-	  @GetMapping("/get-current-stock") 
-	  public ResponseEntity<?> getCurrentStock(@RequestParam(name ="rawmatrialname") String  rawMatrialName, @RequestHeader("hotelId") int hotelId){
-		  logger.info("Controller : Getting current stock details");
-		  return new ResponseEntity<>(posReportService.getCurrentStock(rawMatrialName,hotelId), HttpStatus.OK); 
-	  }
+//	  @GetMapping("/get-current-stock") 
+//	  public ResponseEntity<?> getCurrentStock(@RequestParam(defaultValue = "0", required = false) int rawmatrialId,@RequestParam(defaultValue = "warehouseId") int warehouseId,@RequestHeader("hotelId") int hotelId){
+//		  logger.info("Controller : Getting current stock details");
+//		  return new ResponseEntity<>(posReportService.getCurrentStock(rawmatrialId,hotelId,warehouseId), HttpStatus.OK); 
+//	  }
 	  
 	  
 	  @GetMapping("/internal-transfer-report-list") 

@@ -80,7 +80,7 @@ public class InternalTransferService implements Serializable{
 				int quantity=purchaseJoin.get().getQuantity() -dto.getQuantity();
 //				Double totalAmount=quantity*purchaseJoin.get().getPrice();
 				//updating raw matrial quantity
-				purchaseJoinRepository.updateQuantity(new Hotel(hotelId), quantity, dto.getPurchaseJoinId());
+				purchaseJoinRepository.updateQuantity(new Hotel(hotelId), quantity, dto.getPurchaseJoinId()); 
 			}
 			
 			InternalTransfer internalTransfer=internalTransferMapper.getInternalTransferBuilder(internalTransferDto);

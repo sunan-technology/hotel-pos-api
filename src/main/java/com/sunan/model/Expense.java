@@ -34,9 +34,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "expense_type")
-public class ExpenseType implements Serializable {
-
+@Table(name = "expenses")
+public class Expense implements Serializable {
+	
 	/**
 	 * 
 	 */
@@ -46,13 +46,24 @@ public class ExpenseType implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
-
-	@Column(name = "name")
-	private String name;
-
+	
+	@Column(name = "amount")
+	private Double amount;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "expense_date")
+	private Date expenseDate;
+	
+	@JoinColumn(name = "expensetype_id")
+	@ManyToOne
+	private ExpenseType expenseType;
+	
+	
 	@Column(name = "is_active")
 	private String isActive;
-
+	
+	
 	@JoinColumn(name = "hotel_id")
 	@ManyToOne
 	public Hotel hotel;
@@ -70,10 +81,4 @@ public class ExpenseType implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
 
-	public ExpenseType(int id) {
-		super();
-		this.id = id;
-	}
-	
-	
 }

@@ -260,7 +260,7 @@ public class PurchaseService implements Serializable {
 			rawMatrialList
 					.addAll(purchaseJoinRepository.getRawmatrialList(new RawMatrial(rawmatrialId),new Warehouses(warehouseId), new Hotel(hotelId)));
 		} else {
-			rawMatrialList.addAll(purchaseJoinRepository.findByQuantityGreaterThanAndHotel(0, new Hotel(hotelId)));
+			rawMatrialList.addAll(purchaseJoinRepository.findByQuantityGreaterThanAndHotelAndWarehouses(0, new Hotel(hotelId),new Warehouses(warehouseId)));
 		}
 		List<RawatrialDto> dto = purchaseMapper.getRawmatrialDtoBuilder(rawMatrialList);
 		logger.info("Service : All Available raw matrial list");

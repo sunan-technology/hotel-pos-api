@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -12,9 +13,10 @@ import org.springframework.stereotype.Repository;
 import com.sunan.model.Hotel;
 import com.sunan.model.InternalTransfer;
 import com.sunan.model.Kitchen;
+import com.sunan.model.PerchaseJoin;
 import com.sunan.model.Purchase;
 @Repository
-public interface InternalTransferRepository extends PagingAndSortingRepository<InternalTransfer, Integer> {
+public interface InternalTransferRepository extends PagingAndSortingRepository<InternalTransfer, Integer>,JpaSpecificationExecutor<InternalTransfer> {
 
 	public Page<InternalTransfer> findByIsActiveAndHotel(String active, Pageable pageable,Hotel hotel);
 	

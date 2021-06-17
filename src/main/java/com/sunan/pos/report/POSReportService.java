@@ -3,11 +3,14 @@ package com.sunan.pos.report;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
@@ -29,14 +32,19 @@ import com.sunan.internal.transfer.join.InternalTransferJoinRepository;
 import com.sunan.model.Hotel;
 import com.sunan.model.InternalTransfer;
 import com.sunan.model.InternalTransferJoin;
+import com.sunan.model.InternalTransfer_;
 import com.sunan.model.Kitchen;
+import com.sunan.model.PerchaseJoin;
+import com.sunan.model.PerchaseJoin_;
 import com.sunan.model.Purchase;
 import com.sunan.model.Purchase_;
 import com.sunan.model.Supplier;
+import com.sunan.purchase.PurchaseDetail;
 import com.sunan.purchase.PurchaseDto;
 import com.sunan.purchase.PurchaseMapper;
 import com.sunan.purchase.PurchaseRepository;
 import com.sunan.purchase.join.PurchaseJoinRepository;
+import com.sunan.raw.matrial.RawMatrialDto;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -146,28 +154,30 @@ public class POSReportService implements Serializable {
 		logger.info("Service : fetching supplier list");
 		
 		
-		Specification<Purchase> specificationSupplier = new Specification<Purchase>() {			
+		Specification<PerchaseJoin> specificationSupplier = new Specification<PerchaseJoin>() {			
 			/**
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Predicate toPredicate(Root<Purchase> root, CriteriaQuery<?> query,
+			public Predicate toPredicate(Root<PerchaseJoin> root, CriteriaQuery<?> query,
 					CriteriaBuilder criteriaBuilder) {
 				List<Predicate> predicates = new ArrayList<Predicate>(); 	
-				Predicate predicate1 =    criteriaBuilder.equal(root.get(Purchase_.IS_ACTIVE),"yes");
+				
+				Join<PerchaseJoin, Purchase> join = root.join(PerchaseJoin_.PURCHASE,
+						JoinType.LEFT);
+				Predicate predicate1 =    criteriaBuilder.equal(join.get(Purchase_.IS_ACTIVE),"yes");
 				predicates.add(predicate1);
 				if (supplierId > 0) {
-//					Join<StudentAttendence, StudentSession> joinStudentSession = root.join(StudentAttendence_.STUDENT_SESSION,
-//							JoinType.LEFT);
-					Predicate predicate = criteriaBuilder.equal(root.get(Purchase_.SUPPLIER), new Supplier(supplierId));
+					
+					Predicate predicate = criteriaBuilder.equal(join.get(Purchase_.SUPPLIER), new Supplier(supplierId));
 					predicates.add(predicate);
 				}
 				
 				if (fromDate != null && toDate != null) {
 //					Join<StudentSession, Student> join = root.join(StudentSession_.STUDENT,JoinType.LEFT);
-					Predicate date = criteriaBuilder.between(root.get(Purchase_.DATE), fromDate, toDate);
+					Predicate date = criteriaBuilder.between(join.get(Purchase_.DATE), fromDate, toDate);
 					predicates.add(date);
 				}
 				
@@ -179,11 +189,32 @@ public class POSReportService implements Serializable {
 			
 		};
 		
-		List<Purchase> supplier=purchaseRepository.findAll(specificationSupplier);	
+		List<PerchaseJoin> supplier=purchaseJoinRepository.findAll(specificationSupplier);	
 //	List<Purchase> supplier=purchaseRepository.getSupplierReport(fromDate, toDate, new Supplier(supplierId), purchaseType, new Hotel(hotelId));
-		
-		
-		return utils.objectMapperSuccess(supplier, "Supplier report list.");
+		HashMap<SupplierReportDto, List<SupplierMatrialReportDto>> result = new HashMap<>();
+		for(PerchaseJoin perchaseJoin :supplier) {
+			SupplierReportDto supplierDto=new SupplierReportDto();
+			supplierDto.setInvoiceNo(perchaseJoin.getPurchase().getInvoiceNo());
+			supplierDto.setPurchaseAmount(perchaseJoin.getPurchase().getGrandTotal());
+			supplierDto.setPurchaseDate(perchaseJoin.getPurchase().getDate());
+			supplierDto.setSupplierContact(perchaseJoin.getPurchase().getSupplier().getContactNo());
+			supplierDto.setSupplierName(perchaseJoin.getPurchase().getSupplier().getSupplierName());
+			
+			SupplierMatrialReportDto supplierMatrial=new SupplierMatrialReportDto();
+			supplierMatrial.setRawMatrialName(perchaseJoin.getRawMatrialName());
+			supplierMatrial.setQuantity(perchaseJoin.getPurchaseQuantity());
+			supplierMatrial.setExpiryDate(perchaseJoin.getExpiryDate());
+			
+			if(result.containsKey(supplierDto)) {
+				result.get(supplierDto).add(supplierMatrial);
+			}else {
+				List<SupplierMatrialReportDto> dto=new ArrayList<>();
+				dto.add(supplierMatrial);
+				result.put(supplierDto, dto);
+			}
+		}
+		logger.info("Service : Supplier report list.");
+		return utils.objectMapperSuccess(result, "Supplier report list.");
 	}
 
 	@Transactional
@@ -191,31 +222,107 @@ public class POSReportService implements Serializable {
 			int hotelId) {
 		logger.info("Service : fetching item wise internal transfer list");
 		
-		List<InternalTransfer> internalTransfer=internalTransferRepository.getInternalTransferReportList(fromDate, toDate, new Kitchen(kitchenId), new Hotel(hotelId));
+		Specification<InternalTransfer> specification = new Specification<InternalTransfer>() {			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Predicate toPredicate(Root<InternalTransfer> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<Predicate>(); 	
+				
+//				Join<PerchaseJoin, Purchase> join = root.join(PerchaseJoin_.PURCHASE,
+//						JoinType.LEFT);
+				Predicate predicate1 =    criteriaBuilder.equal(root.get(InternalTransfer_.IS_ACTIVE),"yes");
+				predicates.add(predicate1);
+				if (kitchenId > 0) {
+					
+					Predicate predicate = criteriaBuilder.equal(root.get(InternalTransfer_.KITCHEN), new Kitchen(kitchenId));
+					predicates.add(predicate);
+				}
+				
+				if (fromDate != null && toDate != null) {
+//					Join<StudentSession, Student> join = root.join(StudentSession_.STUDENT,JoinType.LEFT);
+					Predicate date = criteriaBuilder.between(root.get(InternalTransfer_.INVOICE_DATE), fromDate, toDate);
+					predicates.add(date);
+				}
+				
+				query.where(criteriaBuilder.and(predicates.toArray(new Predicate[] {}))/* .IN(INCLAUSE) */)
+
+				.orderBy(criteriaBuilder.desc(root.get("id")));
+					return query.getRestriction();
+			}
+			
+		};
+		List<InternalTransfer> internalTransfer=internalTransferRepository.findAll(specification);
+		//List<InternalTransfer> internalTransfer=internalTransferRepository.getInternalTransferReportList(fromDate, toDate, new Kitchen(kitchenId), new Hotel(hotelId));
 		List<InternalTransferJoin> list=new ArrayList<InternalTransferJoin >();
 		for (InternalTransfer internalTransfer2 : internalTransfer) {
 		InternalTransferJoin internaltransferjoin=	internalTransferJoinRepository.findByRawMatrialNameAndInternalTransfer(rawMatrialName, new InternalTransfer(internalTransfer2.getId()));
 		if(internaltransferjoin != null)	
 		list.add(internaltransferjoin);
 		}
-		
+		logger.info("Service : All Available raw matrial list");
 		return utils.objectMapperSuccess(list, "Item Wise Internal Tansfer list");
 	}
 
-	
-	@Transactional
-	public String getCurrentStock(String rawMatrialName, int hotelId) {
-		logger.info("Service : fetching current Stock details");
-		int quantity=purchaseJoinRepository.sumQuantityByHotelAndRawMatrialName(new Hotel(hotelId), rawMatrialName);
-		
-		CurrentStockDto dto =overAllReportMapper.getCurrentStockDto(quantity, rawMatrialName);
-		return utils.objectMapperSuccess(dto, "Current Stock details");
-	}
+//	
+//	@Transactional
+//	public String getCurrentStock(int rawmatrialId, int hotelId,int warehouseId) {
+//		logger.info("Service : fetcing raw matrial list");
+//		List<PerchaseJoin> rawMatrialList = new ArrayList<>();
+//		if (rawmatrialId > 0) {
+//			rawMatrialList
+//					.addAll(purchaseJoinRepository.getRawmatrial(new RawMatrial(rawmatrialId),new Warehouses(warehouseId), new Hotel(hotelId)));
+//		} else {
+//			rawMatrialList.addAll(purchaseJoinRepository.findByQuantityGreaterThanAndHotel(0, new Hotel(hotelId)));
+//		}
+//		List<RawatrialDto> dto = purchaseMapper.getRawmatrialDtoBuilder(rawMatrialList);
+//		logger.info("Service : All Available raw matrial list");
+//		return utils.objectMapperSuccess(dto, " All Available raw matrial list");
+//	}
 
 	@Transactional
 	public String internalTransferReportList(Date fromDate, Date toDate, int kitchenId, int hotelId) {
 		logger.info("Service : fetching internal transfer list");
-		List<InternalTransfer> internalTransfer=internalTransferRepository.getInternalTransferReportList(fromDate, toDate, new Kitchen(kitchenId), new Hotel(hotelId));
+		Specification<InternalTransfer> specification = new Specification<InternalTransfer>() {			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Predicate toPredicate(Root<InternalTransfer> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<Predicate>(); 	
+				
+//				Join<PerchaseJoin, Purchase> join = root.join(PerchaseJoin_.PURCHASE,
+//						JoinType.LEFT);
+				Predicate predicate1 =    criteriaBuilder.equal(root.get(InternalTransfer_.IS_ACTIVE),"yes");
+				predicates.add(predicate1);
+				if (kitchenId > 0) {
+					
+					Predicate predicate = criteriaBuilder.equal(root.get(InternalTransfer_.KITCHEN), new Kitchen(kitchenId));
+					predicates.add(predicate);
+				}
+				
+				if (fromDate != null && toDate != null) {
+//					Join<StudentSession, Student> join = root.join(StudentSession_.STUDENT,JoinType.LEFT);
+					Predicate date = criteriaBuilder.between(root.get(InternalTransfer_.INVOICE_DATE), fromDate, toDate);
+					predicates.add(date);
+				}
+				
+				query.where(criteriaBuilder.and(predicates.toArray(new Predicate[] {}))/* .IN(INCLAUSE) */)
+
+				.orderBy(criteriaBuilder.desc(root.get("id")));
+					return query.getRestriction();
+			}
+			
+		};
+		List<InternalTransfer> internalTransfer=internalTransferRepository.findAll(specification);
+		//List<InternalTransfer> internalTransfer=internalTransferRepository.getInternalTransferReportList(fromDate, toDate, new Kitchen(kitchenId), new Hotel(hotelId));
 		return utils.objectMapperSuccess(internalTransfer, "Internal transfer report list.");
 	}
 	
