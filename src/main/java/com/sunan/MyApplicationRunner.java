@@ -2,6 +2,7 @@ package com.sunan;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -13,10 +14,14 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import com.sunan.constants.DefaultConstantValues;
+import com.sunan.hotel.HotelRepository;
+import com.sunan.model.Hotel;
 import com.sunan.model.Roles;
 import com.sunan.model.Units;
+import com.sunan.model.User;
 import com.sunan.roles.RolesRepository;
 import com.sunan.unit.UnitsRepository;
+import com.sunan.user.UserRepository;
 
 @Component
 public class MyApplicationRunner implements ApplicationRunner {
@@ -28,6 +33,24 @@ public class MyApplicationRunner implements ApplicationRunner {
 	
 	@Autowired
 	private UnitsRepository unitsRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private HotelRepository hotelRepository;
+	
+	
+//	@Autowired
+//	PasswordEncoder encoder;
+	
+	
+//	@Value("${hotel.pos.username}")
+	private String superAdminUserName="admin";
+
+	
+//	@Value("${hotel.pos.password}")
+	private String superAdminPassword="admin";
 	
 	@Transactional
 	private void initialRoles() {
@@ -53,6 +76,39 @@ public class MyApplicationRunner implements ApplicationRunner {
 			}
 		}
 	}
+	@Transactional
+	private Hotel addDefaultHotel() {
+		
+		Optional<Hotel> opt=hotelRepository.findByEmail("superhotel@gmail.com");
+		if(!opt.isPresent()) {
+			
+				Hotel hotel=new Hotel(1,"super hotel","pune","1234567890","superhotel@gmail.com","yes");
+				hotelRepository.save(hotel);
+				return hotel;
+					
+		}else {
+			return opt.get();
+		}
+		
+		
+	}
+	
+	
+	@Transactional
+	private User addSuperAdmin() {	 
+		Optional<User> opt = userRepository.findByUserName(superAdminUserName);
+		if(!opt.isPresent()) {
+//			superAdminPassword = PasswordUtil.decrypt(superAdminPassword);
+			User superAdmin = new User(1, "sunan", superAdminUserName, superAdminPassword,"Islampur","superadmin@gmail.com", new Roles(1),DefaultConstantValues.isActiveFlagYes,new Hotel(1));
+			userRepository.save(superAdmin);
+			return superAdmin;
+		}else {
+			return opt.get();
+		}
+	}
+	
+	
+	
 	
 	@Transactional
 	private void initialUnits() {
@@ -80,7 +136,9 @@ public class MyApplicationRunner implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		logger.info("ApplicationRunner#run()");
 		synchronized (this) {
+//	    addDefaultHotel();
 		initialRoles();
+//		addSuperAdmin();
 		initialUnits();
 		}
 		logger.info("Started HotelPOSApiApplication...");

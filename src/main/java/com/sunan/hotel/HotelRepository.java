@@ -26,5 +26,8 @@ public interface HotelRepository extends PagingAndSortingRepository<Hotel, Integ
 	@Modifying
 	@Query("UPDATE Hotel SET isActive='no' WHERE id= :id")
 	int updateActiveStatus(@Param("id") int id);
+	
+	
+	Optional<Hotel> findByEmail(String email);
 
 }

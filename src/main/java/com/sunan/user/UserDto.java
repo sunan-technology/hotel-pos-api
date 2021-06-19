@@ -1,4 +1,4 @@
-package com.sunan.employee.registration;
+package com.sunan.user;
 
 import java.util.Date;
 
@@ -11,13 +11,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeeRegistrationDto {
+public class UserDto {
 
 	private int id;
 
-	private String employeeId;
-
-	private String employeeName;
+	private String name;
+	
+	private String username;
+	
+	private String password;
 
 	private String address;
 

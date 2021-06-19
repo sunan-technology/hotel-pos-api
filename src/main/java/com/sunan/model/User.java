@@ -34,8 +34,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "employee_registration")
-public class EmployeeRegistration implements Serializable {
+@Table(name = "user")
+public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,11 +44,17 @@ public class EmployeeRegistration implements Serializable {
 	@GenericGenerator(name = "native", strategy = "native")
 	private int id;
 
-	@Column(name = "employee_id")
-	private String employeeId;
+//	@Column(name = "employee_id")
+//	private String employeeId;
 
-	@Column(name = "employee_name")
-	private String employeeName;
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "username")
+	private String userName;
+	
+	@Column(name = "password")
+	private String password;
 
 	@Column(name = "address")
 	private String address;
@@ -93,9 +99,27 @@ public class EmployeeRegistration implements Serializable {
 	@UpdateTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
-	public EmployeeRegistration(int id) {
+	public User(int id) {
 		super();
 		this.id = id;
 	}
+	public User(int id, String name, String userName, String password, String address, String email, Roles roles,
+			String isActive, Hotel hotel) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.userName = userName;
+		this.password = password;
+		this.address = address;
+		this.email = email;
+		this.roles = roles;
+		this.isActive = isActive;
+		this.hotel = hotel;
+	}
+
+	
+	
+	
+	
 
 }

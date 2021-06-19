@@ -105,6 +105,16 @@ public class Hotel implements Serializable {
 		super();
 		this.id = id;
 	}
+
+	public Hotel(int id, String hotelName, String address1, String contactNo, String email, String isActive) {
+		super();
+		this.id = id;
+		this.hotelName = hotelName;
+		this.address1 = address1;
+		this.contactNo = contactNo;
+		this.email = email;
+		this.isActive = isActive;
+	}
 	
 	
 

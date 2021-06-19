@@ -27,4 +27,10 @@ public class WebConfig  {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+	
+//	 @Bean
+//     public PasswordEncoder passwordEncoder() {
+//        PasswordEncoder encoder = new BCryptPasswordEncoder();
+//        return encoder;
+//     }
 }

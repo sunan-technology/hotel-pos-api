@@ -51,7 +51,7 @@ public class RequestMappingConstants {
 	
 	public static final String CUSTOMER =RequestMappingConstants.ROOTURL+"/Customer";
 	
-	public static final String EMPLOYEE_REGISTRATION =RequestMappingConstants.ROOTURL+"/EmployeeRegistration";
+	public static final String USER =RequestMappingConstants.ROOTURL+"/User";
 	
 	public static final String RECIPE =RequestMappingConstants.ROOTURL+"/Recipe";
 	

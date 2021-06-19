@@ -1,4 +1,4 @@
-package com.sunan.employee.registration;
+package com.sunan.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,54 +23,54 @@ import io.swagger.annotations.Api;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(RequestMappingConstants.EMPLOYEE_REGISTRATION)
-@Api(value = "Employee Registration profile", description = "Operations related to employee registration")
-public class EmployeeRegistrationController {
+@RequestMapping(RequestMappingConstants.USER)
+@Api(value = "User profile", description = "Operations related to user")
+public class UserController {
 
-	private static final Logger logger = LoggerFactory.getLogger(EmployeeRegistrationController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
-	private EmployeeRegistrationService employeeRegistrationService;
+	private UserService userService;
 
 	@GetMapping()
 	public ResponseEntity<?> getAllList(@RequestParam(name = "searchTerm", required = false) String searchTerm,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy,@RequestHeader("hotelId") int hotelId) {
-		logger.info("Controller: Fetching list employee details");
-		return new ResponseEntity<>(employeeRegistrationService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
+		logger.info("Controller: Fetching list user details");
+		return new ResponseEntity<>(userService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
 				HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
-		logger.info("Controller: Fetching employee details with id {}", id);
-		return new ResponseEntity<>(employeeRegistrationService.getById(id), HttpStatus.OK);
+		logger.info("Controller: Fetching user details with id {}", id);
+		return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody EmployeeRegistrationDto employeeRegistrationDto,@RequestHeader("hotelId") int hotelId) {
-		logger.info("Controller: Save employee details ");
-		return new ResponseEntity<>(employeeRegistrationService.save(employeeRegistrationDto,hotelId), HttpStatus.OK);
+	public ResponseEntity<?> save(@RequestBody UserDto userDto,@RequestHeader("hotelId") int hotelId) {
+		logger.info("Controller: Save user details ");
+		return new ResponseEntity<>(userService.save(userDto,hotelId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody EmployeeRegistrationDto employeeRegistrationDto,
+	public ResponseEntity<?> update(@RequestBody UserDto userDto,
 			@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
-		logger.info("Controller: Update employee details by id: {}", id);
-		return new ResponseEntity<>(employeeRegistrationService.update(employeeRegistrationDto, id,hotelId), HttpStatus.OK);
+		logger.info("Controller: Update user details by id: {}", id);
+		return new ResponseEntity<>(userService.update(userDto, id,hotelId), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable int id,@RequestHeader("hotelId") int hotelId) {
-		logger.info("Controller: Delete employee details by id: {}", id);
-		return new ResponseEntity<>(employeeRegistrationService.delete(id), HttpStatus.OK);
+		logger.info("Controller: Delete user details by id: {}", id);
+		return new ResponseEntity<>(userService.delete(id), HttpStatus.OK);
 	}
 	
 	@GetMapping("/check-employee-isexists")
-	public ResponseEntity<?> checkEmployeeExists(@RequestParam(defaultValue = "employeeid") String employeeId,@RequestHeader("hotelId") int hotelId){
-		logger.info("Controller: checking employee details");
+	public ResponseEntity<?> checkEmployeeExists(@PathVariable int id,@RequestHeader("hotelId") int hotelId){
+		logger.info("Controller: checking user details");
 		
-		return new ResponseEntity<>(employeeRegistrationService.checkEmployeeExist(employeeId, hotelId),
+		return new ResponseEntity<>(userService.checkEmployeeExist(id, hotelId),
 				HttpStatus.OK);
 	}
 
