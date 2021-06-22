@@ -23,17 +23,23 @@ public class TempOrderedProductKOTDto {
 
 	private Double amount;
 
-	private Double vatPer;
-
-	private Double vatAmount;
-
-	private Double stPer;
-
-	private Double stAmount;
-
-	private Double scPer;
-
-	private Double scAmount;
+//	private Double vatPer;
+//
+//	private Double vatAmount;
+//
+//	private Double stPer;
+//
+//	private Double stAmount;
+//
+//	private Double scPer;
+//
+//	private Double scAmount;
+	
+	private int taxesId;
+	
+	private String taxName;
+	
+	private Double taxAmount;
 
 	private Double discountPer;
 

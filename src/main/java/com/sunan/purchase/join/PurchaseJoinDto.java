@@ -27,11 +27,15 @@ public class PurchaseJoinDto {
 
 	private int unitsId;
 
-	private int cgst;
-
-	private int sgst;
-
-	private int igst;
+//	private int cgst;
+//
+//	private int sgst;
+//
+//	private int igst;
+	
+private int taxesId;
+	
+	private String taxName;
 
 	private String description;
 

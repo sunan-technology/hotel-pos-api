@@ -12,6 +12,7 @@ import com.sunan.model.PerchaseJoin;
 import com.sunan.model.Purchase;
 import com.sunan.model.RawMatrial;
 import com.sunan.model.Supplier;
+import com.sunan.model.Taxes;
 import com.sunan.model.Units;
 import com.sunan.model.Warehouses;
 import com.sunan.purchase.join.PurchaseJoinDto;
@@ -53,9 +54,10 @@ public class PurchaseMapper {
 				.paymentReferenceNo(dto.getPaymentReferenceNo())
 				.taxCollectedAtSource(dto.getTaxCollectedAtSource())
 				.totalTaxCollectedAtSource(dto.getTotalTaxCollectedAtSource())
-				.cgst(dto.getCgst())
-				.sgst(dto.getSgst())
-				.igst(dto.getIgst())
+//				.cgst(dto.getCgst())
+//				.sgst(dto.getSgst())
+//				.igst(dto.getIgst())
+				.taxes(new Taxes(dto.getTaxesId()))
 				.isActive(dto.getIsActive())
 				.build();
 	}
@@ -91,9 +93,11 @@ public class PurchaseMapper {
 				.paymentReferenceNo(purchase.getPaymentReferenceNo())
 				.taxCollectedAtSource(purchase.getTaxCollectedAtSource())
 				.totalTaxCollectedAtSource(purchase.getTotalTaxCollectedAtSource())
-				.cgst(purchase.getCgst())
-				.sgst(purchase.getSgst())
-				.igst(purchase.getIgst())
+//				.cgst(purchase.getCgst())
+//				.sgst(purchase.getSgst())
+//				.igst(purchase.getIgst())
+				.taxesId(purchase.getTaxes().getId())
+				.taxName(purchase.getTaxes().getTaxName())
 				.isActive(purchase.getIsActive())
 				.purchaseJoinDtos(purchaseJoinDto)
 				.build();
@@ -129,9 +133,11 @@ public PurchaseDto getPurchaseDto(Purchase purchase) {
 				.paymentReferenceNo(purchase.getPaymentReferenceNo())
 				.taxCollectedAtSource(purchase.getTaxCollectedAtSource())
 				.totalTaxCollectedAtSource(purchase.getTotalTaxCollectedAtSource())
-				.cgst(purchase.getCgst())
-				.sgst(purchase.getSgst())
-				.igst(purchase.getIgst())
+//				.cgst(purchase.getCgst())
+//				.sgst(purchase.getSgst())
+//				.igst(purchase.getIgst())
+				.taxesId(purchase.getTaxes().getId())
+				.taxName(purchase.getTaxes().getTaxName())
 				.isActive(purchase.getIsActive())
 				.build();
 	}
@@ -168,9 +174,11 @@ public List<PurchaseDto> getPurchaseDtoList(List<Purchase> purchase1){
 				.paymentReferenceNo(purchase.getPaymentReferenceNo())
 				.taxCollectedAtSource(purchase.getTaxCollectedAtSource())
 				.totalTaxCollectedAtSource(purchase.getTotalTaxCollectedAtSource())
-				.cgst(purchase.getCgst())
-				.sgst(purchase.getSgst())
-				.igst(purchase.getIgst())
+//				.cgst(purchase.getCgst())
+//				.sgst(purchase.getSgst())
+//				.igst(purchase.getIgst())
+				.taxesId(purchase.getTaxes().getId())
+				.taxName(purchase.getTaxes().getTaxName())
 				.isActive(purchase.getIsActive())
 				.build());
 	}
@@ -228,9 +236,10 @@ public List<PurchaseDto> getPurchaseDtoList(List<Purchase> purchase1){
 					.price(dto.getPrice())
 					.units(new Units(dto.getUnitsId()))
 					.totalAmount(dto.getTotalAmount())
-					.cgst(dto.getCgst())
-					.sgst(dto.getSgst())
-					.igst(dto.getIgst())
+//					.cgst(dto.getCgst())
+//					.sgst(dto.getSgst())
+//					.igst(dto.getIgst())
+					.taxes(new Taxes(dto.getTaxesId()))
 					.description(dto.getDescription())
 					.warehouses(new Warehouses(dto.getWarehousesId()))
 					.hasExpiryDate(dto.getHasExpiryDate())
@@ -259,9 +268,11 @@ public List<PurchaseDto> getPurchaseDtoList(List<Purchase> purchase1){
 					.price(dto.getPrice())
 					.unitsId(dto.getUnits().getId())
 					.totalAmount(dto.getTotalAmount())
-					.cgst(dto.getCgst())
-					.sgst(dto.getSgst())
-					.igst(dto.getIgst())
+//					.cgst(dto.getCgst())
+//					.sgst(dto.getSgst())
+//					.igst(dto.getIgst())
+					.taxesId(dto.getTaxes().getId())
+					.taxName(dto.getTaxes().getTaxName())
 					.description(dto.getDescription())
 				    .warehousesId(dto.getWarehouses().getId())
 					.hasExpiryDate(dto.getHasExpiryDate())
@@ -286,9 +297,11 @@ public List<PurchaseDto> getPurchaseDtoList(List<Purchase> purchase1){
 				.price(dto.getPrice())
 				.unitsId(dto.getUnits().getId())
 				.totalAmount(dto.getTotalAmount())
-				.cgst(dto.getCgst())
-				.sgst(dto.getSgst())
-				.igst(dto.getIgst())
+//				.cgst(dto.getCgst())
+//				.sgst(dto.getSgst())
+//				.igst(dto.getIgst())
+				.taxesId(dto.getTaxes().getId())
+				.taxName(dto.getTaxes().getTaxName())
 				.description(dto.getDescription())
 			    .warehousesId(dto.getWarehouses().getId())
 				.hasExpiryDate(dto.getHasExpiryDate())

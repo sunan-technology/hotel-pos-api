@@ -59,17 +59,18 @@ public class RawMatrial implements Serializable {
 	@Column(name = "saleprice")
 	private Double salePrice;
 
-	@Column(name = "taxtype")
-	private String taxType; // GST/VAT
+//	@Column(name = "taxtype")
+//	private String taxType; // GST/VAT
 
 //	@Column(name = "taxamount")
 //	private Double taxAmount; // GST(%) /ExciseDuty(amount)
 	
-	@Column(name = "gst")
-	private Double gst;
+	@JoinColumn(name = "taxes_id")
+	@ManyToOne
+	private Taxes taxes;
 	
-	@Column(name = "excise_duty")
-	private Double exciseDuty;
+//	@Column(name = "excise_duty")
+//	private Double exciseDuty;
 
 	@JoinColumn(name = "category_id")
 	@ManyToOne

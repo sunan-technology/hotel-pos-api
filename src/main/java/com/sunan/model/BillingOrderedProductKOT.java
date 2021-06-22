@@ -60,23 +60,30 @@ public class BillingOrderedProductKOT implements Serializable {
 	@Column(name = "amount")
 	private Double amount;
 
-	@Column(name = "vatper")
-	private Double vatPer;
-
-	@Column(name = "vatamount")
-	private Double vatAmount;
-
-	@Column(name = "stper")
-	private Double stPer;
-
-	@Column(name = "stamount")
-	private Double stAmount;
-
-	@Column(name = "scper")
-	private Double scPer;
-
-	@Column(name = "scamount")
-	private Double scAmount;
+//	@Column(name = "vatper")
+//	private Double vatPer;
+//
+//	@Column(name = "vatamount")
+//	private Double vatAmount;
+//
+//	@Column(name = "stper")
+//	private Double stPer;
+//
+//	@Column(name = "stamount")
+//	private Double stAmount;
+//
+//	@Column(name = "scper")
+//	private Double scPer;
+//
+//	@Column(name = "scamount")
+//	private Double scAmount;
+	
+	@JoinColumn(name = "taxes_id")
+	@ManyToOne
+	private Taxes taxes;
+	
+	@Column(name = "taxamount")
+	private Double taxAmount;
 
 	@Column(name = "discountper")
 	private Double discountPer;

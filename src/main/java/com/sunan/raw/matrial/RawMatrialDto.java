@@ -25,9 +25,13 @@ public class RawMatrialDto {
 
 	private Double salePrice;
 
-	private String taxType; // GST/VAT
+//	private String taxType; // GST/VAT
+	
+	private int taxId;
+	
+	private String taxName;
 
-	private Double taxAmount; // GST(%) /ExciseDuty(amount)
+//	private Double taxAmount; // GST(%) /ExciseDuty(amount)
 
 //	private int gst;
 //	

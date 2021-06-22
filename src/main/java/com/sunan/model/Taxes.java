@@ -71,4 +71,11 @@ public class Taxes implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date updatedAt;
 
+	public Taxes(int id) {
+		super();
+		this.id = id;
+	}
+	
+	
+
 }

@@ -93,11 +93,15 @@ public class PurchaseDto {
 	private Double totalTaxCollectedAtSource;
 	
 
-	private int cgst;
-
-	private int sgst;
-
-	private int igst;
+//	private int cgst;
+//
+//	private int sgst;
+//
+//	private int igst;
+	
+	private int taxesId;
+	
+	private String taxName;
 
 	private String isActive;
 	

@@ -50,14 +50,18 @@ public class Category implements Serializable {
 	@Column(name = "category_Name")
 	private String categoryName;
 
-	@Column(name = "vat")
-	private double vat;
-
-	@Column(name = "sc")
-	private double sc;
-
-	@Column(name = "st")
-	private double st;
+//	@Column(name = "vat")
+//	private double vat;
+//
+//	@Column(name = "sc")
+//	private double sc;
+//
+//	@Column(name = "st")
+//	private double st;
+	
+	@JoinColumn(name = "taxes_id")
+	@ManyToOne
+	private Taxes taxes;
 
 	@Column(name = "is_active")
 	private String isActive;

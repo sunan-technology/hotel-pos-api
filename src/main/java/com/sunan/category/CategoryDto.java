@@ -13,9 +13,12 @@ public class CategoryDto {
 
 	private int id;
 	private String categoryName;
-	private double vat;
-	private double sc;
-	private double st;
+//	private double vat;
+//	private double sc;
+//	private double st;
+	
+	private int taxId;
+	private String taxName;
 	private String isActive;
 
 }

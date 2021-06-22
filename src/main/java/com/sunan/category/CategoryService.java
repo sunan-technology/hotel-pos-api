@@ -95,12 +95,12 @@ public class CategoryService implements Serializable {
 	}
 
 	@Transactional
-	public String findActiveList(String searchTerm, Integer pageNo, Integer pageSize, String sortBy) {
+	public String findActiveList(String searchTerm, Integer pageNo, Integer pageSize, String sortBy,int hotelId) {
 		logger.info("Service: Fetching list of category details ");
 		PageRequest pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Category> pagedResult = null;
 		
-			pagedResult = categoryRepository.findByIsActive("yes", pageable);
+			pagedResult = categoryRepository.findByIsActiveAndHotelId("yes", pageable,new Hotel(hotelId));
 		
 
 		Page<CategoryDto> page = pagedResult.map(new Function<Category, CategoryDto>() {

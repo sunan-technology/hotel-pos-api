@@ -2,12 +2,13 @@ package com.sunan.biling.kot.product;
 
 import org.springframework.stereotype.Component;
 
-import com.sunan.model.Category;
-import com.sunan.model.Dish;
-import com.sunan.model.HotelTable;
 import com.sunan.billing.kot.info.BillingInfoKOTDto;
 import com.sunan.model.BillingInfoKOT;
 import com.sunan.model.BillingOrderedProductKOT;
+import com.sunan.model.Category;
+import com.sunan.model.Dish;
+import com.sunan.model.HotelTable;
+import com.sunan.model.Taxes;
 import com.sunan.order.kot.temp.info.DishKOTDto;
 import com.sunan.utils.Common;
 
@@ -25,12 +26,13 @@ public class OrderedProductBillKOTMapper {
 				.rate(dishDto.getRate())
 				.quantity(dishDto.getQuantity())
 				.amount(amount)
-				.vatPer(category.getVat())
-				.vatAmount(Common.calculateGST(dishDto.getRate(), category.getVat()))
-				.stPer(category.getSt())
-				.stAmount(Common.calculateGST(dishDto.getRate(), category.getSt()))
-				.scPer(category.getSc())
-				.scAmount(Common.calculateGST(dishDto.getRate(), category.getSc()))
+//				.vatPer(category.getVat())
+//				.vatAmount(Common.calculateGST(dishDto.getRate(), category.getVat()))
+//				.stPer(category.getSt())
+//				.stAmount(Common.calculateGST(dishDto.getRate(), category.getSt()))
+//				.scPer(category.getSc())
+//				.scAmount(Common.calculateGST(dishDto.getRate(), category.getSc()))
+				.taxes(new Taxes(dto.getTaxesId()))
 				.discountPer(dish.getDiscount())
 				.discountAmount(Common.calculateGST(dishDto.getRate(), dish.getDiscount()))
 				.totalAmount(dto.getTotalAmount())

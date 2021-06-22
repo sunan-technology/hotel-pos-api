@@ -42,6 +42,10 @@ public class TempOrderInfoKOTDto {
 	private String kotType;
 
 	private String isActive;
+	
+	private int taxesId;
+	
+	private String taxesName;
 
 	public List<DishKOTDto> dish;
 

@@ -3,6 +3,7 @@ package com.sunan.category;
 import org.springframework.stereotype.Component;
 
 import com.sunan.model.Category;
+import com.sunan.model.Taxes;
 
 @Component
 public class CategoryMapper {
@@ -13,9 +14,10 @@ public class CategoryMapper {
 		return Category.builder()
 				.id(dto.getId())
 				.categoryName(dto.getCategoryName())
-				.vat(dto.getVat())
-				.sc(dto.getSc())
-				.st(dto.getSt())
+				.taxes(new Taxes(dto.getTaxId()))
+//				.vat(dto.getVat())
+//				.sc(dto.getSc())
+//				.st(dto.getSt())
 				.isActive(dto.getIsActive())
 				.build();
 	}
@@ -28,9 +30,11 @@ public class CategoryMapper {
 		return CategoryDto.builder()
 				.id(category.getId())
 				.categoryName(category.getCategoryName())
-				.vat(category.getVat())
-				.sc(category.getSc())
-				.st(category.getSt())
+				.taxId(category.getTaxes().getId())
+				.taxName(category.getTaxes().getTaxName())
+//				.vat(category.getVat())
+//				.sc(category.getSc())
+//				.st(category.getSt())
 				.isActive(category.getIsActive())
 				.build();
 	}

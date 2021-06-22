@@ -121,14 +121,18 @@ public class Purchase  implements Serializable {
 	@Column(name = "totaltaxcollected_atsource")
 	private Double totalTaxCollectedAtSource;
 	
-	@Column(name = "cgst")
-	private int cgst;
+//	@Column(name = "cgst")
+//	private int cgst;
+//	
+//	@Column(name = "sgst")
+//	private int sgst;
+//	
+//	@Column(name = "igst")
+//	private int igst;
 	
-	@Column(name = "sgst")
-	private int sgst;
-	
-	@Column(name = "igst")
-	private int igst;
+	@JoinColumn(name = "taxes_id")
+	@ManyToOne
+	private Taxes taxes;
 	
 	@Column(name = "is_active")
 	private String isActive;

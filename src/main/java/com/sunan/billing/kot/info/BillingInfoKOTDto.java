@@ -64,6 +64,10 @@ public class BillingInfoKOTDto {
 	private String groupName;
 
 	private String ticketNo;
+	
+	private int taxesId;
+	
+	private String taxName;
 
 	private String isActive;
 

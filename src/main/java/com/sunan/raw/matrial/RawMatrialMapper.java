@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component;
 import com.sunan.model.Category;
 import com.sunan.model.Hotel;
 import com.sunan.model.RawMatrial;
-import com.sunan.model.RecipeRawMatrial;
 import com.sunan.model.Recipe;
+import com.sunan.model.RecipeRawMatrial;
+import com.sunan.model.Taxes;
 import com.sunan.model.Units;
 
 @Component
@@ -18,13 +19,13 @@ public class RawMatrialMapper {
 	public RawMatrial getRawMatrialBuilder(RawMatrialDto dto) {
 		
 		Double gst,exciseDuty;
-		if(dto.getTaxType().equals("GST")) {
-			 gst= dto.getTaxAmount();
-			exciseDuty=0.0;
-		}else {
-			 gst= 0.0;
-				exciseDuty= dto.getTaxAmount();
-		}
+//		if(dto.getTaxType().equals("GST")) {
+//			 gst= dto.getTaxAmount();
+//			exciseDuty=0.0;
+//		}else {
+//			 gst= 0.0;
+//				exciseDuty= dto.getTaxAmount();
+//		}
 		return RawMatrial.builder()
 				.id(dto.getId())
 				.name(dto.getName())
@@ -32,9 +33,9 @@ public class RawMatrialMapper {
 				.purchasePrice(dto.getPurchasePrice())
 				.consumptionUnit(dto.getConsumptionUnit())
 				.salePrice(dto.getSalePrice())
-				.taxType(dto.getTaxType())
-				.gst(gst)
-				.exciseDuty(exciseDuty)
+//				.taxType(dto.getTaxType())
+			   	.taxes(new Taxes(dto.getTaxId()))
+//				.exciseDuty(exciseDuty)
 				.category(new Category(dto.getCategoryId()))
 				.normallLoss(dto.getNormallLoss())
 				.hsnCode(dto.getHsnCode())
@@ -52,12 +53,14 @@ public class RawMatrialMapper {
 	
 	public RawMatrialDto getRowMatrialDtoBuilder(RawMatrial rawmatrial) {
 		
-		Double taxAmount;
-		if(rawmatrial.getTaxType().equals("GST")) {
-			taxAmount=rawmatrial.getGst();
-		}else {
-			taxAmount=rawmatrial.getExciseDuty();
-		}
+		//setting tax amount
+//		Double taxAmount=rawmatrial.getTaxes().getTaxPer()*rawmatrial.getPurchasePrice()/100;
+		
+//		if(rawmatrial.getTaxType().equals("GST")) {
+//			taxAmount=rawmatrial.getGst();
+//		}else {
+//			taxAmount=rawmatrial.getExciseDuty();
+//		}
 		
 		return RawMatrialDto.builder()
 				.id(rawmatrial.getId())
@@ -66,8 +69,10 @@ public class RawMatrialMapper {
 				.purchasePrice(rawmatrial.getPurchasePrice())
 				.consumptionUnit(rawmatrial.getConsumptionUnit())
 				.salePrice(rawmatrial.getSalePrice())
-				.taxType(rawmatrial.getTaxType())
-				.taxAmount(taxAmount)
+				.taxId(rawmatrial.getTaxes().getId())
+				.taxName(rawmatrial.getTaxes().getTaxName())
+				//				.taxType(rawmatrial.getTaxType())
+//				.taxAmount(taxAmount)
 				.categoryId(rawmatrial.getCategory().getId())
 				.categoryName(rawmatrial.getCategory().getCategoryName())
 				.normallLoss(rawmatrial.getNormallLoss())

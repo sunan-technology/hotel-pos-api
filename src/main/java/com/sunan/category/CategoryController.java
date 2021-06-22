@@ -37,7 +37,7 @@ public class CategoryController {
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy,@RequestHeader("hotelId") int hotelId) {
 		logger.info("Controller: Fetching list category details");
-		return new ResponseEntity<>(categoryService.findActiveList(searchTerm, pageNo, pageSize, sortBy),
+		return new ResponseEntity<>(categoryService.findActiveList(searchTerm, pageNo, pageSize, sortBy,hotelId),
 				HttpStatus.OK);
 	}
 
