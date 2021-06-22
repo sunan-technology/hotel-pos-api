@@ -136,9 +136,9 @@ public class MyApplicationRunner implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		logger.info("ApplicationRunner#run()");
 		synchronized (this) {
-//	    addDefaultHotel();
+	    addDefaultHotel();
 		initialRoles();
-//		addSuperAdmin();
+		addSuperAdmin();
 		initialUnits();
 		}
 		logger.info("Started HotelPOSApiApplication...");

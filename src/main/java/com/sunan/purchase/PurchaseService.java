@@ -245,11 +245,18 @@ public class PurchaseService implements Serializable {
 	public String getTotalQuantityByRawMatrial(int hotelId, int warehouseId) {
 		logger.info("Service : fetcing raw matrial details");
 		
+		if(warehouseId > 0) {
 		List<AvailableRawMatrialDto> availableRawMatrial=purchaseJoinRepository.getAvailableRawMatrial(new Hotel(hotelId),new Warehouses(warehouseId));
-		
-		
 		logger.info("Service : All Available raw matrial list");
 		return utils.objectMapperSuccess(availableRawMatrial, " All Available raw matrial list");
+		}else {
+			List<AvailableRawMatrialDto> availableRawMatrial=purchaseJoinRepository.getAllWarehouseRawMatrial(new Hotel(hotelId));
+			logger.info("Service : All Available raw matrial list");
+			return utils.objectMapperSuccess(availableRawMatrial, " All Available raw matrial list");
+		}
+		
+		
+		
 	}
 
 	@Transactional

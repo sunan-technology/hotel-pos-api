@@ -33,6 +33,9 @@ public interface PurchaseJoinRepository extends PagingAndSortingRepository<Perch
 	@Query("SELECT new com.sunan.purchase.join.AvailableRawMatrialDto( SUM(quantity) ,rawMatrialName,rawMatrial.id ) FROM PerchaseJoin  WHERE   hotel_id= :hotel AND warehouses_id= :warehouses GROUP BY rawMatrialName, rawmatrial_id ORDER BY SUM(quantity) desc")
 	List<AvailableRawMatrialDto> getAvailableRawMatrial(Hotel hotel, Warehouses warehouses);
 	
+	@Query("SELECT new com.sunan.purchase.join.AvailableRawMatrialDto( SUM(quantity) ,rawMatrialName,rawMatrial.id ) FROM PerchaseJoin  WHERE   hotel_id= :hotel GROUP BY rawMatrialName, rawmatrial_id ORDER BY SUM(quantity) desc")
+	List<AvailableRawMatrialDto> getAllWarehouseRawMatrial(Hotel hotel);
+	
 	@Query("SELECT p FROM PerchaseJoin p WHERE quantity > 0 AND rawmatrial_id = :rawmatrial AND warehouses_id= :warehouses AND hotel_id= :hotel")
 	List<PerchaseJoin> getRawmatrialList(RawMatrial rawmatrial,Warehouses warehouses,Hotel hotel);
 	

@@ -95,5 +95,18 @@ public class UnitsService implements Serializable {
 		logger.info("Service: Fetching list of units details, total records: {}", page.getTotalElements());
 		return utils.objectMapperSuccess(page, "All Acive Units list.");
 	}
+	
+	
+	@Transactional
+	public String delete(int id) {
+		logger.info("Service: Delete unit details with id {}", id);
+		int isDelete = unitsRepository.updateActiveStatus(id);
+		if (isDelete > 0) {
+			logger.info("Service: unit details found with id {} for delete operation{}", id);
+			return utils.objectMapperSuccess("Unit Deleted Successfully");
+		}
+		logger.info("Service: unit details not found with id {} for delete operation{}", id);
+		return utils.objectMapperError("Unit Deleted Failed");
+	}
 
 }
