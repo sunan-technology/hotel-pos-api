@@ -100,7 +100,7 @@ public class CategoryService implements Serializable {
 		PageRequest pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		Page<Category> pagedResult = null;
 		
-			pagedResult = categoryRepository.findByIsActiveAndHotelId("yes", pageable,new Hotel(hotelId));
+			pagedResult = categoryRepository.findByIsActiveAndHotel("yes", pageable,new Hotel(hotelId));
 		
 
 		Page<CategoryDto> page = pagedResult.map(new Function<Category, CategoryDto>() {

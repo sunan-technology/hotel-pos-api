@@ -19,7 +19,7 @@ public interface CategoryRepository  extends PagingAndSortingRepository<Category
 	
 	public Page<Category> findByCategoryNameContainingIgnoreCaseAndIsActive(String categoryName,String active,Pageable pageable);
 	
-	public Page<Category> findByIsActiveAndHotelId(String active,Pageable pageable,Hotel hotel);
+	public Page<Category> findByIsActiveAndHotel(String active,Pageable pageable,Hotel hotel);
 	
 	@Modifying
 	@Query("UPDATE Category SET isActive='no' WHERE id= :id")
