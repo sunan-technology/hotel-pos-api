@@ -18,16 +18,16 @@ import io.swagger.annotations.Api;
 @RestController
 @RequestMapping(RequestMappingConstants.LOGIN)
 @Api(value = "Login User profile", description = "Operations related to Login User Profile")
-public class LoginController {
+public class DemoLoginController {
 
-	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	private static final Logger logger = LoggerFactory.getLogger(DemoLoginController.class);
 
 	@Autowired
 	LoginService loginService;
 
-	@PostMapping
-	public ResponseEntity<?> loginUser(@RequestBody LoginDto loginDto) {
-		logger.info("Request for login user data");
-		return loginService.loginUser(loginDto);
-	}
+//	@PostMapping
+//	public ResponseEntity<?> loginUser(@RequestBody LoginDto loginDto) {
+//		logger.info("Request for login user data");
+//		return loginService.loginUser(loginDto);
+//	}
 }

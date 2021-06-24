@@ -8,8 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.auth.demo.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sunan.model.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -60,14 +60,13 @@ public class UserDetailsImpl implements UserDetails {
 //		List<GrantedAuthority> authorities = user.getRoles().stream()
 //				.map(role -> new SimpleGrantedAuthority(role.getRoleName().name()))
 //				.collect(Collectors.toList());
-		List<GrantedAuthority> authorities =  Arrays.asList(new SimpleGrantedAuthority(user.getRole().getRoleName()));
+		List<GrantedAuthority> authorities =  Arrays.asList(new SimpleGrantedAuthority(user.getRoles().getRole()));
 		return new UserDetailsImpl(
 				user.getId(), 
-				user.getUsername(), 
+				user.getUserName(), 
 				user.getPassword(), 
 				authorities,
-				user.getFirstName(),
-				user.getLastName());
+				user.getName(), user.getEmail());
 	}
 
 	@Override

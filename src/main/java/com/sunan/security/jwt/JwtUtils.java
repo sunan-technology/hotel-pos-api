@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.auth.demo.hotel.HotelRepository;
-import com.auth.demo.model.Hotel;
-import com.auth.demo.security.services.UserDetailsImpl;
+import com.sunan.hotel.HotelRepository;
+import com.sunan.model.Hotel;
+import com.sunan.security.services.UserDetailsImpl;
+import com.sunan.security.services.UserDetailsServiceImpl;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -38,7 +39,7 @@ public class JwtUtils {
 	
 	public String genrateJwtToken(Authentication authentication) {
 		int hotelId=0;
-	UserDetailsImpl userPrincipal= (UserDetailsImpl) authentication.getPrincipal();
+		UserDetailsImpl userPrincipal=   (UserDetailsImpl) authentication.getPrincipal();
 	 Optional<Hotel> hotel= hotelRepository.findByIsActive("yes");
 	 
 	 if(hotel.isPresent()) {
