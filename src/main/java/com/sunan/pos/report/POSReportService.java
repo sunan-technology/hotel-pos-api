@@ -134,7 +134,43 @@ public class POSReportService implements Serializable {
 	public String purchaseStockReport(Date fromDate, Date toDate, int supplierId, 
 			  int hotelId) {
 		logger.info("Service : fetching purchase stock list");
-		List<Purchase> purchase=purchaseRepository.getPurchaseReport(fromDate, toDate, new Supplier(supplierId) , new Hotel(hotelId));
+		
+		Specification<Purchase> specificationPurchaseStock = new Specification<Purchase>() {			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Predicate toPredicate(Root<Purchase> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<Predicate>(); 	
+				
+//				Join<PerchaseJoin, Purchase> join = root.join(PerchaseJoin_.PURCHASE,
+//						JoinType.LEFT);
+				Predicate predicate1 =    criteriaBuilder.equal(root.get(Purchase_.IS_ACTIVE),"yes");
+				predicates.add(predicate1);
+				if (supplierId > 0) {
+					
+					Predicate predicate = criteriaBuilder.equal(root.get(Purchase_.SUPPLIER), new Supplier(supplierId));
+					predicates.add(predicate);
+				}
+				
+				if (fromDate != null && toDate != null) {
+//					Join<StudentSession, Student> join = root.join(StudentSession_.STUDENT,JoinType.LEFT);
+					Predicate date = criteriaBuilder.between(root.get(Purchase_.DATE), fromDate, toDate);
+					predicates.add(date);
+				}
+				
+				query.where(criteriaBuilder.and(predicates.toArray(new Predicate[] {}))/* .IN(INCLAUSE) */)
+
+				.orderBy(criteriaBuilder.desc(root.get("id")));
+					return query.getRestriction();
+			}
+			
+		};
+		//List<Purchase> purchase=purchaseRepository.getPurchaseReport(fromDate, toDate, new Supplier(supplierId) , new Hotel(hotelId));
+		List<Purchase> purchase=purchaseRepository.findAll(specificationPurchaseStock);
 		
 		List<PurchaseDto> dto= purchaseMapper.getPurchaseDtoList(purchase);
 		
