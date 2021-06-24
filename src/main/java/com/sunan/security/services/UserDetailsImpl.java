@@ -46,13 +46,13 @@ public class UserDetailsImpl implements UserDetails {
 	private Collection<? extends GrantedAuthority> authorities;
 	
 	public UserDetailsImpl(int id, String username, String password,
-			Collection<? extends GrantedAuthority> authorities, String firstName, String lastName) {
+			Collection<? extends GrantedAuthority> authorities, String firstName, String email) {
 		this.id = Long.parseLong(String.valueOf(id));
 		this.username = username;
 		this.password = password;
 		this.authorities = authorities;
 		this.firstName = firstName;
-		this.lastName = lastName;
+		this.email = email;
 	}
 	
 	
