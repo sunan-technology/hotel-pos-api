@@ -285,6 +285,36 @@ public List<PurchaseDto> getPurchaseDtoList(List<Purchase> purchase1){
 		return list;
 	}
 	
+	public List<PurchaseJoinDto> getPurchaseJoinDto(List<PerchaseJoin> purchaseJoin){
+		List<PurchaseJoinDto> list=new ArrayList<PurchaseJoinDto>();
+		
+		for(PerchaseJoin dto : purchaseJoin) {
+			list.add(PurchaseJoinDto.builder()
+					.id(dto.getId())
+					.perchaseId(dto.getPurchase().getId())
+					.rawmatrialId(dto.getRawMatrial().getId())
+					.rawMatrialName(dto.getRawMatrialName())
+					.quantity(dto.getPurchaseQuantity())
+					.price(dto.getPrice())
+					.unitsId(dto.getUnits().getId())
+					.totalAmount(dto.getTotalAmount())
+//					.cgst(dto.getCgst())
+//					.sgst(dto.getSgst())
+//					.igst(dto.getIgst())
+					.taxesId(dto.getTaxes().getId())
+					.taxName(dto.getTaxes().getTaxName())
+					.description(dto.getDescription())
+				    .warehousesId(dto.getWarehouses().getId())
+					.hasExpiryDate(dto.getHasExpiryDate())
+					.expiryDate(dto.getExpiryDate())
+					.rawmatrialId(dto.getRawMatrial().getId())
+					.isActive(dto.getIsActive())
+					.build());
+			
+		}
+		return list;
+	}
+	
 	public PurchaseJoinDto getPurchaseJoinDto(PerchaseJoin dto) {
 		
 		

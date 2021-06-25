@@ -91,6 +91,14 @@ public class POSReportController {
 		  logger.info("Controller : Getting internal transfer report details");
 		  return new ResponseEntity<>(posReportService.internalTransferReportList(fromDate, toDate,kitchenId,hotelId), HttpStatus.OK); 
 	  }
+	  
+	  
+	  
+	    @GetMapping("/get-purchasejoin-report-by-purchaseid")
+		public ResponseEntity<?> getPurchaseJoinReportByPurchaseId(@RequestParam(defaultValue = "purchaseid") int purchaseid,@RequestHeader("hotelId") int hotelId) {
+			logger.info("Controller: Fetching purchase join report details with id {}", purchaseid);
+			return new ResponseEntity<>(posReportService.getPurchaseJoinReportByPurchaseId(purchaseid,hotelId), HttpStatus.OK);
+		}
 	   
 	 
 

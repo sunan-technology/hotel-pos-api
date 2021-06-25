@@ -42,6 +42,7 @@ import com.sunan.model.Supplier;
 import com.sunan.purchase.PurchaseDto;
 import com.sunan.purchase.PurchaseMapper;
 import com.sunan.purchase.PurchaseRepository;
+import com.sunan.purchase.join.PurchaseJoinDto;
 import com.sunan.purchase.join.PurchaseJoinRepository;
 import com.sunan.utils.JsonUtils;
 
@@ -377,6 +378,20 @@ public class POSReportService implements Serializable {
 		List<InternalTransfer> internalTransfer=internalTransferRepository.findAll(specification);
 		//List<InternalTransfer> internalTransfer=internalTransferRepository.getInternalTransferReportList(fromDate, toDate, new Kitchen(kitchenId), new Hotel(hotelId));
 		return utils.objectMapperSuccess(internalTransfer, "Internal transfer report list.");
+	}
+
+	@Transactional
+	public String getPurchaseJoinReportByPurchaseId(int purchaseid, int hotelId) {
+		logger.info("Service : fetching purchase join report details");
+		Optional<Purchase> optional = purchaseRepository.findById(purchaseid);
+		if(optional.isPresent()) {
+			List<PerchaseJoin> purchaseJoin=purchaseJoinRepository.findByPurchase(new Purchase(purchaseid));
+			List<PurchaseJoinDto> dto =purchaseMapper.getPurchaseJoinDto(purchaseJoin);
+			return utils.objectMapperSuccess(dto, "Purchase join report Details");
+		}
+		
+		logger.info("Service: purchase details not found with id {}", purchaseid);
+		return utils.objectMapperError("Purchase Details Not found, Id :" + purchaseid);
 	}
 	
 	

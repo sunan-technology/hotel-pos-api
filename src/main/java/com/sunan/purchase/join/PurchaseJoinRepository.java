@@ -24,6 +24,7 @@ public interface PurchaseJoinRepository extends PagingAndSortingRepository<Perch
 	void updateQuantity(Hotel hotel, int quantity, int purchasejoinId);
 
 	List<PerchaseJoin> findByPurchase(Purchase purchase);
+	
 
 	public Page<PerchaseJoin> findByIsActiveAndHotel(String active, Pageable pageable, Hotel hotel);
 
