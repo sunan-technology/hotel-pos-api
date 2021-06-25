@@ -39,12 +39,10 @@ import com.sunan.model.PerchaseJoin_;
 import com.sunan.model.Purchase;
 import com.sunan.model.Purchase_;
 import com.sunan.model.Supplier;
-import com.sunan.purchase.PurchaseDetail;
 import com.sunan.purchase.PurchaseDto;
 import com.sunan.purchase.PurchaseMapper;
 import com.sunan.purchase.PurchaseRepository;
 import com.sunan.purchase.join.PurchaseJoinRepository;
-import com.sunan.raw.matrial.RawMatrialDto;
 import com.sunan.utils.JsonUtils;
 
 @Service
@@ -156,6 +154,11 @@ public class POSReportService implements Serializable {
 					predicates.add(predicate);
 				}
 				
+				if(hotelId >0) {
+					Predicate predicate = criteriaBuilder.equal(root.get(Purchase_.HOTEL), new Hotel(hotelId));
+					predicates.add(predicate);
+				}
+				
 				if (fromDate != null && toDate != null) {
 //					Join<StudentSession, Student> join = root.join(StudentSession_.STUDENT,JoinType.LEFT);
 					Predicate date = criteriaBuilder.between(root.get(Purchase_.DATE), fromDate, toDate);
@@ -169,7 +172,7 @@ public class POSReportService implements Serializable {
 			}
 			
 		};
-		//List<Purchase> purchase=purchaseRepository.getPurchaseReport(fromDate, toDate, new Supplier(supplierId) , new Hotel(hotelId));
+	//	List<Purchase> purchase=purchaseRepository.getPurchaseReport(fromDate, toDate, new Supplier(supplierId) , new Hotel(hotelId));
 		List<Purchase> purchase=purchaseRepository.findAll(specificationPurchaseStock);
 		
 		List<PurchaseDto> dto= purchaseMapper.getPurchaseDtoList(purchase);
@@ -208,6 +211,10 @@ public class POSReportService implements Serializable {
 				if (supplierId > 0) {
 					
 					Predicate predicate = criteriaBuilder.equal(join.get(Purchase_.SUPPLIER), new Supplier(supplierId));
+					predicates.add(predicate);
+				}
+				if(hotelId >0) {
+					Predicate predicate = criteriaBuilder.equal(root.get(Purchase_.HOTEL), new Hotel(hotelId));
 					predicates.add(predicate);
 				}
 				
@@ -279,6 +286,11 @@ public class POSReportService implements Serializable {
 					predicates.add(predicate);
 				}
 				
+				if(hotelId >0) {
+					Predicate predicate = criteriaBuilder.equal(root.get(Purchase_.HOTEL), new Hotel(hotelId));
+					predicates.add(predicate);
+				}
+				
 				if (fromDate != null && toDate != null) {
 //					Join<StudentSession, Student> join = root.join(StudentSession_.STUDENT,JoinType.LEFT);
 					Predicate date = criteriaBuilder.between(root.get(InternalTransfer_.INVOICE_DATE), fromDate, toDate);
@@ -341,6 +353,11 @@ public class POSReportService implements Serializable {
 				if (kitchenId > 0) {
 					
 					Predicate predicate = criteriaBuilder.equal(root.get(InternalTransfer_.KITCHEN), new Kitchen(kitchenId));
+					predicates.add(predicate);
+				}
+				
+				if(hotelId >0) {
+					Predicate predicate = criteriaBuilder.equal(root.get(Purchase_.HOTEL), new Hotel(hotelId));
 					predicates.add(predicate);
 				}
 				
