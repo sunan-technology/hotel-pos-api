@@ -42,7 +42,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport{
                 .paths(PathSelectors.any())                
                 .build()
                 .globalOperationParameters(Arrays.asList(new ParameterBuilder()
-                		.name("SessionID")
+                		.name("HotelID")
             			.description("Active hotel id which is available in jwt token.")
                         .modelRef(new ModelRef("string"))
                         .parameterType("header")
